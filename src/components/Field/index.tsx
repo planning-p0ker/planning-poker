@@ -9,10 +9,10 @@ const Field: React.VFC<{
   user: User | null;
   cards: Card[];
   hidden: boolean;
-  setHidden: () => void;
   onClickMyCard: (card: Card) => void;
-  onClearAllCards: () => void;
-}> = ({ onClickMyCard, user, cards, onClearAllCards, hidden, setHidden }) => {
+  onClear: () => void;
+  onOpen: () => void;
+}> = ({ onClickMyCard, user, cards, onClear, onOpen, hidden }) => {
   const onClickCard = useCallback(
     (card: Card) => () => {
       onClickMyCard(card);
@@ -62,11 +62,11 @@ const Field: React.VFC<{
         <Button
           primary={true}
           disabled={!user || cardLength === 0 || !hidden}
-          onClick={setHidden}
+          onClick={onOpen}
         >
           open
         </Button>
-        <Button disabled={!user || cardLength === 0} onClick={onClearAllCards}>
+        <Button disabled={!user || cardLength === 0} onClick={onClear}>
           clear
         </Button>
       </div>

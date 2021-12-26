@@ -91,6 +91,42 @@ export type DeleteCardInput = {
   id: string,
 };
 
+export type CreateRoomInput = {
+  id?: string | null,
+  isOpened: boolean,
+};
+
+export type ModelRoomConditionInput = {
+  isOpened?: ModelBooleanInput | null,
+  and?: Array< ModelRoomConditionInput | null > | null,
+  or?: Array< ModelRoomConditionInput | null > | null,
+  not?: ModelRoomConditionInput | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Room = {
+  __typename: "Room",
+  id: string,
+  isOpened: boolean,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateRoomInput = {
+  id: string,
+  isOpened?: boolean | null,
+};
+
+export type DeleteRoomInput = {
+  id: string,
+};
+
 export type ModelCardFilterInput = {
   id?: ModelIDInput | null,
   username?: ModelStringInput | null,
@@ -120,6 +156,20 @@ export type ModelIDInput = {
 export type ModelCardConnection = {
   __typename: "ModelCardConnection",
   items:  Array<Card >,
+  nextToken?: string | null,
+};
+
+export type ModelRoomFilterInput = {
+  id?: ModelIDInput | null,
+  isOpened?: ModelBooleanInput | null,
+  and?: Array< ModelRoomFilterInput | null > | null,
+  or?: Array< ModelRoomFilterInput | null > | null,
+  not?: ModelRoomFilterInput | null,
+};
+
+export type ModelRoomConnection = {
+  __typename: "ModelRoomConnection",
+  items:  Array<Room >,
   nextToken?: string | null,
 };
 
@@ -174,6 +224,51 @@ export type DeleteCardMutation = {
   } | null,
 };
 
+export type CreateRoomMutationVariables = {
+  input: CreateRoomInput,
+  condition?: ModelRoomConditionInput | null,
+};
+
+export type CreateRoomMutation = {
+  createRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateRoomMutationVariables = {
+  input: UpdateRoomInput,
+  condition?: ModelRoomConditionInput | null,
+};
+
+export type UpdateRoomMutation = {
+  updateRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteRoomMutationVariables = {
+  input: DeleteRoomInput,
+  condition?: ModelRoomConditionInput | null,
+};
+
+export type DeleteRoomMutation = {
+  deleteRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetCardQueryVariables = {
   id: string,
 };
@@ -212,6 +307,40 @@ export type ListCardsQuery = {
   } | null,
 };
 
+export type GetRoomQueryVariables = {
+  id: string,
+};
+
+export type GetRoomQuery = {
+  getRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListRoomsQueryVariables = {
+  filter?: ModelRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRoomsQuery = {
+  listRooms?:  {
+    __typename: "ModelRoomConnection",
+    items:  Array< {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      createdAt: string,
+      updatedAt: string,
+    } >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateCardSubscription = {
   onCreateCard?:  {
     __typename: "Card",
@@ -243,6 +372,36 @@ export type OnDeleteCardSubscription = {
     username: string,
     displayUserName: string,
     point: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateRoomSubscription = {
+  onCreateRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRoomSubscription = {
+  onUpdateRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteRoomSubscription = {
+  onDeleteRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,

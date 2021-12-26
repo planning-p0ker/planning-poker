@@ -38,3 +38,33 @@ export const onDeleteCard = /* GraphQL */ `
     }
   }
 `;
+export const onCreateRoom = /* GraphQL */ `
+  subscription OnCreateRoom {
+    onCreateRoom {
+      id
+      isOpened
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateRoom = /* GraphQL */ `
+  subscription OnUpdateRoom {
+    onUpdateRoom {
+      id
+      isOpened
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteRoom = /* GraphQL */ `
+  subscription OnDeleteRoom {
+    onDeleteRoom {
+      id
+      isOpened
+      createdAt
+      updatedAt
+    }
+  }
+`;

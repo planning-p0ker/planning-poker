@@ -9,3 +9,8 @@ type Card @model {
   displayUserName: String!
   point: Int!
 }
+
+type Room @model {
+  id: ID!
+  isOpened: Boolean!
+}

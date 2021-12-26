@@ -33,3 +33,30 @@ export const listCards = /* GraphQL */ `
     }
   }
 `;
+export const getRoom = /* GraphQL */ `
+  query GetRoom($id: ID!) {
+    getRoom(id: $id) {
+      id
+      isOpened
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listRooms = /* GraphQL */ `
+  query ListRooms(
+    $filter: ModelRoomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        isOpened
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

@@ -4,15 +4,16 @@ import Hand from '../src/components/Hand';
 import Field from '../src/components/Field';
 import Header from '../src/components/Header';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
-import { deleteCard, createCard } from '../src/graphql/mutations';
+import { deleteCard, createCard, updateRoom } from '../src/graphql/mutations';
 import { Card } from '../src/API';
 import { useUser } from '../src/hooks/useUser';
 import { useCards } from '../src/hooks/useCards';
+import { useRoom } from '../src/hooks/useRoom';
 
 const Home: NextPage = () => {
-  const [hidden, setHidden] = useState(true);
   const { user, onSignIn, onSignOut } = useUser();
   const { fieldCards, myCard } = useCards(user);
+  const room = useRoom('test');
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
@@ -40,8 +41,7 @@ const Home: NextPage = () => {
     await API.graphql(graphqlOperation(deleteCard, { input: { id: card.id } }));
   }, []);
 
-  const handleOnClearAllCards = useCallback(() => {
-    setHidden(true);
+  const handleOnClear = useCallback(async () => {
     Promise.all(
       fieldCards.map(async (card) => {
         return await API.graphql(
@@ -49,7 +49,16 @@ const Home: NextPage = () => {
         );
       })
     );
-  }, [fieldCards]);
+    await API.graphql(
+      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: false } })
+    );
+  }, [fieldCards, room]);
+
+  const handleOnOpen = useCallback(async () => {
+    await API.graphql(
+      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: true } })
+    );
+  }, [room]);
 
   return (
     <div>
@@ -60,17 +69,17 @@ const Home: NextPage = () => {
       />
       <div className="mx-4">
         <Field
-          hidden={hidden}
-          setHidden={() => setHidden(false)}
+          hidden={!room?.isOpened}
           user={user}
           cards={fieldCards}
           onClickMyCard={handleOnClickFieldCard}
-          onClearAllCards={handleOnClearAllCards}
+          onClear={handleOnClear}
+          onOpen={handleOnOpen}
         />
         <Hand
           selectNum={myCard?.point}
           onClickCard={handleOnClickHandCard}
-          disabledAll={!user}
+          disabledAll={!user || !!room?.isOpened}
         />
       </div>
     </div>

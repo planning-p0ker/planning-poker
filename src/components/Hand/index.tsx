@@ -10,7 +10,6 @@ const Hand: React.VFC<{
 }> = ({ selectNum, onClickCard, disabledAll = false }) => {
   return (
     <div>
-      {disabledAll && <div className="text-center">Please sign in</div>}
       <div className="flex flex-wrap">
         {pointList.map((p) => (
           <div key={p} className="my-2 ml-2">
