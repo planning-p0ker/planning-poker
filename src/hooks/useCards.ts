@@ -3,12 +3,15 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { listCards } from '../graphql/queries';
 import { onCreateCard, onDeleteCard } from '../graphql/subscriptions';
 import { Card, ListCardsQuery, OnCreateCardSubscription, OnDeleteCardSubscription } from '../API';
+import { User } from './useUser';
 
 type CreateCardSubscriptionEvent = { value: { data: OnCreateCardSubscription } };
 type DeleteCardSubscriptionEvent = { value: { data: OnDeleteCardSubscription } };
 
-export const useFieldCardSubscription = () => {
+export const useCards = (user: User | null) => {
   const [fieldCards, setFieldCars] = useState<Card[]>([]);
+  const [myCard, setMyCard] = useState<Card | null>(null);
+
   useEffect(() => {
     (async () => {
       const result = await API.graphql(graphqlOperation(listCards));
@@ -45,5 +48,17 @@ export const useFieldCardSubscription = () => {
     }
   }, []);
 
-  return fieldCards;
+  useEffect(() => {
+    if (user) {
+      const card = fieldCards.find(c => c.username === user.username);
+      if (card) {
+        setMyCard(card);
+        return;
+      }
+    }
+
+    setMyCard(null);
+  }, [fieldCards, user]);
+
+  return { fieldCards, myCard };
 };

@@ -7,61 +7,40 @@ import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { deleteCard, createCard } from '../src/graphql/mutations';
 import { Card } from '../src/API';
 import { useUser } from '../src/hooks/useUser';
-import { useFieldCardSubscription } from '../src/hooks/useFieldCardSubscription';
+import { useCards } from '../src/hooks/useCards';
 
 const Home: NextPage = () => {
-  const [selectNum, setSelectNum] = useState<number | null>(null);
   const [hidden, setHidden] = useState(true);
   const { user, onSignIn, onSignOut } = useUser();
-  const fieldCards = useFieldCardSubscription();
-
-  const onDeleteCard = useCallback(
-    async (card: Card[]) => {
-      if (!!user) {
-        const myCard = card.find((c) => c.username === user?.username);
-        if (myCard) {
-          await API.graphql(
-            graphqlOperation(deleteCard, { input: { id: myCard.id } })
-          );
-        }
-      }
-    },
-    [user]
-  );
+  const { fieldCards, myCard } = useCards(user);
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
-      if (!!user) {
-        if (!point) {
-          // 場に出しているカードと同じポイントのカードをクリック
-          await onDeleteCard(fieldCards);
-          setSelectNum(null);
-        } else {
-          // 場に出しているカードと異なるカードをクリック
-          await onDeleteCard(fieldCards);
-          await API.graphql(
-            graphqlOperation(createCard, {
-              input: {
-                point,
-                username: user.username,
-                displayUserName: user.displayName,
-              },
-            })
-          );
-          setSelectNum(point);
-        }
+      if (myCard) {
+        await API.graphql(
+          graphqlOperation(deleteCard, { input: { id: myCard.id } })
+        );
+      }
+      if (user && point) {
+        await API.graphql(
+          graphqlOperation(createCard, {
+            input: {
+              point,
+              username: user.username,
+              displayUserName: user.displayName,
+            },
+          })
+        );
       }
     },
-    [fieldCards, onDeleteCard, user]
+    [myCard, user]
   );
 
   const handleOnClickFieldCard = useCallback(async (card: Card) => {
     await API.graphql(graphqlOperation(deleteCard, { input: { id: card.id } }));
-    setSelectNum(null);
   }, []);
 
   const handleOnClearAllCards = useCallback(() => {
-    setSelectNum(null);
     setHidden(true);
     Promise.all(
       fieldCards.map(async (card) => {
@@ -89,7 +68,7 @@ const Home: NextPage = () => {
           onClearAllCards={handleOnClearAllCards}
         />
         <Hand
-          selectNum={selectNum}
+          selectNum={myCard?.point}
           onClickCard={handleOnClickHandCard}
           disabledAll={!user}
         />
