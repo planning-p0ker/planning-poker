@@ -51,7 +51,7 @@ const Field: React.VFC<{
                 userDisplayName={c.displayUserName}
                 hidden={hidden}
                 point={c.point}
-                disabled={!(user && c.username === user.username)}
+                disabled={!(hidden && user && c.username === user.username)}
                 onClick={onClickCard(c)}
               />
             </div>
