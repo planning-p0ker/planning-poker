@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Auth, Hub } from "aws-amplify";
+import Amplify, { Auth, Hub } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 
 export type User = {

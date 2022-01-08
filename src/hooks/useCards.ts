@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
+import React, { useEffect, useMemo, useState } from 'react';
+import { API } from 'aws-amplify';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';
 import { onCreateCard, onDeleteCard } from '../graphql/subscriptions';
 import { Card, ListCardsQuery, OnCreateCardSubscription, OnDeleteCardSubscription } from '../API';
@@ -12,9 +13,13 @@ export const useCards = (user: User | null) => {
   const [fieldCards, setFieldCars] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
+  const authMode = useMemo(() => {
+    return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
+  }, [user]);
+
   useEffect(() => {
     (async () => {
-      const result = await API.graphql(graphqlOperation(listCards));
+      const result = await API.graphql({ query: listCards, authMode });
       if ('data' in result && !!result.data) {
         const data = result.data as ListCardsQuery;
         if (!!data.listCards) {
@@ -23,7 +28,7 @@ export const useCards = (user: User | null) => {
       }
     })();
 
-    const createCardListener = API.graphql(graphqlOperation(onCreateCard));
+    const createCardListener = API.graphql({ query: onCreateCard, authMode });
     if ('subscribe' in createCardListener) {
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
@@ -35,7 +40,7 @@ export const useCards = (user: User | null) => {
       });
     }
 
-    const deleteCardListener = API.graphql(graphqlOperation(onDeleteCard));
+    const deleteCardListener = API.graphql({ query: onDeleteCard, authMode });
     if ('subscribe' in deleteCardListener) {
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
@@ -46,7 +51,7 @@ export const useCards = (user: User | null) => {
         },
       });
     }
-  }, []);
+  }, [authMode]);
 
   useEffect(() => {
     if (user) {

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Hand from '../src/components/Hand';
 import Field from '../src/components/Field';
 import Header from '../src/components/Header';
@@ -13,7 +13,7 @@ import { useRoom } from '../src/hooks/useRoom';
 const Home: NextPage = () => {
   const { user, onSignIn, onSignOut } = useUser();
   const { fieldCards, myCard } = useCards(user);
-  const room = useRoom('test');
+  const room = useRoom(user, 'test');
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
