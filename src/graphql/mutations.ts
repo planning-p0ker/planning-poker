@@ -2,21 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createCard = /* GraphQL */ `
-  mutation CreateCard(
-    $input: CreateCardInput!
-    $condition: ModelCardConditionInput
-  ) {
-    createCard(input: $input, condition: $condition) {
-      id
-      username
-      displayUserName
-      point
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const updateCard = /* GraphQL */ `
   mutation UpdateCard(
     $input: UpdateCardInput!
@@ -47,19 +32,6 @@ export const deleteCard = /* GraphQL */ `
     }
   }
 `;
-export const createRoom = /* GraphQL */ `
-  mutation CreateRoom(
-    $input: CreateRoomInput!
-    $condition: ModelRoomConditionInput
-  ) {
-    createRoom(input: $input, condition: $condition) {
-      id
-      isOpened
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const updateRoom = /* GraphQL */ `
   mutation UpdateRoom(
     $input: UpdateRoomInput!
@@ -79,6 +51,34 @@ export const deleteRoom = /* GraphQL */ `
     $condition: ModelRoomConditionInput
   ) {
     deleteRoom(input: $input, condition: $condition) {
+      id
+      isOpened
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCard = /* GraphQL */ `
+  mutation CreateCard(
+    $input: CreateCardInput!
+    $condition: ModelCardConditionInput
+  ) {
+    createCard(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      point
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createRoom = /* GraphQL */ `
+  mutation CreateRoom(
+    $input: CreateRoomInput!
+    $condition: ModelRoomConditionInput
+  ) {
+    createRoom(input: $input, condition: $condition) {
       id
       isOpened
       createdAt

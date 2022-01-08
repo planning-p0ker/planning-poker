@@ -2,11 +2,11 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateCardInput = {
-  id?: string | null,
-  username: string,
-  displayUserName: string,
-  point: number,
+export type UpdateCardInput = {
+  id: string,
+  username?: string | null,
+  displayUserName?: string | null,
+  point?: number | null,
 };
 
 export type ModelCardConditionInput = {
@@ -80,20 +80,13 @@ export type Card = {
   updatedAt: string,
 };
 
-export type UpdateCardInput = {
-  id: string,
-  username?: string | null,
-  displayUserName?: string | null,
-  point?: number | null,
-};
-
 export type DeleteCardInput = {
   id: string,
 };
 
-export type CreateRoomInput = {
-  id?: string | null,
-  isOpened: boolean,
+export type UpdateRoomInput = {
+  id: string,
+  isOpened?: boolean | null,
 };
 
 export type ModelRoomConditionInput = {
@@ -118,13 +111,20 @@ export type Room = {
   updatedAt: string,
 };
 
-export type UpdateRoomInput = {
-  id: string,
-  isOpened?: boolean | null,
-};
-
 export type DeleteRoomInput = {
   id: string,
+};
+
+export type CreateCardInput = {
+  id?: string | null,
+  username: string,
+  displayUserName: string,
+  point: number,
+};
+
+export type CreateRoomInput = {
+  id?: string | null,
+  isOpened: boolean,
 };
 
 export type ModelCardFilterInput = {
@@ -173,23 +173,6 @@ export type ModelRoomConnection = {
   nextToken?: string | null,
 };
 
-export type CreateCardMutationVariables = {
-  input: CreateCardInput,
-  condition?: ModelCardConditionInput | null,
-};
-
-export type CreateCardMutation = {
-  createCard?:  {
-    __typename: "Card",
-    id: string,
-    username: string,
-    displayUserName: string,
-    point: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type UpdateCardMutationVariables = {
   input: UpdateCardInput,
   condition?: ModelCardConditionInput | null,
@@ -224,21 +207,6 @@ export type DeleteCardMutation = {
   } | null,
 };
 
-export type CreateRoomMutationVariables = {
-  input: CreateRoomInput,
-  condition?: ModelRoomConditionInput | null,
-};
-
-export type CreateRoomMutation = {
-  createRoom?:  {
-    __typename: "Room",
-    id: string,
-    isOpened: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type UpdateRoomMutationVariables = {
   input: UpdateRoomInput,
   condition?: ModelRoomConditionInput | null,
@@ -261,6 +229,38 @@ export type DeleteRoomMutationVariables = {
 
 export type DeleteRoomMutation = {
   deleteRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateCardMutationVariables = {
+  input: CreateCardInput,
+  condition?: ModelCardConditionInput | null,
+};
+
+export type CreateCardMutation = {
+  createCard?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateRoomMutationVariables = {
+  input: CreateRoomInput,
+  condition?: ModelRoomConditionInput | null,
+};
+
+export type CreateRoomMutation = {
+  createRoom?:  {
     __typename: "Room",
     id: string,
     isOpened: boolean,
