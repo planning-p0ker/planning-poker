@@ -9,6 +9,7 @@ export const onCreateCard = /* GraphQL */ `
       username
       displayUserName
       point
+      roomId
       createdAt
       updatedAt
     }
@@ -21,6 +22,7 @@ export const onUpdateCard = /* GraphQL */ `
       username
       displayUserName
       point
+      roomId
       createdAt
       updatedAt
     }
@@ -33,6 +35,7 @@ export const onDeleteCard = /* GraphQL */ `
       username
       displayUserName
       point
+      roomId
       createdAt
       updatedAt
     }

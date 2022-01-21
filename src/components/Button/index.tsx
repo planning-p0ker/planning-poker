@@ -4,6 +4,7 @@ type ButtonProps = {
   onClick?: () => void;
   disabled?: boolean;
   primary?: boolean;
+  width?: number;
 };
 
 const Button: React.VFC<PropsWithChildren<ButtonProps>> = ({
@@ -11,6 +12,7 @@ const Button: React.VFC<PropsWithChildren<ButtonProps>> = ({
   onClick,
   disabled = false,
   primary = false,
+  width = 32,
 }) => {
   const theme = useMemo(() => {
     return primary
@@ -20,7 +22,7 @@ const Button: React.VFC<PropsWithChildren<ButtonProps>> = ({
 
   return (
     <button
-      className={`shadow-md w-32 py-1 px-5 rounded disabled:opacity-50 font-bold disabled:pointer-events-none ${theme}`}
+      className={`shadow-md w-${width} py-1 px-5 rounded disabled:opacity-50 font-bold disabled:pointer-events-none ${theme}`}
       disabled={disabled}
       onClick={onClick}
     >

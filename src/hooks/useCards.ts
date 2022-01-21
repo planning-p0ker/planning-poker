@@ -9,7 +9,7 @@ import { User } from './useUser';
 type CreateCardSubscriptionEvent = { value: { data: OnCreateCardSubscription } };
 type DeleteCardSubscriptionEvent = { value: { data: OnDeleteCardSubscription } };
 
-export const useCards = (user: User | null) => {
+export const useCards = (user: User | null, isReady: boolean, roomId?: string) => {
   const [fieldCards, setFieldCars] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
@@ -18,8 +18,9 @@ export const useCards = (user: User | null) => {
   }, [user]);
 
   useEffect(() => {
+    if (!roomId || !isReady) return;
     (async () => {
-      const result = await API.graphql({ query: listCards, authMode });
+      const result = await API.graphql({ query: listCards, authMode, variables: { roomId } });
       if ('data' in result && !!result.data) {
         const data = result.data as ListCardsQuery;
         if (!!data.listCards) {
@@ -28,7 +29,7 @@ export const useCards = (user: User | null) => {
       }
     })();
 
-    const createCardListener = API.graphql({ query: onCreateCard, authMode });
+    const createCardListener = API.graphql({ query: onCreateCard, authMode, variables: { roomId } });
     if ('subscribe' in createCardListener) {
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
@@ -40,7 +41,7 @@ export const useCards = (user: User | null) => {
       });
     }
 
-    const deleteCardListener = API.graphql({ query: onDeleteCard, authMode });
+    const deleteCardListener = API.graphql({ query: onDeleteCard, authMode, variables: { roomId } });
     if ('subscribe' in deleteCardListener) {
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
@@ -51,7 +52,7 @@ export const useCards = (user: User | null) => {
         },
       });
     }
-  }, [authMode]);
+  }, [authMode, isReady, roomId]);
 
   useEffect(() => {
     if (user) {

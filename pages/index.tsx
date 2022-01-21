@@ -1,64 +1,36 @@
 import type { NextPage } from 'next';
-import React, { useCallback } from 'react';
-import Hand from '../src/components/Hand';
-import Field from '../src/components/Field';
+import React, { useRef } from 'react';
 import Header from '../src/components/Header';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
-import { deleteCard, createCard, updateRoom } from '../src/graphql/mutations';
-import { Card } from '../src/API';
+import { createRoom } from '../src/graphql/mutations';
+import { useRouter } from 'next/router';
 import { useUser } from '../src/hooks/useUser';
-import { useCards } from '../src/hooks/useCards';
-import { useRoom } from '../src/hooks/useRoom';
+import Button from '../src/components/Button';
+
+// https://qiita.com/coa00/items/679b0b5c7c468698d53f
+function generateUniqueRoomId(): string {
+  let strong = 1000;
+  return (
+    new Date().getTime().toString(16) +
+    Math.floor(strong * Math.random()).toString(16)
+  );
+}
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const { user, onSignIn, onSignOut } = useUser();
-  const { fieldCards, myCard } = useCards(user);
-  const room = useRoom(user, 'test');
-
-  const handleOnClickHandCard = useCallback(
-    (point: number | null) => async () => {
-      if (myCard) {
-        await API.graphql(
-          graphqlOperation(deleteCard, { input: { id: myCard.id } })
-        );
-      }
-      if (user && point) {
-        await API.graphql(
-          graphqlOperation(createCard, {
-            input: {
-              point,
-              username: user.username,
-              displayUserName: user.displayName,
-            },
-          })
-        );
-      }
-    },
-    [myCard, user]
-  );
-
-  const handleOnClickFieldCard = useCallback(async (card: Card) => {
-    await API.graphql(graphqlOperation(deleteCard, { input: { id: card.id } }));
-  }, []);
-
-  const handleOnClear = useCallback(async () => {
-    Promise.all(
-      fieldCards.map(async (card) => {
-        return await API.graphql(
-          graphqlOperation(deleteCard, { input: { id: card.id } })
-        );
+  const isLoading = useRef(false);
+  const onCreateRoom = async () => {
+    isLoading.current = true;
+    const result = (await API.graphql(
+      graphqlOperation(createRoom, {
+        input: { id: generateUniqueRoomId(), isOpened: false },
       })
-    );
-    await API.graphql(
-      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: false } })
-    );
-  }, [fieldCards, room]);
-
-  const handleOnOpen = useCallback(async () => {
-    await API.graphql(
-      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: true } })
-    );
-  }, [room]);
+    )) as any;
+    console.log(result);
+    router.push(`/rooms/${result.data.createRoom.id}`);
+    isLoading.current = false;
+  };
 
   return (
     <div>
@@ -68,19 +40,15 @@ const Home: NextPage = () => {
         onSignOut={onSignOut}
       />
       <div className="mx-4">
-        <Field
-          hidden={!room?.isOpened}
-          user={user}
-          cards={fieldCards}
-          onClickMyCard={handleOnClickFieldCard}
-          onClear={handleOnClear}
-          onOpen={handleOnOpen}
-        />
-        <Hand
-          selectNum={myCard?.point}
-          onClickCard={handleOnClickHandCard}
-          disabledAll={!user || !!room?.isOpened}
-        />
+        <Button disabled={isLoading.current} onClick={onCreateRoom} width={34}>
+          create room
+          <br />
+          🏗️
+        </Button>
+        <br />
+        <br />
+        {/* <input className="border-2" value={'!'} />
+        <Button disabled={isLoading.current}>join room🏠</Button> */}
       </div>
     </div>
   );

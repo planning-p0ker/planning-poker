@@ -8,21 +8,22 @@ import { onCreateRoom, onUpdateRoom } from "../graphql/subscriptions";
 import { User } from "./useUser";
 
 type CreateRoomSubscriptionEvent = { value: { data: OnCreateRoomSubscription } };
-type DeleteRoomSubscriptionEvent = { value: { data: OnDeleteRoomSubscription } };
 type UpdateRoomSubscriptionEvent = { value: { data: OnUpdateRoomSubscription } };
 
-export const useRoom = (user: User | null, roomId: string) => {
+export const useRoom = (user: User | null, isReady: boolean, roomId?: string) => {
   const [room, setRoom] = useState<Room | null>(null);
   const authMode = useMemo(() => {
     return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
   }, [user]);
 
   useEffect(() => {
+    if (!roomId || !isReady) return;
     (async () => {
       const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode });
       if ('data' in result && !!result.data) {
         const data = result.data as GetRoomQuery;
         if (!data.getRoom) {
+          // TODO: Roomが存在しない場合は新規作成せずにトップページへ遷移させる
           await API.graphql({ query: createRoom, variables: { input: { id: roomId, isOpened: false }, authMode } });
         } else {
           setRoom(data.getRoom);
@@ -55,7 +56,7 @@ export const useRoom = (user: User | null, roomId: string) => {
         },
       })
     }
-  }, [authMode, roomId]);
+  }, [authMode, isReady, roomId]);
 
   return room;
 }
