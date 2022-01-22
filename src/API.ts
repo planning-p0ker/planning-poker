@@ -351,6 +351,71 @@ export type ListRoomsQuery = {
   } | null,
 };
 
+export type OnCreateCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnCreateCardByRoomIdSubscription = {
+  onCreateCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnUpdateCardByRoomIdSubscription = {
+  onUpdateCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnDeleteCardByRoomIdSubscription = {
+  onDeleteCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRoomByIdSubscriptionVariables = {
+  id: string,
+};
+
+export type OnUpdateRoomByIdSubscription = {
+  onUpdateRoomById?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateCardSubscription = {
   onCreateCard?:  {
     __typename: "Card",

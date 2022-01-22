@@ -50,14 +50,9 @@ const Room: NextPage = () => {
     [myCard, roomId, user]
   );
 
-  const handleOnClickFieldCard = useCallback(
-    async (card: Card) => {
-      await API.graphql(
-        graphqlOperation(deleteCard, { input: { id: card.id, roomId } })
-      );
-    },
-    [roomId]
-  );
+  const handleOnClickFieldCard = useCallback(async (card: Card) => {
+    await API.graphql(graphqlOperation(deleteCard, { input: { id: card.id } }));
+  }, []);
 
   const handleOnClear = useCallback(async () => {
     Promise.all(
@@ -90,6 +85,7 @@ const Room: NextPage = () => {
         onSignOut={onSignOut}
       />
       <div className="mx-4">
+        {/* TODO: 簡単にURLを共有できるようにしたい */}
         <Field
           hidden={!room?.isOpened}
           user={user}
