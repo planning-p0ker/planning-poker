@@ -7,12 +7,14 @@ export type UpdateCardInput = {
   username?: string | null,
   displayUserName?: string | null,
   point?: number | null,
+  roomId?: string | null,
 };
 
 export type ModelCardConditionInput = {
   username?: ModelStringInput | null,
   displayUserName?: ModelStringInput | null,
   point?: ModelIntInput | null,
+  roomId?: ModelStringInput | null,
   and?: Array< ModelCardConditionInput | null > | null,
   or?: Array< ModelCardConditionInput | null > | null,
   not?: ModelCardConditionInput | null,
@@ -76,6 +78,7 @@ export type Card = {
   username: string,
   displayUserName: string,
   point: number,
+  roomId: string,
   createdAt: string,
   updatedAt: string,
 };
@@ -120,6 +123,7 @@ export type CreateCardInput = {
   username: string,
   displayUserName: string,
   point: number,
+  roomId: string,
 };
 
 export type CreateRoomInput = {
@@ -132,6 +136,7 @@ export type ModelCardFilterInput = {
   username?: ModelStringInput | null,
   displayUserName?: ModelStringInput | null,
   point?: ModelIntInput | null,
+  roomId?: ModelStringInput | null,
   and?: Array< ModelCardFilterInput | null > | null,
   or?: Array< ModelCardFilterInput | null > | null,
   not?: ModelCardFilterInput | null,
@@ -185,6 +190,7 @@ export type UpdateCardMutation = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -202,6 +208,7 @@ export type DeleteCardMutation = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -249,6 +256,7 @@ export type CreateCardMutation = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -280,6 +288,7 @@ export type GetCardQuery = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -300,6 +309,7 @@ export type ListCardsQuery = {
       username: string,
       displayUserName: string,
       point: number,
+      roomId: string,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -341,6 +351,71 @@ export type ListRoomsQuery = {
   } | null,
 };
 
+export type OnCreateCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnCreateCardByRoomIdSubscription = {
+  onCreateCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnUpdateCardByRoomIdSubscription = {
+  onUpdateCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnDeleteCardByRoomIdSubscription = {
+  onDeleteCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRoomByIdSubscriptionVariables = {
+  id: string,
+};
+
+export type OnUpdateRoomByIdSubscription = {
+  onUpdateRoomById?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateCardSubscription = {
   onCreateCard?:  {
     __typename: "Card",
@@ -348,6 +423,7 @@ export type OnCreateCardSubscription = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -360,6 +436,7 @@ export type OnUpdateCardSubscription = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -372,6 +449,7 @@ export type OnDeleteCardSubscription = {
     username: string,
     displayUserName: string,
     point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,

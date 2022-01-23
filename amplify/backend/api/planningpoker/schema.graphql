@@ -14,6 +14,7 @@ type Card
   username: String!
   displayUserName: String!
   point: Int!
+  roomId: String!
 }
 
 type Room
@@ -30,4 +31,14 @@ type Room
   ) {
   id: ID!
   isOpened: Boolean!
+}
+
+type Subscription {
+  onCreateCardByRoomId(roomId: String): Card
+    @aws_subscribe(mutations: ["createCard"])
+  onUpdateCardByRoomId(roomId: String): Card
+    @aws_subscribe(mutations: ["updateCard"])
+  onDeleteCardByRoomId(roomId: String): Card
+    @aws_subscribe(mutations: ["deleteCard"])
+  onUpdateRoomById(id: ID!): Room @aws_subscribe(mutations: ["updateRoom"])
 }
