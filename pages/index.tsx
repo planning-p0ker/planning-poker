@@ -40,10 +40,16 @@ const Home: NextPage = () => {
         onSignOut={onSignOut}
       />
       <div className="mx-4">
-        <Button disabled={isLoading.current} onClick={onCreateRoom} width={34}>
-          create room
-          <br />
-          🏗️
+        <Button
+          disabled={!user || isLoading.current}
+          onClick={onCreateRoom}
+          width={34}
+        >
+          <>
+            create room
+            <br />
+            🏗️
+          </>
         </Button>
         <br />
         <br />
