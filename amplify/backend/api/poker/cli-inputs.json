@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "poker",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/workspaces/amplify/backend/api/poker/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}
