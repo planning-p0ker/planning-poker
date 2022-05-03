@@ -12,7 +12,7 @@ type Card
   @model
   @auth(
     rules: [
-#      { allow: public, operations: [read, create] },
+      { allow: public,  provider: iam operations: [read, create, delete, update] },
       {
         allow: private
         provider: userPools
@@ -31,7 +31,7 @@ type Room
   @model
   @auth(
     rules: [
-#      { allow: public, operations: [read, create] },
+      { allow: public,  provider: iam operations: [read, create, delete, update] },
       {
         allow: private
         provider: userPools

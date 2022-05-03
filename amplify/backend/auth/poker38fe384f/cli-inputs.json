@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "poker38fe384f_identitypool_38fe384f",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "poker38fe384f",
     "userPoolName": "poker38fe384f_userpool_38fe384f",
     "autoVerifiedAttributes": [
@@ -36,8 +36,10 @@
     "sharedId": "38fe384f",
     "resourceName": "poker38fe384f",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "defaultSocial",
-    "userPoolGroupList": [],
+    "useDefault": "manual",
+    "userPoolGroupList": [
+      "poker"
+    ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
@@ -57,9 +59,19 @@
     "dependsOn": [],
     "hostedUI": true,
     "hostedUIDomainName": "poker",
-    "authProvidersUserPool": [],
-    "hostedUIProviderMeta": "[]",
+    "authProvidersUserPool": [
+      "Google"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "authProviders": [],
+    "thirdPartyAuth": true,
+    "userPoolGroups": true,
+    "adminQueries": false,
+    "triggers": {},
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://develop.denqeqveakjkg.amplifyapp.com/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://develop.denqeqveakjkg.amplifyapp.com/\"]}",
-    "authProviders": []
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "permissions": []
   }
 }
