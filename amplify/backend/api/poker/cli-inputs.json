@@ -5,15 +5,12 @@
     "serviceName": "AppSync",
     "gqlSchemaPath": "/workspaces/amplify/backend/api/poker/schema.graphql",
     "defaultAuthType": {
-      "mode": "AMAZON_COGNITO_USER_POOLS",
-      "cognitoUserPoolId": "authpoker38fe384f"
+      "mode": "AWS_IAM"
     },
     "additionalAuthTypes": [
       {
-        "mode": "API_KEY",
-        "expirationTime": 7,
-        "apiKeyExpirationDate": "2022-05-10T08:33:48.987Z",
-        "keyDescription": "test"
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authpoker38fe384f"
       }
     ],
     "conflictResolution": {}

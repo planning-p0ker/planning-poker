@@ -19,6 +19,7 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
 
   useEffect(() => {
     if (!roomId || !isReady) return;
+    console.log("authMode", authMode);
     (async () => {
       const result = await API.graphql({ query: listCards, authMode, variables: { filter: { roomId: { eq: roomId } } } });
       if ('data' in result && !!result.data) {
@@ -35,7 +36,6 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
     if ('subscribe' in createCardListener) {
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
-          console.log(data);
           if (data.onCreateCardByRoomId) {
             const newItem = data.onCreateCardByRoomId;
             setFieldCars((prev) => [...prev, newItem]);

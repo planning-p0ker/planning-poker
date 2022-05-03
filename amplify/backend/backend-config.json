@@ -6,18 +6,13 @@
       "output": {
         "authConfig": {
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authpoker38fe384f"
-            }
+            "authenticationType": "AWS_IAM"
           },
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "API_KEY",
-              "apiKeyConfig": {
-                "apiKeyExpirationDays": 7,
-                "apiKeyExpirationDate": "2022-05-10T08:33:48.987Z",
-                "description": "test"
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authpoker38fe384f"
               }
             }
           ]

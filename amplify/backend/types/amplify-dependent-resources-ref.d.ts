@@ -1,7 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
         "poker": {
-            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
