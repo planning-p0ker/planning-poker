@@ -2,18 +2,22 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTodoInput = {
-  id?: string | null,
-  name: string,
-  description?: string | null,
+export type UpdateCardInput = {
+  id: string,
+  username?: string | null,
+  displayUserName?: string | null,
+  point?: number | null,
+  roomId?: string | null,
 };
 
-export type ModelTodoConditionInput = {
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  and?: Array< ModelTodoConditionInput | null > | null,
-  or?: Array< ModelTodoConditionInput | null > | null,
-  not?: ModelTodoConditionInput | null,
+export type ModelCardConditionInput = {
+  username?: ModelStringInput | null,
+  displayUserName?: ModelStringInput | null,
+  point?: ModelIntInput | null,
+  roomId?: ModelStringInput | null,
+  and?: Array< ModelCardConditionInput | null > | null,
+  or?: Array< ModelCardConditionInput | null > | null,
+  not?: ModelCardConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,32 +60,86 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Todo = {
-  __typename: "Todo",
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Card = {
+  __typename: "Card",
   id: string,
-  name: string,
-  description?: string | null,
+  username: string,
+  displayUserName: string,
+  point: number,
+  roomId: string,
   createdAt: string,
   updatedAt: string,
 };
 
-export type UpdateTodoInput = {
-  id: string,
-  name?: string | null,
-  description?: string | null,
-};
-
-export type DeleteTodoInput = {
+export type DeleteCardInput = {
   id: string,
 };
 
-export type ModelTodoFilterInput = {
+export type UpdateRoomInput = {
+  id: string,
+  isOpened?: boolean | null,
+};
+
+export type ModelRoomConditionInput = {
+  isOpened?: ModelBooleanInput | null,
+  and?: Array< ModelRoomConditionInput | null > | null,
+  or?: Array< ModelRoomConditionInput | null > | null,
+  not?: ModelRoomConditionInput | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Room = {
+  __typename: "Room",
+  id: string,
+  isOpened: boolean,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type DeleteRoomInput = {
+  id: string,
+};
+
+export type CreateCardInput = {
+  id?: string | null,
+  username: string,
+  displayUserName: string,
+  point: number,
+  roomId: string,
+};
+
+export type CreateRoomInput = {
+  id?: string | null,
+  isOpened: boolean,
+};
+
+export type ModelCardFilterInput = {
   id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  and?: Array< ModelTodoFilterInput | null > | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
-  not?: ModelTodoFilterInput | null,
+  username?: ModelStringInput | null,
+  displayUserName?: ModelStringInput | null,
+  point?: ModelIntInput | null,
+  roomId?: ModelStringInput | null,
+  and?: Array< ModelCardFilterInput | null > | null,
+  or?: Array< ModelCardFilterInput | null > | null,
+  not?: ModelCardFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -100,89 +158,158 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelTodoConnection = {
-  __typename: "ModelTodoConnection",
-  items:  Array<Todo >,
+export type ModelCardConnection = {
+  __typename: "ModelCardConnection",
+  items:  Array<Card >,
   nextToken?: string | null,
 };
 
-export type CreateTodoMutationVariables = {
-  input: CreateTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type ModelRoomFilterInput = {
+  id?: ModelIDInput | null,
+  isOpened?: ModelBooleanInput | null,
+  and?: Array< ModelRoomFilterInput | null > | null,
+  or?: Array< ModelRoomFilterInput | null > | null,
+  not?: ModelRoomFilterInput | null,
 };
 
-export type CreateTodoMutation = {
-  createTodo?:  {
-    __typename: "Todo",
+export type ModelRoomConnection = {
+  __typename: "ModelRoomConnection",
+  items:  Array<Room >,
+  nextToken?: string | null,
+};
+
+export type UpdateCardMutationVariables = {
+  input: UpdateCardInput,
+  condition?: ModelCardConditionInput | null,
+};
+
+export type UpdateCardMutation = {
+  updateCard?:  {
+    __typename: "Card",
     id: string,
-    name: string,
-    description?: string | null,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateTodoMutationVariables = {
-  input: UpdateTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type DeleteCardMutationVariables = {
+  input: DeleteCardInput,
+  condition?: ModelCardConditionInput | null,
 };
 
-export type UpdateTodoMutation = {
-  updateTodo?:  {
-    __typename: "Todo",
+export type DeleteCardMutation = {
+  deleteCard?:  {
+    __typename: "Card",
     id: string,
-    name: string,
-    description?: string | null,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type DeleteTodoMutationVariables = {
-  input: DeleteTodoInput,
-  condition?: ModelTodoConditionInput | null,
+export type UpdateRoomMutationVariables = {
+  input: UpdateRoomInput,
+  condition?: ModelRoomConditionInput | null,
 };
 
-export type DeleteTodoMutation = {
-  deleteTodo?:  {
-    __typename: "Todo",
+export type UpdateRoomMutation = {
+  updateRoom?:  {
+    __typename: "Room",
     id: string,
-    name: string,
-    description?: string | null,
+    isOpened: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type GetTodoQueryVariables = {
+export type DeleteRoomMutationVariables = {
+  input: DeleteRoomInput,
+  condition?: ModelRoomConditionInput | null,
+};
+
+export type DeleteRoomMutation = {
+  deleteRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateCardMutationVariables = {
+  input: CreateCardInput,
+  condition?: ModelCardConditionInput | null,
+};
+
+export type CreateCardMutation = {
+  createCard?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateRoomMutationVariables = {
+  input: CreateRoomInput,
+  condition?: ModelRoomConditionInput | null,
+};
+
+export type CreateRoomMutation = {
+  createRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type GetCardQueryVariables = {
   id: string,
 };
 
-export type GetTodoQuery = {
-  getTodo?:  {
-    __typename: "Todo",
+export type GetCardQuery = {
+  getCard?:  {
+    __typename: "Card",
     id: string,
-    name: string,
-    description?: string | null,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListTodosQueryVariables = {
-  filter?: ModelTodoFilterInput | null,
+export type ListCardsQueryVariables = {
+  filter?: ModelCardFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTodosQuery = {
-  listTodos?:  {
-    __typename: "ModelTodoConnection",
+export type ListCardsQuery = {
+  listCards?:  {
+    __typename: "ModelCardConnection",
     items:  Array< {
-      __typename: "Todo",
+      __typename: "Card",
       id: string,
-      name: string,
-      description?: string | null,
+      username: string,
+      displayUserName: string,
+      point: number,
+      roomId: string,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -190,34 +317,169 @@ export type ListTodosQuery = {
   } | null,
 };
 
-export type OnCreateTodoSubscription = {
-  onCreateTodo?:  {
-    __typename: "Todo",
+export type GetRoomQueryVariables = {
+  id: string,
+};
+
+export type GetRoomQuery = {
+  getRoom?:  {
+    __typename: "Room",
     id: string,
-    name: string,
-    description?: string | null,
+    isOpened: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateTodoSubscription = {
-  onUpdateTodo?:  {
-    __typename: "Todo",
+export type ListRoomsQueryVariables = {
+  filter?: ModelRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRoomsQuery = {
+  listRooms?:  {
+    __typename: "ModelRoomConnection",
+    items:  Array< {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      createdAt: string,
+      updatedAt: string,
+    } >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnCreateCardByRoomIdSubscription = {
+  onCreateCardByRoomId?:  {
+    __typename: "Card",
     id: string,
-    name: string,
-    description?: string | null,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnDeleteTodoSubscription = {
-  onDeleteTodo?:  {
-    __typename: "Todo",
+export type OnUpdateCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnUpdateCardByRoomIdSubscription = {
+  onUpdateCardByRoomId?:  {
+    __typename: "Card",
     id: string,
-    name: string,
-    description?: string | null,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCardByRoomIdSubscriptionVariables = {
+  roomId?: string | null,
+};
+
+export type OnDeleteCardByRoomIdSubscription = {
+  onDeleteCardByRoomId?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRoomByIdSubscriptionVariables = {
+  id: string,
+};
+
+export type OnUpdateRoomByIdSubscription = {
+  onUpdateRoomById?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateCardSubscription = {
+  onCreateCard?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCardSubscription = {
+  onUpdateCard?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCardSubscription = {
+  onDeleteCard?:  {
+    __typename: "Card",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point: number,
+    roomId: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateRoomSubscription = {
+  onCreateRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRoomSubscription = {
+  onUpdateRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteRoomSubscription = {
+  onDeleteRoom?:  {
+    __typename: "Room",
+    id: string,
+    isOpened: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
