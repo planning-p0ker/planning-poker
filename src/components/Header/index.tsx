@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import React from 'react';
-import { useUser } from '../../hooks/useUser';
 import UserButton from '../UserButton';
 
 export type HeaderProps = {
@@ -15,7 +15,7 @@ const Header: React.VFC<HeaderProps> = ({
 }) => {
   return (
     <h1 className="font-bold mb-4 p-4 flex justify-between shadow-lg">
-      <div>🃏Planning poker</div>
+      <Link href="/">🃏Planning poker</Link>
       <div>
         {!displayName ? (
           <button onClick={onSignIn}>Sing in</button>
