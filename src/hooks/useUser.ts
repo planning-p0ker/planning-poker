@@ -27,7 +27,8 @@ export const useUser = () => {
             if (userData) {
               setUser({
                 username: userData.username,
-                displayName: userData["signInUserSession"]["idToken"]["payload"]["name"],
+                // displayName: userData["signInUserSession"]["idToken"]["payload"]["name"],
+                displayName: userData.username + "さん"
               })
             }
           });
@@ -45,7 +46,7 @@ export const useUser = () => {
       if (!!userData) {
         setUser({
           username: userData.username,
-          displayName: userData["signInUserSession"]["idToken"]["payload"]["name"],
+          displayName: userData.username + "さん",
         });
       }
     });
