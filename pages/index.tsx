@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import Header from '../src/components/Header';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import { createRoom } from '../src/graphql/mutations';
 import { useRouter } from 'next/router';
 import { useUser } from '../src/hooks/useUser';
@@ -20,6 +20,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { user, onSignIn, onSignOut } = useUser();
   const isLoading = useRef(false);
+  const [roomId, setRoomId] = useState('');
   const onCreateRoom = async () => {
     isLoading.current = true;
     const result = (await API.graphql(
@@ -31,6 +32,14 @@ const Home: NextPage = () => {
     isLoading.current = false;
   };
 
+  const onChangeRoomId = useCallback((ev) => {
+    setRoomId(ev.target.value);
+  }, []);
+
+  const onJoinRoom = useCallback(() => {
+    router.push(`/rooms/${roomId}`);
+  }, [roomId, router]);
+
   return (
     <div>
       <Header
@@ -38,7 +47,7 @@ const Home: NextPage = () => {
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />
-      <div className="mx-4">
+      <div className="mx-4 flex space-x-10 items-center justify-between">
         <Button
           disabled={!user || isLoading.current}
           onClick={onCreateRoom}
@@ -50,10 +59,21 @@ const Home: NextPage = () => {
             🏗️
           </>
         </Button>
+        <div className="flex">
+          <input
+            onChange={onChangeRoomId}
+            className="border-2 rounded mr-2 px-2 shadow"
+            placeholder="ROOM ID"
+          />
+          <Button
+            primary={true}
+            disabled={isLoading.current || !roomId}
+            onClick={onJoinRoom}
+          >
+            join room 🏠
+          </Button>
+        </div>
         <br />
-        <br />
-        {/* <input className="border-2" value={'!'} />
-        <Button disabled={isLoading.current}>join room🏠</Button> */}
       </div>
     </div>
   );

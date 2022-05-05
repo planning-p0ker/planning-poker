@@ -22,8 +22,7 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
       if ('data' in result && !!result.data) {
         const data = result.data as GetRoomQuery;
         if (!data.getRoom) {
-          // TODO: Roomが存在しない場合は新規作成せずにトップページへ遷移させる
-          await API.graphql({ query: createRoom, variables: { input: { id: roomId, isOpened: false }, authMode } });
+          setRoom(null);
         } else {
           setRoom(data.getRoom);
         }
