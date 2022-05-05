@@ -25,10 +25,10 @@ export const useUser = () => {
         case "cognitoHostedUI":
           getUser().then((userData) => {
             if (userData) {
+              console.log(JSON.stringify(userData))
               setUser({
                 username: userData.username,
-                // displayName: userData["signInUserSession"]["idToken"]["payload"]["name"],
-                displayName: userData.username + "さん"
+                displayName: userData.attributes.name
               })
             }
           });
@@ -46,7 +46,7 @@ export const useUser = () => {
       if (!!userData) {
         setUser({
           username: userData.username,
-          displayName: userData.username + "さん",
+          displayName: userData.attributes.name
         });
       }
     });
