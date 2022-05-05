@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Hand from '../../src/components/Hand';
 import Field from '../../src/components/Field';
 import Header from '../../src/components/Header';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import RoomIdPlate from '../../src/components/RoomIdPlate';
+import { API, graphqlOperation } from 'aws-amplify';
 import {
   deleteCard,
   createCard,
@@ -85,7 +86,7 @@ const Room: NextPage = () => {
         onSignOut={onSignOut}
       />
       <div className="mx-4">
-        {/* TODO: 簡単にURLを共有できるようにしたい */}
+        <RoomIdPlate roomId={room?.id || ''} />
         <Field
           hidden={!room?.isOpened}
           user={user}

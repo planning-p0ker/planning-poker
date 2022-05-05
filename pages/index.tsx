@@ -27,7 +27,6 @@ const Home: NextPage = () => {
         input: { id: generateUniqueRoomId(), isOpened: false },
       })
     )) as any;
-    console.log(result);
     router.push(`/rooms/${result.data.createRoom.id}`);
     isLoading.current = false;
   };
