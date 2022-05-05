@@ -1,6 +1,27 @@
 {
+  "api": {
+    "poker": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authpoker38fe384f"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
+        }
+      }
+    }
+  },
   "auth": {
-    "planningpoker75b8a167": {
+    "poker38fe384f": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -23,34 +44,29 @@
           "EMAIL"
         ]
       }
-    }
-  },
-  "api": {
-    "planningpoker": {
-      "service": "AppSync",
+    },
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
       "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authplanningpoker75b8a167"
-            }
-          },
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            }
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "poker38fe384f",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
           ]
         }
-      }
+      ]
     }
   },
   "hosting": {
     "amplifyhosting": {
       "service": "amplifyhosting",
-      "providerPlugin": "awscloudformation",
-      "type": "manual"
+      "type": "cicd",
+      "lastPushTimeStamp": "2022-05-03T09:39:54.208Z"
     }
   }
 }

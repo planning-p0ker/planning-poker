@@ -3,8 +3,7 @@ import type { AppProps } from 'next/app';
 import Amplify from 'aws-amplify';
 import awsconfig from '../src/aws-exports';
 
-let isLocalhost = false;
-// TODO: ローカルホストかどうかを判定する
+const isLocalhost = process.env.NODE_ENV === 'development';
 
 // Assuming you have two redirect URIs, and the first is for localhost and second is for production
 const [localRedirectSignIn, productionRedirectSignIn] =

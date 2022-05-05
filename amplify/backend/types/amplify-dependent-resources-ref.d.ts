@@ -1,6 +1,12 @@
 export type AmplifyDependentResourcesAttributes = {
+    "api": {
+        "poker": {
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
     "auth": {
-        "planningpoker75b8a167": {
+        "poker38fe384f": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "HostedUIDomain": "string",
@@ -10,12 +16,9 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
             "AppClientID": "string"
-        }
-    },
-    "api": {
-        "planningpoker": {
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
+        },
+        "userPoolGroups": {
+            "pokerGroupRole": "string"
         }
     }
 }
