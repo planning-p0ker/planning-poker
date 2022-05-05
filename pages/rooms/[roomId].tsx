@@ -74,8 +74,17 @@ const Room: NextPage = () => {
     );
   }, [room]);
 
-  if (!roomId) {
-    return <></>;
+  if (!roomId || !room) {
+    return (
+      <div>
+        <Header
+          displayName={user?.displayName}
+          onSignIn={onSignIn}
+          onSignOut={onSignOut}
+        />
+        <div className="mx-4">room not found</div>
+      </div>
+    );
   }
 
   return (
