@@ -25,7 +25,6 @@ export const useUser = () => {
         case "cognitoHostedUI":
           getUser().then((userData) => {
             if (userData) {
-              console.log(JSON.stringify(userData))
               setUser({
                 username: userData.username,
                 displayName: userData.attributes.name
