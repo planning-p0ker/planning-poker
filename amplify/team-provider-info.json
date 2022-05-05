@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "poker38fe384f": {}
+        "poker38fe384f": {},
+        "userPoolGroups": {}
       },
       "hosting": {
         "amplifyhosting": {
