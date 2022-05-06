@@ -6,7 +6,9 @@ const SSRDemo = ({ nowDate }: Props) => {
   return <div>SSR demo: {nowDate}</div>;
 };
 
-export const getStaticProps: GetServerSideProps<Props> = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   return {
     props: {
       nowDate: new Date().toLocaleString(undefined, { timeZone: 'Asia/Tokyo' }),
