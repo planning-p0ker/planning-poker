@@ -1,19 +1,21 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Amplify, { Auth, Hub } from "aws-amplify";
+import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { Auth, Hub } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { NextRouter } from "next/router";
 
 export type User = {
   username: string;
   displayName: string;
 };
 
-export const useUser = () => {
+export const useUser = (router: NextRouter, pathname: string ) => {
   const [user, setUser] = useState<User | null>(null);
   const onSignIn = useCallback(() => {
     Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
+      customState: pathname,
     })
-  }, []);
+  }, [pathname]);
   const onSignOut = useCallback(() => {
     Auth.signOut();
   }, []);
@@ -35,6 +37,8 @@ export const useUser = () => {
         case "signOut":
           setUser(null);
           break;
+        case "customOAuthState":
+          router.push(data);
         case "signIn_failure":
         case "cognitoHostedUI_failure":
           break;
@@ -49,7 +53,7 @@ export const useUser = () => {
         });
       }
     });
-  }, []);
+  }, [pathname, router]);
 
   const getUser = async () => {
     try {

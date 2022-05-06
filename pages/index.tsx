@@ -18,7 +18,7 @@ function generateUniqueRoomId(): string {
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { user, onSignIn, onSignOut } = useUser();
+  const { user, onSignIn, onSignOut } = useUser(router, router.pathname);
   const isLoading = useRef(false);
   const [roomId, setRoomId] = useState('');
   const onCreateRoom = async () => {
