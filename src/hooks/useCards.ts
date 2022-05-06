@@ -19,7 +19,6 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
 
   useEffect(() => {
     if (!roomId || !isReady) return;
-    console.log("authMode", authMode);
     (async () => {
       const result = await API.graphql({ query: listCards, authMode, variables: { filter: { roomId: { eq: roomId } } } });
       if ('data' in result && !!result.data) {
