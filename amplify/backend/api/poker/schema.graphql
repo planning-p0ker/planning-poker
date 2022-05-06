@@ -10,9 +10,15 @@
 
 type Card
   @model
+  @aws_iam
+  @aws_cognito_user_pools
   @auth(
     rules: [
-      { allow: public,  provider: iam operations: [read, create, delete, update] },
+      {
+        allow: public
+        provider: iam
+        operations: [read, create, delete, update]
+      }
       {
         allow: private
         provider: userPools
@@ -29,9 +35,15 @@ type Card
 
 type Room
   @model
+  @aws_iam
+  @aws_cognito_user_pools
   @auth(
     rules: [
-      { allow: public,  provider: iam operations: [read, create, delete, update] },
+      {
+        allow: public
+        provider: iam
+        operations: [read, create, delete, update]
+      }
       {
         allow: private
         provider: userPools
@@ -46,9 +58,18 @@ type Room
 type Subscription {
   onCreateCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["createCard"])
+    @aws_iam
+    @aws_cognito_user_pools
   onUpdateCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["updateCard"])
+    @aws_iam
+    @aws_cognito_user_pools
   onDeleteCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["deleteCard"])
-  onUpdateRoomById(id: ID!): Room @aws_subscribe(mutations: ["updateRoom"])
+    @aws_iam
+    @aws_cognito_user_pools
+  onUpdateRoomById(id: ID!): Room
+    @aws_subscribe(mutations: ["updateRoom"])
+    @aws_iam
+    @aws_cognito_user_pools
 }
