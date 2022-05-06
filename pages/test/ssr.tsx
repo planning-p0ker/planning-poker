@@ -9,7 +9,7 @@ const SSRDemo = ({ nowDate }: Props) => {
 export const getStaticProps: GetServerSideProps<Props> = async (context) => {
   return {
     props: {
-      nowDate: new Date().toLocaleString(),
+      nowDate: new Date().toLocaleString(undefined, { timeZone: 'Asia/Tokyo' }),
     },
   };
 };

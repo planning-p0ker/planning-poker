@@ -9,7 +9,7 @@ const SSGDemo = ({ nowDate }: Props) => {
 export const getStaticProps: GetStaticProps<Props> = async (context) => {
   return {
     props: {
-      nowDate: new Date().toLocaleString(),
+      nowDate: new Date().toLocaleString(undefined, { timeZone: 'Asia/Tokyo' }),
     },
   };
 };
