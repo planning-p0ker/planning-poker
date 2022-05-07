@@ -1,15 +1,27 @@
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { API } from 'aws-amplify';
 import { GetServerSideProps } from 'next';
+import { ListRoomsQuery, Room } from '../../src/API';
 import { listRooms } from '../../src/graphql/queries';
 
-type Props = { nowDate: string; result: any };
+type Props = { nowDate: string; data: ListRoomsQuery };
 
-const SSRDemo = ({ nowDate, result }: Props) => {
+const SSRDemo = ({ nowDate, data }: Props) => {
   return (
     <div>
       SSR demo: {nowDate}
       <br />
-      {JSON.stringify(result)}
+      {data.listRooms && (
+        <ul>
+          {data.listRooms.items.map((room) => {
+            return (
+              <li key={room.id}>
+                ID: {room.id} / {room.createdAt} /
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };
@@ -17,11 +29,14 @@ const SSRDemo = ({ nowDate, result }: Props) => {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  const result = (await API.graphql({ query: listRooms })) as any;
+  const result = (await API.graphql({
+    query: listRooms,
+    authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+  })) as { data: ListRoomsQuery };
   return {
     props: {
-      result: result,
       nowDate: new Date().toLocaleString(undefined, { timeZone: 'Asia/Tokyo' }),
+      data: result.data,
     },
   };
 };
