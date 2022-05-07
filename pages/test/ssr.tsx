@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const result = (await API.graphql({ query: listRooms })) as any;
   return {
     props: {
-      result: result['data']['listRooms'],
+      result: result,
       nowDate: new Date().toLocaleString(undefined, { timeZone: 'Asia/Tokyo' }),
     },
   };
