@@ -31,7 +31,7 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
 
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
 
-    const createCardListener: any = API.graphql({ query: onCreateCard, variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables });
+    const createCardListener: any = API.graphql({ query: onCreateCard, authMode: GRAPHQL_AUTH_MODE.AWS_IAM, variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables });
     if ('subscribe' in createCardListener) {
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
@@ -43,7 +43,7 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
       });
     }
 
-    const deleteCardListener: any = API.graphql({ query: onDeleteCard, variables: { roomId } });
+    const deleteCardListener: any = API.graphql({ query: onDeleteCard, authMode: GRAPHQL_AUTH_MODE.AWS_IAM, variables: { roomId } });
     if ('subscribe' in deleteCardListener) {
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
