@@ -416,6 +416,10 @@ export type OnUpdateRoomByIdSubscription = {
   } | null,
 };
 
+export type OnCreateCardSubscriptionVariables = {
+  roomId?: string | null,
+};
+
 export type OnCreateCardSubscription = {
   onCreateCard?:  {
     __typename: "Card",
@@ -429,17 +433,8 @@ export type OnCreateCardSubscription = {
   } | null,
 };
 
-export type OnUpdateCardSubscription = {
-  onUpdateCard?:  {
-    __typename: "Card",
-    id: string,
-    username: string,
-    displayUserName: string,
-    point: number,
-    roomId: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
+export type OnDeleteCardSubscriptionVariables = {
+  roomId?: string | null,
 };
 
 export type OnDeleteCardSubscription = {
@@ -450,36 +445,6 @@ export type OnDeleteCardSubscription = {
     displayUserName: string,
     point: number,
     roomId: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreateRoomSubscription = {
-  onCreateRoom?:  {
-    __typename: "Room",
-    id: string,
-    isOpened: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateRoomSubscription = {
-  onUpdateRoom?:  {
-    __typename: "Room",
-    id: string,
-    isOpened: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteRoomSubscription = {
-  onDeleteRoom?:  {
-    __typename: "Room",
-    id: string,
-    isOpened: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { API } from 'aws-amplify';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';
-import { onCreateCardByRoomId, onDeleteCardByRoomId } from '../graphql/subscriptions';
+import {  onCreateCard, onDeleteCard } from '../graphql/subscriptions';
 import { Card, ListCardsQuery, OnCreateCardByRoomIdSubscriptionVariables, OnCreateCardByRoomIdSubscription, OnDeleteCardByRoomIdSubscription } from '../API';
 import { User } from './useUser';
 
@@ -31,7 +31,7 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
 
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
 
-    const createCardListener: any = API.graphql({ query: onCreateCardByRoomId, authMode, variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables });
+    const createCardListener: any = API.graphql({ query: onCreateCard, variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables });
     if ('subscribe' in createCardListener) {
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
@@ -43,7 +43,7 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
       });
     }
 
-    const deleteCardListener: any = API.graphql({ query: onDeleteCardByRoomId, authMode, variables: { roomId } });
+    const deleteCardListener: any = API.graphql({ query: onDeleteCard, variables: { roomId } });
     if ('subscribe' in deleteCardListener) {
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {

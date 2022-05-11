@@ -9,7 +9,7 @@
 # }
 
 type Card
-  @model
+  @model(subscriptions: null)
   @aws_iam
   @aws_cognito_user_pools
   @auth(
@@ -34,7 +34,7 @@ type Card
 }
 
 type Room
-  @model
+  @model(subscriptions: null)
   @aws_iam
   @aws_cognito_user_pools
   @auth(
@@ -72,4 +72,7 @@ type Subscription {
     @aws_subscribe(mutations: ["updateRoom"])
     @aws_iam
     @aws_cognito_user_pools
+
+  onCreateCard(roomId: String): Card @aws_subscribe(mutations: ["updateCard"])
+  onDeleteCard(roomId: String): Card @aws_subscribe(mutations: ["deleteCard"])
 }

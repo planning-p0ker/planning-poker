@@ -52,21 +52,8 @@ export const onUpdateRoomById = /* GraphQL */ `
   }
 `;
 export const onCreateCard = /* GraphQL */ `
-  subscription OnCreateCard {
-    onCreateCard {
-      id
-      username
-      displayUserName
-      point
-      roomId
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateCard = /* GraphQL */ `
-  subscription OnUpdateCard {
-    onUpdateCard {
+  subscription OnCreateCard($roomId: String) {
+    onCreateCard(roomId: $roomId) {
       id
       username
       displayUserName
@@ -78,43 +65,13 @@ export const onUpdateCard = /* GraphQL */ `
   }
 `;
 export const onDeleteCard = /* GraphQL */ `
-  subscription OnDeleteCard {
-    onDeleteCard {
+  subscription OnDeleteCard($roomId: String) {
+    onDeleteCard(roomId: $roomId) {
       id
       username
       displayUserName
       point
       roomId
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateRoom = /* GraphQL */ `
-  subscription OnCreateRoom {
-    onCreateRoom {
-      id
-      isOpened
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateRoom = /* GraphQL */ `
-  subscription OnUpdateRoom {
-    onUpdateRoom {
-      id
-      isOpened
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteRoom = /* GraphQL */ `
-  subscription OnDeleteRoom {
-    onDeleteRoom {
-      id
-      isOpened
       createdAt
       updatedAt
     }
