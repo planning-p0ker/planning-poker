@@ -1,7 +1,7 @@
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { API } from 'aws-amplify';
 import { GetServerSideProps } from 'next';
-import { ListRoomsQuery, Room } from '../../src/API';
+import { ListRoomsQuery } from '../../src/API';
 import { listRooms } from '../../src/graphql/queries';
 
 type Props = { nowDate: string; data: ListRoomsQuery };

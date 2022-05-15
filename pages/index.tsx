@@ -6,6 +6,7 @@ import { createRoom } from '../src/graphql/mutations';
 import { useRouter } from 'next/router';
 import { useUser } from '../src/hooks/useUser';
 import Button from '../src/components/Button';
+import Link from 'next/link';
 
 // https://qiita.com/coa00/items/679b0b5c7c468698d53f
 function generateUniqueRoomId(): string {
@@ -74,6 +75,7 @@ const Home: NextPage = () => {
           </Button>
         </div>
         <br />
+        <Link href="/test">Next.js勉強用のテストページ</Link>
       </div>
     </div>
   );
