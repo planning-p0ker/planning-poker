@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useUser } from '../src/hooks/useUser';
 import Button from '../src/components/Button';
 import Link from 'next/link';
+import { calcTtl } from '../src/utils/calcTtl';
 
 // https://qiita.com/coa00/items/679b0b5c7c468698d53f
 function generateUniqueRoomId(): string {
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
     isLoading.current = true;
     const result = (await API.graphql(
       graphqlOperation(createRoom, {
-        input: { id: generateUniqueRoomId(), isOpened: false },
+        input: { id: generateUniqueRoomId(), isOpened: false, ttl: calcTtl() },
       })
     )) as any;
     router.push(`/rooms/${result.data.createRoom.id}`);

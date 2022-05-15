@@ -40,6 +40,7 @@ export const getRoom = /* GraphQL */ `
     getRoom(id: $id) {
       id
       isOpened
+      ttl
       createdAt
       updatedAt
     }
@@ -55,6 +56,7 @@ export const listRooms = /* GraphQL */ `
       items {
         id
         isOpened
+        ttl
         createdAt
         updatedAt
       }

@@ -53,6 +53,7 @@ type Room
   ) {
   id: ID!
   isOpened: Boolean!
+  ttl: AWSTimestamp!
 }
 
 type Subscription {

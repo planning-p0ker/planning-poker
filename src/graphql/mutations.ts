@@ -58,6 +58,7 @@ export const createRoom = /* GraphQL */ `
     createRoom(input: $input, condition: $condition) {
       id
       isOpened
+      ttl
       createdAt
       updatedAt
     }
@@ -71,6 +72,7 @@ export const updateRoom = /* GraphQL */ `
     updateRoom(input: $input, condition: $condition) {
       id
       isOpened
+      ttl
       createdAt
       updatedAt
     }
@@ -84,6 +86,7 @@ export const deleteRoom = /* GraphQL */ `
     deleteRoom(input: $input, condition: $condition) {
       id
       isOpened
+      ttl
       createdAt
       updatedAt
     }

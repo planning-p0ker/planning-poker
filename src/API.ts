@@ -98,10 +98,12 @@ export type DeleteCardInput = {
 export type CreateRoomInput = {
   id?: string | null,
   isOpened: boolean,
+  ttl: number,
 };
 
 export type ModelRoomConditionInput = {
   isOpened?: ModelBooleanInput | null,
+  ttl?: ModelIntInput | null,
   and?: Array< ModelRoomConditionInput | null > | null,
   or?: Array< ModelRoomConditionInput | null > | null,
   not?: ModelRoomConditionInput | null,
@@ -118,6 +120,7 @@ export type Room = {
   __typename: "Room",
   id: string,
   isOpened: boolean,
+  ttl: number,
   createdAt: string,
   updatedAt: string,
 };
@@ -125,6 +128,7 @@ export type Room = {
 export type UpdateRoomInput = {
   id: string,
   isOpened?: boolean | null,
+  ttl?: number | null,
 };
 
 export type DeleteRoomInput = {
@@ -167,6 +171,7 @@ export type ModelCardConnection = {
 export type ModelRoomFilterInput = {
   id?: ModelIDInput | null,
   isOpened?: ModelBooleanInput | null,
+  ttl?: ModelIntInput | null,
   and?: Array< ModelRoomFilterInput | null > | null,
   or?: Array< ModelRoomFilterInput | null > | null,
   not?: ModelRoomFilterInput | null,
@@ -242,6 +247,7 @@ export type CreateRoomMutation = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
+    ttl: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -257,6 +263,7 @@ export type UpdateRoomMutation = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
+    ttl: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -272,6 +279,7 @@ export type DeleteRoomMutation = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
+    ttl: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -326,6 +334,7 @@ export type GetRoomQuery = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
+    ttl: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -344,6 +353,7 @@ export type ListRoomsQuery = {
       __typename: "Room",
       id: string,
       isOpened: boolean,
+      ttl: number,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -411,6 +421,7 @@ export type OnUpdateRoomByIdSubscription = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
+    ttl: number,
     createdAt: string,
     updatedAt: string,
   } | null,

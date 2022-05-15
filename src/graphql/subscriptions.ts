@@ -46,6 +46,7 @@ export const onUpdateRoomById = /* GraphQL */ `
     onUpdateRoomById(id: $id) {
       id
       isOpened
+      ttl
       createdAt
       updatedAt
     }
