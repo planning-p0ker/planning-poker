@@ -44,6 +44,7 @@ const Room: NextPage = () => {
               username: user.username,
               displayUserName: user.displayName,
               roomId,
+              ttl: calcTtl(),
             },
           })
         );

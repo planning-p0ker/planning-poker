@@ -10,6 +10,7 @@ export const getCard = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -28,6 +29,7 @@ export const listCards = /* GraphQL */ `
         displayUserName
         point
         roomId
+        ttl
         createdAt
         updatedAt
       }
