@@ -75,7 +75,9 @@ const Home: NextPage = () => {
           </Button>
         </div>
         <br />
-        <Link href="/test">Next.js勉強用のテストページ</Link>
+        <div className="text-blue-600 hover:underline">
+          <Link href="/test">Next.js勉強用のテストページ</Link>
+        </div>
       </div>
     </div>
   );
