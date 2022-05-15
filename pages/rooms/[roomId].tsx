@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import { useUser } from '../../src/hooks/useUser';
 import { useCards } from '../../src/hooks/useCards';
 import { useRoom } from '../../src/hooks/useRoom';
+import { calcTtl } from '../../src/utils/calcTtl';
 
 const Room: NextPage = () => {
   const router = useRouter();
@@ -64,13 +65,17 @@ const Room: NextPage = () => {
       })
     );
     await API.graphql(
-      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: false } })
+      graphqlOperation(updateRoom, {
+        input: { id: room?.id, isOpened: false, ttl: calcTtl() },
+      })
     );
   }, [fieldCards, room?.id]);
 
   const handleOnOpen = useCallback(async () => {
     await API.graphql(
-      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: true } })
+      graphqlOperation(updateRoom, {
+        input: { id: room?.id, isOpened: true, ttl: calcTtl() },
+      })
     );
   }, [room]);
 

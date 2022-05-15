@@ -33,7 +33,6 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
     if ("subscribe" in updateRoomListener) {
       updateRoomListener.subscribe({
         next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
-          console.log("update room", data)
           if (data.onUpdateRoomById) {
             const room = data.onUpdateRoomById;
             setRoom(room);

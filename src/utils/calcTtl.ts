@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
 
 export const calcTtl = () => {
-  return dayjs().add(5, "minutes").unix();
+  return dayjs().add(3, "months").unix();
 }
