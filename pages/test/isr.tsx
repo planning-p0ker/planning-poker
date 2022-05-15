@@ -9,7 +9,7 @@ type Props = { nowDate: string; data: ListRoomsQuery };
 const ISRDemo = ({ nowDate, data }: Props) => {
   return (
     <div>
-      SSR demo: {nowDate}
+      ISR demo: {nowDate}
       <br />
       {data.listRooms && (
         <ul>
@@ -27,14 +27,14 @@ const ISRDemo = ({ nowDate, data }: Props) => {
 };
 
 export const getStaticProps: GetServerSideProps<Props> = async (context) => {
-  const result = (await API.graphql({
-    query: listRooms,
-    authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
-  })) as { data: ListRoomsQuery };
+  //   const result = (await API.graphql({
+  //     query: listRooms,
+  //     authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+  //   })) as { data: ListRoomsQuery };
   return {
     props: {
       nowDate: new Date().toLocaleString(undefined, { timeZone: 'Asia/Tokyo' }),
-      data: result.data,
+      data: {},
     },
     revalidate: 5 * 60,
   };
