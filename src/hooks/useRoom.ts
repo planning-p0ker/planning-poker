@@ -17,29 +17,38 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
 
   useEffect(() => {
     if (!roomId || !isReady) return;
-    (async () => {
-      const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode });
-      if ('data' in result && !!result.data) {
-        const data = result.data as GetRoomQuery;
-        if (!data.getRoom) {
-          setRoom(null);
-        } else {
-          setRoom(data.getRoom);
-        }
-      }
-    })();
-
-    const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode });
-    if ("subscribe" in updateRoomListener) {
-      updateRoomListener.subscribe({
-        next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
-          if (data.onUpdateRoomById) {
-            const room = data.onUpdateRoomById;
-            setRoom(room);
+    try {
+      (async () => {
+        const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
+        if ('data' in result && !!result.data) {
+          const data = result.data as GetRoomQuery;
+          if (!data.getRoom) {
+            setRoom(null);
+          } else {
+            setRoom(data.getRoom);
           }
-        },
-      })
+        }
+      })();  
+    } catch (e) {
+      console.log("getRoom Error", e);
     }
+
+    try {
+      const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
+      if ("subscribe" in updateRoomListener) {
+        updateRoomListener.subscribe({
+          next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
+            if (data.onUpdateRoomById) {
+              const room = data.onUpdateRoomById;
+              setRoom(room);
+            }
+          },
+        })
+      }
+    } catch (e) {
+      console.log("updateRoomListener Error", e);
+    }
+
   }, [authMode, isReady, roomId]);
 
   return room;
