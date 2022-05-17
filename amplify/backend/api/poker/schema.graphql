@@ -65,6 +65,10 @@ type Subscription {
     @aws_iam
     @aws_cognito_user_pools
 
-  onCreateCard(roomId: String): Card @aws_subscribe(mutations: ["updateCard"])
-  onDeleteCard(roomId: String): Card @aws_subscribe(mutations: ["deleteCard"])
+  onCreateCard(roomId: String): Card
+    @aws_iam
+    @aws_subscribe(mutations: ["updateCard"])
+  onDeleteCard(roomId: String): Card
+    @aws_iam
+    @aws_subscribe(mutations: ["deleteCard"])
 }

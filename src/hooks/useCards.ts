@@ -13,9 +13,9 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
   const [fieldCards, setFieldCars] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
-  const authMode = useMemo(() => {
-    return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
-  }, [user]);
+  // const authMode = useMemo(() => {
+  //   return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
+  // }, [user]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
@@ -54,7 +54,7 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
         },
       });
     }
-  }, [authMode, isReady, roomId]);
+  }, [isReady, roomId]);
 
   useEffect(() => {
     if (user) {
