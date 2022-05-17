@@ -4,11 +4,7 @@ type Card
   @aws_cognito_user_pools
   @auth(
     rules: [
-      {
-        allow: public
-        provider: iam
-        operations: [read, create, delete, update]
-      }
+      { allow: private, provider: iam, operations: [read] }
       {
         allow: private
         provider: userPools
@@ -30,11 +26,7 @@ type Room
   @aws_cognito_user_pools
   @auth(
     rules: [
-      {
-        allow: public
-        provider: iam
-        operations: [read, create, delete, update]
-      }
+      { allow: private, provider: iam, operations: [read] }
       {
         allow: private
         provider: userPools

@@ -10,22 +10,16 @@ import { User } from "./useUser";
 type UpdateRoomSubscriptionEvent = { value: { data: OnUpdateRoomByIdSubscription } };
 
 export const useRoom = (user: User | null, isReady: boolean, roomId?: string) => {
-  console.log("useRoom")
   const [room, setRoom] = useState<Room | null>(null);
   const authMode = useMemo(() => {
-    console.log("CHANGE AUTH MODE", user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM)
     return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
   }, [user]);
 
   useEffect(() => {
-    console.log("roomId", roomId);
     if (!roomId || !isReady) return;
-    console.log("roomId", roomId, isReady);
     try {
       (async () => {
-        console.log("stat");
         const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode });
-        console.log("??????? getRoom", result);
         if ('data' in result && !!result.data) {
           const data = result.data as GetRoomQuery;
           if (!data.getRoom) {

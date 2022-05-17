@@ -22,7 +22,6 @@ const Room: NextPage = () => {
   const { roomId } = router.query;
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
-  console.log('USER', user);
   const room = useRoom(user, router.isReady, roomId as string | undefined);
   const { fieldCards, myCard } = useCards(
     user,
