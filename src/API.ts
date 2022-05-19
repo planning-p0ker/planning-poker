@@ -439,39 +439,3 @@ export type OnUpdateRoomByIdSubscription = {
     updatedAt: string,
   } | null,
 };
-
-export type OnCreateCardSubscriptionVariables = {
-  roomId?: string | null,
-};
-
-export type OnCreateCardSubscription = {
-  onCreateCard?:  {
-    __typename: "Card",
-    id: string,
-    username: string,
-    displayUserName: string,
-    point: number,
-    roomId: string,
-    ttl: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteCardSubscriptionVariables = {
-  roomId?: string | null,
-};
-
-export type OnDeleteCardSubscription = {
-  onDeleteCard?:  {
-    __typename: "Card",
-    id: string,
-    username: string,
-    displayUserName: string,
-    point: number,
-    roomId: string,
-    ttl: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};

@@ -55,31 +55,3 @@ export const onUpdateRoomById = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCard = /* GraphQL */ `
-  subscription OnCreateCard($roomId: String) {
-    onCreateCard(roomId: $roomId) {
-      id
-      username
-      displayUserName
-      point
-      roomId
-      ttl
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteCard = /* GraphQL */ `
-  subscription OnDeleteCard($roomId: String) {
-    onDeleteCard(roomId: $roomId) {
-      id
-      username
-      displayUserName
-      point
-      roomId
-      ttl
-      createdAt
-      updatedAt
-    }
-  }
-`;

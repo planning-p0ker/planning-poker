@@ -10,51 +10,52 @@ type CreateCardSubscriptionEvent = { value: { data: OnCreateCardByRoomIdSubscrip
 type DeleteCardSubscriptionEvent = { value: { data: OnDeleteCardByRoomIdSubscription } };
 
 export const useCards = (user: User | null, isReady: boolean, roomId?: string) => {
-  const [fieldCards, setFieldCars] = useState<Card[]>([]);
+  const [fieldCards, setFieldCards] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
-  const authMode = useMemo(() => {
-    return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
-  }, [user]);
+  // const authMode = useMemo(() => {
+  //   return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
+  // }, [user]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
     (async () => {
-      const result = await API.graphql({ query: listCards, authMode, variables: { filter: { roomId: { eq: roomId } } } });
+      const result = await API.graphql({ query: listCards, authMode: GRAPHQL_AUTH_MODE.AWS_IAM, variables: { filter: { roomId: { eq: roomId } } } });
       if ('data' in result && !!result.data) {
         const data = result.data as ListCardsQuery;
-        if (!!data.listCards) {
-          setFieldCars(data.listCards.items);
+        if (!!data.listCards?.items) {
+          const c = data.listCards.items;
+          setFieldCards(data.listCards.items as any);
         }
       }
     })();
 
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
 
-    const createCardListener: any = API.graphql({ query: onCreateCardByRoomId, authMode, variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables });
+    const createCardListener: any = API.graphql({ query: onCreateCardByRoomId, authMode: GRAPHQL_AUTH_MODE.AWS_IAM, variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables });
     if ('subscribe' in createCardListener) {
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
           if (data.onCreateCardByRoomId) {
             const newItem = data.onCreateCardByRoomId;
-            setFieldCars((prev) => [...prev, newItem]);
+            setFieldCards((prev) => [...prev, newItem]);
           }
         },
       });
     }
 
-    const deleteCardListener: any = API.graphql({ query: onDeleteCardByRoomId, authMode, variables: { roomId } });
+    const deleteCardListener: any = API.graphql({ query: onDeleteCardByRoomId, authMode: GRAPHQL_AUTH_MODE.AWS_IAM, variables: { roomId } });
     if ('subscribe' in deleteCardListener) {
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
           if (data.onDeleteCardByRoomId) {
             const deletedCard = data.onDeleteCardByRoomId;
-            setFieldCars((prev) => prev.filter((e) => e.id !== deletedCard.id));
+            setFieldCards((prev) => prev.filter((e) => e.id !== deletedCard.id));
           }
         },
       });
     }
-  }, [authMode, isReady, roomId]);
+  }, [isReady, roomId]);
 
   useEffect(() => {
     if (user) {

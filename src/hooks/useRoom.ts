@@ -11,15 +11,15 @@ type UpdateRoomSubscriptionEvent = { value: { data: OnUpdateRoomByIdSubscription
 
 export const useRoom = (user: User | null, isReady: boolean, roomId?: string) => {
   const [room, setRoom] = useState<Room | null>(null);
-  const authMode = useMemo(() => {
-    return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
-  }, [user]);
+  // const authMode = useMemo(() => {
+  //   return user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM
+  // }, [user]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
     try {
       (async () => {
-        const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode });
+        const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
         if ('data' in result && !!result.data) {
           const data = result.data as GetRoomQuery;
           if (!data.getRoom) {
@@ -34,7 +34,7 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
     }
 
     try {
-      const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode });
+      const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
       if ("subscribe" in updateRoomListener) {
         updateRoomListener.subscribe({
           next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
@@ -49,7 +49,7 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
       console.log("updateRoomListener Error", e);
     }
 
-  }, [authMode, isReady, roomId]);
+  }, [isReady, roomId]);
 
   return room;
 }
