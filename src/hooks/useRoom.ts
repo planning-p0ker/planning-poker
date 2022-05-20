@@ -29,7 +29,7 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
         }
       })(); 
     
-      const updateRoomListener: any = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode });
+      const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode });
       if ("subscribe" in updateRoomListener) {
         updateRoomListener.subscribe({
           next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
@@ -42,7 +42,9 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
       }
 
     return () => {
-      updateRoomListener.unsubscribe();
+      // if ("unsubscribe" in updateRoomListener) {
+      //   updateRoomListener
+      // }
     };
   }, [authMode, isReady, roomId]);
 
