@@ -9,7 +9,7 @@ type Card
         provider: userPools
         operations: [read, create, delete, update]
       }
-      { allow: public, provider: iam, operations: [update] }
+      { allow: public, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
