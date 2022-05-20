@@ -5,13 +5,18 @@ type Card
   @auth(
     rules: [
       # { allow: private, provider: iam, operations: [read] }
-      # {
-      #   allow: private
-      #   provider: userPools
-      #   operations: [read, create, delete, update]
-      # }
+      {
+        allow: private
+        provider: userPools
+        operations: [read, create, delete, update]
+      }
       {
         allow: public
+        provider: iam
+        operations: [read, create, delete, update]
+      }
+      {
+        allow: private
         provider: iam
         operations: [read, create, delete, update]
       }
@@ -32,13 +37,18 @@ type Room
   @auth(
     rules: [
       # { allow: private, provider: iam, operations: [read] }
-      # {
-      #   allow: private
-      #   provider: userPools
-      #   operations: [read, create, delete, update]
-      # }
+      {
+        allow: private
+        provider: userPools
+        operations: [read, create, delete, update]
+      }
       {
         allow: public
+        provider: iam
+        operations: [read, create, delete, update]
+      }
+      {
+        allow: private
         provider: iam
         operations: [read, create, delete, update]
       }
