@@ -16,6 +16,9 @@ import { useUser } from '../../src/hooks/useUser';
 import { useCards } from '../../src/hooks/useCards';
 import { useRoom } from '../../src/hooks/useRoom';
 import { calcTtl } from '../../src/utils/calcTtl';
+import ParticipantList from '../../src/components/ParticipantList';
+import Point from '../../src/components/Point';
+import Button from '../../src/components/Button';
 
 const Room: NextPage = () => {
   const router = useRouter();
@@ -100,16 +103,34 @@ const Room: NextPage = () => {
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />
-      <div className="mx-4">
+      <div className="mx-4 flex flex-col space-y-4">
         <RoomIdPlate roomId={room?.id || ''} />
-        <Field
-          hidden={!room?.isOpened}
-          user={user}
-          cards={fieldCards}
-          onClickMyCard={handleOnClickFieldCard}
-          onClear={handleOnClear}
-          onOpen={handleOnOpen}
-        />
+        <Point hidden={!room?.isOpened} cards={fieldCards} />
+        <div className="flex space-x-4 min-h-[208px]">
+          <Field
+            hidden={!room?.isOpened}
+            user={user}
+            cards={fieldCards}
+            onClickMyCard={handleOnClickFieldCard}
+            className="w-full"
+          />
+          <ParticipantList className="p-4 flex-shrink max-w-[200px] mmin-w-[140px]" />
+        </div>
+        <div className="flex space-x-2 mt-4">
+          <Button
+            primary={true}
+            disabled={!user || fieldCards.length === 0 || !room?.isOpened}
+            onClick={handleOnOpen}
+          >
+            open
+          </Button>
+          <Button
+            disabled={!user || fieldCards.length === 0}
+            onClick={handleOnClear}
+          >
+            clear
+          </Button>
+        </div>
         <Hand
           selectNum={myCard?.point}
           onClickCard={handleOnClickHandCard}
