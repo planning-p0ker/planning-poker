@@ -43,6 +43,10 @@ export const getRoom = /* GraphQL */ `
       id
       isOpened
       ttl
+      participants {
+        username
+        displayUserName
+      }
       createdAt
       updatedAt
     }
@@ -59,6 +63,10 @@ export const listRooms = /* GraphQL */ `
         id
         isOpened
         ttl
+        participants {
+          username
+          displayUserName
+        }
         createdAt
         updatedAt
       }

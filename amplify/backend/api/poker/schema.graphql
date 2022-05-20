@@ -37,6 +37,12 @@ type Room
   id: ID!
   isOpened: Boolean!
   ttl: AWSTimestamp!
+  participants: [Participant!]!
+}
+
+type Participant {
+  username: String!
+  displayUserName: String!
 }
 
 type Subscription {

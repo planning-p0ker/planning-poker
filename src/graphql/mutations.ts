@@ -62,6 +62,10 @@ export const createRoom = /* GraphQL */ `
       id
       isOpened
       ttl
+      participants {
+        username
+        displayUserName
+      }
       createdAt
       updatedAt
     }
@@ -76,6 +80,10 @@ export const updateRoom = /* GraphQL */ `
       id
       isOpened
       ttl
+      participants {
+        username
+        displayUserName
+      }
       createdAt
       updatedAt
     }
@@ -90,6 +98,10 @@ export const deleteRoom = /* GraphQL */ `
       id
       isOpened
       ttl
+      participants {
+        username
+        displayUserName
+      }
       createdAt
       updatedAt
     }

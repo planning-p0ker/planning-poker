@@ -50,6 +50,10 @@ export const onUpdateRoomById = /* GraphQL */ `
       id
       isOpened
       ttl
+      participants {
+        username
+        displayUserName
+      }
       createdAt
       updatedAt
     }

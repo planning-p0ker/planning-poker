@@ -103,6 +103,12 @@ export type CreateRoomInput = {
   id?: string | null,
   isOpened: boolean,
   ttl: number,
+  participants: Array< ParticipantInput >,
+};
+
+export type ParticipantInput = {
+  username: string,
+  displayUserName: string,
 };
 
 export type ModelRoomConditionInput = {
@@ -125,14 +131,22 @@ export type Room = {
   id: string,
   isOpened: boolean,
   ttl: number,
+  participants:  Array<Participant >,
   createdAt: string,
   updatedAt: string,
+};
+
+export type Participant = {
+  __typename: "Participant",
+  username: string,
+  displayUserName: string,
 };
 
 export type UpdateRoomInput = {
   id: string,
   isOpened?: boolean | null,
   ttl?: number | null,
+  participants?: Array< ParticipantInput > | null,
 };
 
 export type DeleteRoomInput = {
@@ -256,6 +270,11 @@ export type CreateRoomMutation = {
     id: string,
     isOpened: boolean,
     ttl: number,
+    participants:  Array< {
+      __typename: "Participant",
+      username: string,
+      displayUserName: string,
+    } >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -272,6 +291,11 @@ export type UpdateRoomMutation = {
     id: string,
     isOpened: boolean,
     ttl: number,
+    participants:  Array< {
+      __typename: "Participant",
+      username: string,
+      displayUserName: string,
+    } >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -288,6 +312,11 @@ export type DeleteRoomMutation = {
     id: string,
     isOpened: boolean,
     ttl: number,
+    participants:  Array< {
+      __typename: "Participant",
+      username: string,
+      displayUserName: string,
+    } >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -345,6 +374,11 @@ export type GetRoomQuery = {
     id: string,
     isOpened: boolean,
     ttl: number,
+    participants:  Array< {
+      __typename: "Participant",
+      username: string,
+      displayUserName: string,
+    } >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -364,6 +398,11 @@ export type ListRoomsQuery = {
       id: string,
       isOpened: boolean,
       ttl: number,
+      participants:  Array< {
+        __typename: "Participant",
+        username: string,
+        displayUserName: string,
+      } >,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -435,6 +474,11 @@ export type OnUpdateRoomByIdSubscription = {
     id: string,
     isOpened: boolean,
     ttl: number,
+    participants:  Array< {
+      __typename: "Participant",
+      username: string,
+      displayUserName: string,
+    } >,
     createdAt: string,
     updatedAt: string,
   } | null,

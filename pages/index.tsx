@@ -27,7 +27,12 @@ const Home: NextPage = () => {
     isLoading.current = true;
     const result = (await API.graphql(
       graphqlOperation(createRoom, {
-        input: { id: generateUniqueRoomId(), isOpened: false, ttl: calcTtl() },
+        input: {
+          id: generateUniqueRoomId(),
+          isOpened: false,
+          ttl: calcTtl(),
+          participants: [],
+        },
       })
     )) as any;
     router.push(`/rooms/${result.data.createRoom.id}`);
