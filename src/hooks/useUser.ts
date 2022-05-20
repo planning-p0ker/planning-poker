@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { Auth, Hub } from "aws-amplify";
+import Amplify, { Auth, Hub } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { NextRouter } from "next/router";
 
@@ -58,8 +58,15 @@ export const useUser = (router: NextRouter, pathname: string ) => {
   const getUser = async () => {
     try {
       const userData = await Auth.currentAuthenticatedUser();
+      Amplify.configure({
+        aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
+      });
+
       return userData;
     } catch (e) {
+      Amplify.configure({
+        aws_appsync_authenticationType: "AWS_IAM",
+      });
       return;
     }
   };

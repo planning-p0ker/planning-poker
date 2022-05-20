@@ -1,25 +1,15 @@
 type Card
-  @model(subscriptions: null)
-  # @aws_iam
-  # @aws_cognito_user_pools
+  @model(subscriptions: { level: public })
+  @aws_iam
+  @aws_cognito_user_pools
   @auth(
     rules: [
-      # { allow: private, provider: iam, operations: [read] }
       {
         allow: private
         provider: userPools
         operations: [read, create, delete, update]
       }
-      {
-        allow: public
-        provider: iam
-        operations: [read, create, delete, update]
-      }
-      {
-        allow: private
-        provider: iam
-        operations: [read, create, delete, update]
-      }
+      { allow: public, provider: iam, operations: [update] }
     ]
   ) {
   id: ID!
@@ -31,27 +21,17 @@ type Card
 }
 
 type Room
-  @model(subscriptions: null)
-  # @aws_iam
-  # @aws_cognito_user_pools
+  @model(subscriptions: { level: public })
+  @aws_iam
+  @aws_cognito_user_pools
   @auth(
     rules: [
-      # { allow: private, provider: iam, operations: [read] }
       {
         allow: private
         provider: userPools
         operations: [read, create, delete, update]
       }
-      {
-        allow: public
-        provider: iam
-        operations: [read, create, delete, update]
-      }
-      {
-        allow: private
-        provider: iam
-        operations: [read, create, delete, update]
-      }
+      { allow: public, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
@@ -60,20 +40,22 @@ type Room
 }
 
 type Subscription {
+  # Card
   onCreateCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["createCard"])
     @aws_iam
-  # @aws_cognito_user_pools
+    @aws_cognito_user_pools
   onUpdateCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["updateCard"])
     @aws_iam
-  # @aws_cognito_user_pools
+    @aws_cognito_user_pools
   onDeleteCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["deleteCard"])
     @aws_iam
-  # @aws_cognito_user_pools
+    @aws_cognito_user_pools
+  # Room
   onUpdateRoomById(id: ID!): Room
     @aws_subscribe(mutations: ["updateRoom"])
     @aws_iam
-  # @aws_cognito_user_pools
+    @aws_cognito_user_pools
 }
