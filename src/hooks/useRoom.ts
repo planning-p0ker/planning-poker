@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { API } from "aws-amplify";
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
+import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from "../API";
 import { getRoom } from "../graphql/queries";
 import { onUpdateRoomById } from "../graphql/subscriptions";
@@ -17,15 +17,8 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
   useEffect(() => {
     if (!roomId || !isReady) return;
       (async () => {
-        const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode });
-        if ('data' in result && !!result.data) {
-          const data = result.data as GetRoomQuery;
-          if (!data.getRoom) {
-            setRoom(null);
-          } else {
-            setRoom(data.getRoom);
-          }
-        }
+        const result = await API.graphql({ query: getRoom, variables: { id: roomId }, authMode }) as GraphQLResult<GetRoomQuery>;
+        setRoom(result.data?.getRoom || null)
       })();
     
       const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode });

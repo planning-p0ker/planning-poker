@@ -3,6 +3,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { CreateParticipantInput, CreateParticipantMutation, DeleteParticipantInput, Participant, Room } from "../API";
 import { updateRoom, createParticipant, deleteParticipant } from "../graphql/mutations";
 import { User } from "./useUser";
+import { GraphQLResult } from "@aws-amplify/api-graphql";
 
 export const useParticipant = (user: User | null, room: Room | null) => {
   const [isReady, setReady] = useState(false);
@@ -24,12 +25,11 @@ export const useParticipant = (user: User | null, room: Room | null) => {
             displayUserName: user!.displayName,
           } as CreateParticipantInput,
         })
-      );
-      if ('data' in result && !!result.data) {
-        const data = result.data as CreateParticipantMutation;
-        if (!!data.createParticipant) {
-          setMyParicipant(data.createParticipant);
-        }
+      ) as GraphQLResult<CreateParticipantMutation>;
+
+      const createParticipantResult = result.data?.createParticipant;
+      if (createParticipantResult) {
+        setMyParicipant(createParticipantResult);
       }
     }
   }, [isReady, room, user]);
@@ -42,8 +42,8 @@ export const useParticipant = (user: User | null, room: Room | null) => {
             id: myParicipant.id
           } as DeleteParticipantInput,
         })
-      
-      );    }
+      );
+    }
   }, [myParicipant]);
 
   useEffect(() => {

@@ -2,21 +2,15 @@ import type { NextPage } from 'next';
 import React, { useCallback, useRef, useState } from 'react';
 import Header from '../src/components/Header';
 import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLResult } from '@aws-amplify/api-graphql';
 import { createRoom } from '../src/graphql/mutations';
 import { useRouter } from 'next/router';
 import { useUser } from '../src/hooks/useUser';
 import Button from '../src/components/Button';
 import Link from 'next/link';
 import { calcTtl } from '../src/utils/calcTtl';
-
-// https://qiita.com/coa00/items/679b0b5c7c468698d53f
-function generateUniqueRoomId(): string {
-  let strong = 1000;
-  return (
-    new Date().getTime().toString(16) +
-    Math.floor(strong * Math.random()).toString(16)
-  );
-}
+import { generateUniqueRoomId } from '../src/utils/generateUniqueRoomId';
+import { CreateRoomMutation } from '../src/API';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -33,8 +27,11 @@ const Home: NextPage = () => {
           ttl: calcTtl(),
         },
       })
-    )) as any;
-    router.push(`/rooms/${result.data.createRoom.id}`);
+    )) as GraphQLResult<CreateRoomMutation>;
+    const resultCreateRoom = result.data?.createRoom;
+    if (resultCreateRoom) {
+      router.push(`/rooms/${resultCreateRoom.id}`);
+    }
     isLoading.current = false;
   };
 

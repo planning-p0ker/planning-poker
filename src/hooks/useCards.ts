@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { API } from 'aws-amplify';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
+import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';
 import {  onCreateCardByRoomId, onDeleteCardByRoomId } from '../graphql/subscriptions';
 import { Card, ListCardsQuery, OnCreateCardByRoomIdSubscriptionVariables, OnCreateCardByRoomIdSubscription, OnDeleteCardByRoomIdSubscription } from '../API';
@@ -20,13 +20,9 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
   useEffect(() => {
     if (!roomId || !isReady) return;
     (async () => {
-      const result = await API.graphql({ query: listCards, authMode, variables: { filter: { roomId: { eq: roomId } } } });
-      if ('data' in result && !!result.data) {
-        const data = result.data as ListCardsQuery;
-        if (!!data.listCards?.items) {
-          setFieldCards(data.listCards.items as any);
-        }
-      }
+      const result = await API.graphql({ query: listCards, authMode, variables: { filter: { roomId: { eq: roomId } } } }) as GraphQLResult<ListCardsQuery>;
+      const items = result.data?.listCards?.items;
+      if(items) setFieldCards(items);
     })();
 
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
