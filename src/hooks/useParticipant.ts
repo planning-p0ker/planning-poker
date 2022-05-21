@@ -48,12 +48,12 @@ export const useParticipant = (user: User | null, room: Room | null) => {
   }, [myParicipant]);
 
   useEffect(() => {
-    if (isReady && !room?.participants?.items.some(i => i.username === myParicipant?.username)) {
+    if (isReady && !room?.participants?.items.some(i => i.username === user?.username)) {
       registerPaticipant();
     }
 
     return () => {
       unregisterPaticipant();
     }
-  }, [isReady, myParicipant?.username, registerPaticipant, room?.participants?.items, unregisterPaticipant]);
+  }, [isReady, registerPaticipant, room?.participants?.items, unregisterPaticipant, user?.username]);
 }
