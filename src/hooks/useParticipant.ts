@@ -17,6 +17,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
 
   const registerPaticipant = useCallback(async () => {
     if (isReady) {
+      console.log("create paticipant")
       const result = await API.graphql(
         graphqlOperation(createParticipant, {
           input: {
@@ -32,7 +33,8 @@ export const useParticipant = (user: User | null, room: Room | null) => {
         setMyParicipant(createParticipantResult);
       }
     }
-  }, [isReady, room, user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReady]);
 
   const unregisterPaticipant = useCallback(async () => {
     if (myParicipant) {
