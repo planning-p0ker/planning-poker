@@ -31,7 +31,6 @@ const Home: NextPage = () => {
           id: generateUniqueRoomId(),
           isOpened: false,
           ttl: calcTtl(),
-          participants: [],
         },
       })
     )) as any;

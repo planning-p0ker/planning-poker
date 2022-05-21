@@ -24,7 +24,6 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
       if ('data' in result && !!result.data) {
         const data = result.data as ListCardsQuery;
         if (!!data.listCards?.items) {
-          const c = data.listCards.items;
           setFieldCards(data.listCards.items as any);
         }
       }

@@ -37,10 +37,24 @@ type Room
   id: ID!
   isOpened: Boolean!
   ttl: AWSTimestamp!
-  participants: [Participant!]!
+  participants: [Participant] @hasMany
 }
 
-type Participant {
+type Participant
+  @model(subscriptions: { level: public })
+  @aws_iam
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      {
+        allow: private
+        provider: userPools
+        operations: [read, create, delete, update]
+      }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
   username: String!
   displayUserName: String!
 }
@@ -62,6 +76,15 @@ type Subscription {
   # Room
   onUpdateRoomById(id: ID!): Room
     @aws_subscribe(mutations: ["updateRoom"])
+    @aws_iam
+    @aws_cognito_user_pools
+  # Participant
+  onCreateParticipantByRoomId(roomParticipantsId: String): Participant
+    @aws_subscribe(mutations: ["createParticipant"])
+    @aws_iam
+    @aws_cognito_user_pools
+  onDeleteParticipantByRoomId(roomParticipantsId: String): Participant
+    @aws_subscribe(mutations: ["deleteParticipant"])
     @aws_iam
     @aws_cognito_user_pools
 }

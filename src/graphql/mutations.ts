@@ -63,8 +63,15 @@ export const createRoom = /* GraphQL */ `
       isOpened
       ttl
       participants {
-        username
-        displayUserName
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -81,8 +88,15 @@ export const updateRoom = /* GraphQL */ `
       isOpened
       ttl
       participants {
-        username
-        displayUserName
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -99,11 +113,63 @@ export const deleteRoom = /* GraphQL */ `
       isOpened
       ttl
       participants {
-        username
-        displayUserName
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const createParticipant = /* GraphQL */ `
+  mutation CreateParticipant(
+    $input: CreateParticipantInput!
+    $condition: ModelParticipantConditionInput
+  ) {
+    createParticipant(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
+export const updateParticipant = /* GraphQL */ `
+  mutation UpdateParticipant(
+    $input: UpdateParticipantInput!
+    $condition: ModelParticipantConditionInput
+  ) {
+    updateParticipant(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
+export const deleteParticipant = /* GraphQL */ `
+  mutation DeleteParticipant(
+    $input: DeleteParticipantInput!
+    $condition: ModelParticipantConditionInput
+  ) {
+    deleteParticipant(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
     }
   }
 `;

@@ -51,11 +51,42 @@ export const onUpdateRoomById = /* GraphQL */ `
       isOpened
       ttl
       participants {
-        username
-        displayUserName
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateParticipantByRoomId = /* GraphQL */ `
+  subscription OnCreateParticipantByRoomId($roomParticipantsId: String) {
+    onCreateParticipantByRoomId(roomParticipantsId: $roomParticipantsId) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
+export const onDeleteParticipantByRoomId = /* GraphQL */ `
+  subscription OnDeleteParticipantByRoomId($roomParticipantsId: String) {
+    onDeleteParticipantByRoomId(roomParticipantsId: $roomParticipantsId) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
     }
   }
 `;

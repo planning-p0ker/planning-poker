@@ -44,8 +44,15 @@ export const getRoom = /* GraphQL */ `
       isOpened
       ttl
       participants {
-        username
-        displayUserName
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -64,11 +71,41 @@ export const listRooms = /* GraphQL */ `
         isOpened
         ttl
         participants {
-          username
-          displayUserName
+          nextToken
         }
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getParticipant = /* GraphQL */ `
+  query GetParticipant($id: ID!) {
+    getParticipant(id: $id) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
+export const listParticipants = /* GraphQL */ `
+  query ListParticipants(
+    $filter: ModelParticipantFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listParticipants(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        displayUserName
+        createdAt
+        updatedAt
+        roomParticipantsId
       }
       nextToken
     }

@@ -103,12 +103,6 @@ export type CreateRoomInput = {
   id?: string | null,
   isOpened: boolean,
   ttl: number,
-  participants: Array< ParticipantInput >,
-};
-
-export type ParticipantInput = {
-  username: string,
-  displayUserName: string,
 };
 
 export type ModelRoomConditionInput = {
@@ -131,38 +125,51 @@ export type Room = {
   id: string,
   isOpened: boolean,
   ttl: number,
-  participants:  Array<Participant >,
+  participants?: ModelParticipantConnection | null,
   createdAt: string,
   updatedAt: string,
 };
 
+export type ModelParticipantConnection = {
+  __typename: "ModelParticipantConnection",
+  items:  Array<Participant >,
+  nextToken?: string | null,
+};
+
 export type Participant = {
   __typename: "Participant",
+  id: string,
   username: string,
   displayUserName: string,
+  createdAt: string,
+  updatedAt: string,
+  roomParticipantsId?: string | null,
 };
 
 export type UpdateRoomInput = {
   id: string,
   isOpened?: boolean | null,
   ttl?: number | null,
-  participants?: Array< ParticipantInput > | null,
 };
 
 export type DeleteRoomInput = {
   id: string,
 };
 
-export type ModelCardFilterInput = {
-  id?: ModelIDInput | null,
+export type CreateParticipantInput = {
+  id?: string | null,
+  username: string,
+  displayUserName: string,
+  roomParticipantsId?: string | null,
+};
+
+export type ModelParticipantConditionInput = {
   username?: ModelStringInput | null,
   displayUserName?: ModelStringInput | null,
-  point?: ModelIntInput | null,
-  roomId?: ModelStringInput | null,
-  ttl?: ModelIntInput | null,
-  and?: Array< ModelCardFilterInput | null > | null,
-  or?: Array< ModelCardFilterInput | null > | null,
-  not?: ModelCardFilterInput | null,
+  and?: Array< ModelParticipantConditionInput | null > | null,
+  or?: Array< ModelParticipantConditionInput | null > | null,
+  not?: ModelParticipantConditionInput | null,
+  roomParticipantsId?: ModelIDInput | null,
 };
 
 export type ModelIDInput = {
@@ -179,6 +186,29 @@ export type ModelIDInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type UpdateParticipantInput = {
+  id: string,
+  username?: string | null,
+  displayUserName?: string | null,
+  roomParticipantsId?: string | null,
+};
+
+export type DeleteParticipantInput = {
+  id: string,
+};
+
+export type ModelCardFilterInput = {
+  id?: ModelIDInput | null,
+  username?: ModelStringInput | null,
+  displayUserName?: ModelStringInput | null,
+  point?: ModelIntInput | null,
+  roomId?: ModelStringInput | null,
+  ttl?: ModelIntInput | null,
+  and?: Array< ModelCardFilterInput | null > | null,
+  or?: Array< ModelCardFilterInput | null > | null,
+  not?: ModelCardFilterInput | null,
 };
 
 export type ModelCardConnection = {
@@ -200,6 +230,16 @@ export type ModelRoomConnection = {
   __typename: "ModelRoomConnection",
   items:  Array<Room >,
   nextToken?: string | null,
+};
+
+export type ModelParticipantFilterInput = {
+  id?: ModelIDInput | null,
+  username?: ModelStringInput | null,
+  displayUserName?: ModelStringInput | null,
+  and?: Array< ModelParticipantFilterInput | null > | null,
+  or?: Array< ModelParticipantFilterInput | null > | null,
+  not?: ModelParticipantFilterInput | null,
+  roomParticipantsId?: ModelIDInput | null,
 };
 
 export type CreateCardMutationVariables = {
@@ -270,11 +310,19 @@ export type CreateRoomMutation = {
     id: string,
     isOpened: boolean,
     ttl: number,
-    participants:  Array< {
-      __typename: "Participant",
-      username: string,
-      displayUserName: string,
-    } >,
+    participants?:  {
+      __typename: "ModelParticipantConnection",
+      items:  Array< {
+        __typename: "Participant",
+        id: string,
+        username: string,
+        displayUserName: string,
+        createdAt: string,
+        updatedAt: string,
+        roomParticipantsId?: string | null,
+      } >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -291,11 +339,19 @@ export type UpdateRoomMutation = {
     id: string,
     isOpened: boolean,
     ttl: number,
-    participants:  Array< {
-      __typename: "Participant",
-      username: string,
-      displayUserName: string,
-    } >,
+    participants?:  {
+      __typename: "ModelParticipantConnection",
+      items:  Array< {
+        __typename: "Participant",
+        id: string,
+        username: string,
+        displayUserName: string,
+        createdAt: string,
+        updatedAt: string,
+        roomParticipantsId?: string | null,
+      } >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -312,13 +368,72 @@ export type DeleteRoomMutation = {
     id: string,
     isOpened: boolean,
     ttl: number,
-    participants:  Array< {
-      __typename: "Participant",
-      username: string,
-      displayUserName: string,
-    } >,
+    participants?:  {
+      __typename: "ModelParticipantConnection",
+      items:  Array< {
+        __typename: "Participant",
+        id: string,
+        username: string,
+        displayUserName: string,
+        createdAt: string,
+        updatedAt: string,
+        roomParticipantsId?: string | null,
+      } >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type CreateParticipantMutationVariables = {
+  input: CreateParticipantInput,
+  condition?: ModelParticipantConditionInput | null,
+};
+
+export type CreateParticipantMutation = {
+  createParticipant?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
+  } | null,
+};
+
+export type UpdateParticipantMutationVariables = {
+  input: UpdateParticipantInput,
+  condition?: ModelParticipantConditionInput | null,
+};
+
+export type UpdateParticipantMutation = {
+  updateParticipant?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
+  } | null,
+};
+
+export type DeleteParticipantMutationVariables = {
+  input: DeleteParticipantInput,
+  condition?: ModelParticipantConditionInput | null,
+};
+
+export type DeleteParticipantMutation = {
+  deleteParticipant?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -374,11 +489,19 @@ export type GetRoomQuery = {
     id: string,
     isOpened: boolean,
     ttl: number,
-    participants:  Array< {
-      __typename: "Participant",
-      username: string,
-      displayUserName: string,
-    } >,
+    participants?:  {
+      __typename: "ModelParticipantConnection",
+      items:  Array< {
+        __typename: "Participant",
+        id: string,
+        username: string,
+        displayUserName: string,
+        createdAt: string,
+        updatedAt: string,
+        roomParticipantsId?: string | null,
+      } >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -398,13 +521,50 @@ export type ListRoomsQuery = {
       id: string,
       isOpened: boolean,
       ttl: number,
-      participants:  Array< {
-        __typename: "Participant",
-        username: string,
-        displayUserName: string,
-      } >,
+      participants?:  {
+        __typename: "ModelParticipantConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
+    } >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetParticipantQueryVariables = {
+  id: string,
+};
+
+export type GetParticipantQuery = {
+  getParticipant?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
+  } | null,
+};
+
+export type ListParticipantsQueryVariables = {
+  filter?: ModelParticipantFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListParticipantsQuery = {
+  listParticipants?:  {
+    __typename: "ModelParticipantConnection",
+    items:  Array< {
+      __typename: "Participant",
+      id: string,
+      username: string,
+      displayUserName: string,
+      createdAt: string,
+      updatedAt: string,
+      roomParticipantsId?: string | null,
     } >,
     nextToken?: string | null,
   } | null,
@@ -474,12 +634,52 @@ export type OnUpdateRoomByIdSubscription = {
     id: string,
     isOpened: boolean,
     ttl: number,
-    participants:  Array< {
-      __typename: "Participant",
-      username: string,
-      displayUserName: string,
-    } >,
+    participants?:  {
+      __typename: "ModelParticipantConnection",
+      items:  Array< {
+        __typename: "Participant",
+        id: string,
+        username: string,
+        displayUserName: string,
+        createdAt: string,
+        updatedAt: string,
+        roomParticipantsId?: string | null,
+      } >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateParticipantByRoomIdSubscriptionVariables = {
+  roomParticipantsId?: string | null,
+};
+
+export type OnCreateParticipantByRoomIdSubscription = {
+  onCreateParticipantByRoomId?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
+  } | null,
+};
+
+export type OnDeleteParticipantByRoomIdSubscriptionVariables = {
+  roomParticipantsId?: string | null,
+};
+
+export type OnDeleteParticipantByRoomIdSubscription = {
+  onDeleteParticipantByRoomId?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
   } | null,
 };

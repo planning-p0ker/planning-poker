@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import Hand from '../../src/components/Hand';
 import Field from '../../src/components/Field';
 import Header from '../../src/components/Header';
@@ -19,6 +19,7 @@ import { calcTtl } from '../../src/utils/calcTtl';
 import ParticipantList from '../../src/components/ParticipantList';
 import Point from '../../src/components/Point';
 import Button from '../../src/components/Button';
+import { useParticipant } from '../../src/hooks/useParticipant';
 
 const Room: NextPage = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const Room: NextPage = () => {
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
   const room = useRoom(user, router.isReady, roomId as string | undefined);
+  useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
     router.isReady,
@@ -114,7 +116,14 @@ const Room: NextPage = () => {
             onClickMyCard={handleOnClickFieldCard}
             className="w-full"
           />
-          <ParticipantList className="p-4 flex-shrink max-w-[200px] mmin-w-[140px]" />
+          <ParticipantList
+            className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
+            names={
+              room.participants
+                ? room.participants.items.map((i) => i.displayUserName)
+                : []
+            }
+          />
         </div>
         <div className="flex space-x-2 mt-4">
           <Button

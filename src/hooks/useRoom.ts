@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from "../API";
-import { createRoom } from "../graphql/mutations";
 import { getRoom } from "../graphql/queries";
 import { onUpdateRoomById } from "../graphql/subscriptions";
 import { User } from "./useUser";
@@ -27,12 +26,13 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
             setRoom(data.getRoom);
           }
         }
-      })(); 
+      })();
     
       const updateRoomListener = API.graphql({ query: onUpdateRoomById, variables: { id: roomId }, authMode });
       if ("subscribe" in updateRoomListener) {
         updateRoomListener.subscribe({
           next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
+            console.log("UPDATE ROOM")
             if (data.onUpdateRoomById) {
               const room = data.onUpdateRoomById;
               setRoom(room);
@@ -41,12 +41,7 @@ export const useRoom = (user: User | null, isReady: boolean, roomId?: string) =>
         })
       }
 
-    return () => {
-      // if ("unsubscribe" in updateRoomListener) {
-      //   updateRoomListener
-      // }
-    };
-  }, [authMode, isReady, roomId]);
+  }, [authMode, isReady, room, roomId, user]);
 
   return room;
 }
