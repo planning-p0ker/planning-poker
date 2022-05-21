@@ -17,7 +17,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
 
   const registerPaticipant = useCallback(async () => {
     if (isReady) {
-      console.log("create paticipant")
       const result = await API.graphql(
         graphqlOperation(createParticipant, {
           input: {
@@ -49,12 +48,12 @@ export const useParticipant = (user: User | null, room: Room | null) => {
   }, [myParicipant]);
 
   useEffect(() => {
-    if (isReady) {
+    if (isReady && !room?.participants?.items.some(i => i.username === myParicipant?.username)) {
       registerPaticipant();
     }
 
     return () => {
       unregisterPaticipant();
     }
-  }, [isReady, registerPaticipant, unregisterPaticipant]);
+  }, [isReady, myParicipant?.username, registerPaticipant, room?.participants?.items, unregisterPaticipant]);
 }
