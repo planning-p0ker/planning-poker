@@ -8,6 +8,7 @@ import { GraphQLResult } from "@aws-amplify/api-graphql";
 export const useParticipant = (user: User | null, room: Room | null) => {
   const [isReady, setReady] = useState(false);
   const [myParicipant, setMyParicipant] = useState<Participant | null>(null);
+  const [registered, setRegisterd] = useState(false);
 
   useEffect(() => {
     if (!!room && !!user) {
@@ -48,12 +49,13 @@ export const useParticipant = (user: User | null, room: Room | null) => {
   }, [myParicipant]);
 
   useEffect(() => {
-    if (isReady && !room?.participants?.items.some(i => i.username === user?.username)) {
+    if (isReady && !myParicipant && !room?.participants?.items.some(i => i.username === user?.username)) {
       registerPaticipant();
     }
 
     return () => {
       unregisterPaticipant();
     }
-  }, [isReady, registerPaticipant, room?.participants?.items, unregisterPaticipant, user?.username]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReady]);
 }
