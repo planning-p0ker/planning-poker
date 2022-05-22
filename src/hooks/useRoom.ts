@@ -43,6 +43,7 @@ export const useRoom = (
     }) as any;
 
     if ('subscribe' in updateRoomListener) {
+      console.log('subscribe in updateRoomListener');
       updateRoomListener.subscribe({
         next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
           console.log('UPDATE ROOM');
@@ -56,6 +57,7 @@ export const useRoom = (
 
     return () => {
       if ('unsubscribe' in updateRoomListener) {
+        console.log('unsubscribe in updateRoomListener');
         updateRoomListener.unsubscribe();
       }
     };

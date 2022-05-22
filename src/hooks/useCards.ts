@@ -47,15 +47,18 @@ export const useCards = (
       const items = result.data?.listCards?.items;
       if (items) setFieldCards(items);
     })();
+  }, [authMode, isReady, roomId]);
 
+  useEffect(() => {
+    if (!roomId || !isReady) return;
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
-
     const createCardListener: any = API.graphql({
       query: onCreateCardByRoomId,
       authMode,
       variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables,
     });
     if ('subscribe' in createCardListener) {
+      console.log('subscribe in createCardListener');
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
           if (data.onCreateCardByRoomId) {
@@ -72,6 +75,7 @@ export const useCards = (
       variables: { roomId },
     });
     if ('subscribe' in deleteCardListener) {
+      console.log('subscribe in deleteCardListener');
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
           if (data.onDeleteCardByRoomId) {
@@ -85,8 +89,14 @@ export const useCards = (
     }
 
     return () => {
-      // createCardListener.unsubscribe();
-      // deleteCardListener.unsubscribe();
+      if ('unsubscribe' in createCardListener) {
+        console.log('unsubscribe in createCardListener');
+        createCardListener.unsubscribe();
+      }
+      if ('unsubscribe' in deleteCardListener) {
+        console.log('unsubscribe in deleteCardListener');
+        deleteCardListener.unsubscribe();
+      }
     };
   }, [authMode, isReady, roomId]);
 
