@@ -32,7 +32,10 @@ export const useRoom = (
       })) as GraphQLResult<GetRoomQuery>;
       setRoom(result.data?.getRoom || null);
     })();
+  }, [authMode, isReady, roomId]);
 
+  useEffect(() => {
+    if (!roomId || !isReady) return;
     const updateRoomListener = API.graphql({
       query: onUpdateRoomById,
       variables: { id: roomId },
@@ -56,7 +59,7 @@ export const useRoom = (
         updateRoomListener.unsubscribe();
       }
     };
-  }, [authMode, isReady, room, roomId, user]);
+  }, [authMode, isReady, roomId]);
 
   return room;
 };
