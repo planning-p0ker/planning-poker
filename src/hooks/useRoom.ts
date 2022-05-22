@@ -37,7 +37,8 @@ export const useRoom = (
       query: onUpdateRoomById,
       variables: { id: roomId },
       authMode,
-    });
+    }) as any;
+
     if ('subscribe' in updateRoomListener) {
       updateRoomListener.subscribe({
         next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
@@ -50,8 +51,11 @@ export const useRoom = (
       });
     }
 
-    // // @ts-ignore
-    // return () => updateRoomListener.unsubscribe();
+    return () => {
+      if ('unsubscribe' in updateRoomListener) {
+        updateRoomListener.unsubscribe();
+      }
+    };
   }, [authMode, isReady, room, roomId, user]);
 
   return room;
