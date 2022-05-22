@@ -52,8 +52,8 @@ export const useCards = (user: User | null, isReady: boolean, roomId?: string) =
     }
 
     return () => {
-      // createCardListener.unsubscribe();
-      // deleteCardListener.unsubscribe();
+      createCardListener.unsubscribe();
+      deleteCardListener.unsubscribe();
     }
   }, [authMode, isReady, roomId]);
 
