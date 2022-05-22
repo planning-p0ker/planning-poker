@@ -27,7 +27,7 @@ const Room: NextPage = () => {
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
   const room = useRoom(user, router.isReady, roomId as string | undefined);
-  useParticipant(user, room);
+  const participants = useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
     router.isReady,
@@ -118,11 +118,7 @@ const Room: NextPage = () => {
           />
           <ParticipantList
             className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
-            names={
-              room.participants
-                ? room.participants.items.map((i) => i.displayUserName)
-                : []
-            }
+            names={participants.map((i) => i.displayUserName)}
           />
         </div>
         <div className="flex space-x-2 mt-4">
