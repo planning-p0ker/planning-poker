@@ -128,7 +128,7 @@ const Room: NextPage = () => {
         <div className="flex space-x-2 mt-4">
           <Button
             primary={true}
-            disabled={!user || fieldCards.length === 0 || !room?.isOpened}
+            disabled={!user || fieldCards.length === 0 || room?.isOpened}
             onClick={handleOnOpen}
           >
             open
