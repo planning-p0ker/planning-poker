@@ -50,8 +50,8 @@ export const useRoom = (
       });
     }
 
-    // @ts-ignore
-    return () => updateRoomListener.unsubscribe();
+    // // @ts-ignore
+    // return () => updateRoomListener.unsubscribe();
   }, [authMode, isReady, room, roomId, user]);
 
   return room;
