@@ -1,43 +1,52 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Amplify, { Auth, Hub } from "aws-amplify";
-import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
+import Amplify, { Auth, Hub } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { NextRouter } from 'next/router';
 
 export type User = {
   username: string;
   displayName: string;
 };
 
-export const useUser = () => {
+export const useUser = (router: NextRouter, pathname: string) => {
   const [user, setUser] = useState<User | null>(null);
   const onSignIn = useCallback(() => {
     Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
-    })
-  }, []);
+      customState: pathname,
+    });
+  }, [pathname]);
   const onSignOut = useCallback(() => {
     Auth.signOut();
   }, []);
 
   useEffect(() => {
-    Hub.listen("auth", ({ payload: { event, data } }) => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
-        case "signIn":
-        case "cognitoHostedUI":
+        case 'signIn':
+        case 'cognitoHostedUI':
           getUser().then((userData) => {
             if (userData) {
               setUser({
                 username: userData.username,
-                // displayName: userData["signInUserSession"]["idToken"]["payload"]["name"],
-                displayName: userData.username + "さん"
-              })
+                displayName: userData.attributes.name,
+              });
             }
           });
           break;
-        case "signOut":
+        case 'signOut':
           setUser(null);
+          router.push(pathname);
           break;
-        case "signIn_failure":
-        case "cognitoHostedUI_failure":
+        case 'customOAuthState':
+          router.push(data);
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
           break;
       }
     });
@@ -46,20 +55,27 @@ export const useUser = () => {
       if (!!userData) {
         setUser({
           username: userData.username,
-          displayName: userData.username + "さん",
+          displayName: userData.attributes.name,
         });
       }
     });
-  }, []);
+  }, [pathname, router]);
 
   const getUser = async () => {
     try {
       const userData = await Auth.currentAuthenticatedUser();
+      Amplify.configure({
+        aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+      });
+
       return userData;
     } catch (e) {
+      Amplify.configure({
+        aws_appsync_authenticationType: 'AWS_IAM',
+      });
       return;
     }
   };
 
   return { user, onSignIn, onSignOut };
-}
+};

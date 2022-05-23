@@ -10,6 +10,7 @@ export const onCreateCardByRoomId = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -23,6 +24,7 @@ export const onUpdateCardByRoomId = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -36,6 +38,7 @@ export const onDeleteCardByRoomId = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -46,77 +49,44 @@ export const onUpdateRoomById = /* GraphQL */ `
     onUpdateRoomById(id: $id) {
       id
       isOpened
+      ttl
+      participants {
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const onCreateCard = /* GraphQL */ `
-  subscription OnCreateCard {
-    onCreateCard {
+export const onCreateParticipantByRoomId = /* GraphQL */ `
+  subscription OnCreateParticipantByRoomId($roomParticipantsId: String) {
+    onCreateParticipantByRoomId(roomParticipantsId: $roomParticipantsId) {
       id
       username
       displayUserName
-      point
-      roomId
       createdAt
       updatedAt
+      roomParticipantsId
     }
   }
 `;
-export const onUpdateCard = /* GraphQL */ `
-  subscription OnUpdateCard {
-    onUpdateCard {
+export const onDeleteParticipantByRoomId = /* GraphQL */ `
+  subscription OnDeleteParticipantByRoomId($roomParticipantsId: String) {
+    onDeleteParticipantByRoomId(roomParticipantsId: $roomParticipantsId) {
       id
       username
       displayUserName
-      point
-      roomId
       createdAt
       updatedAt
-    }
-  }
-`;
-export const onDeleteCard = /* GraphQL */ `
-  subscription OnDeleteCard {
-    onDeleteCard {
-      id
-      username
-      displayUserName
-      point
-      roomId
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateRoom = /* GraphQL */ `
-  subscription OnCreateRoom {
-    onCreateRoom {
-      id
-      isOpened
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateRoom = /* GraphQL */ `
-  subscription OnUpdateRoom {
-    onUpdateRoom {
-      id
-      isOpened
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteRoom = /* GraphQL */ `
-  subscription OnDeleteRoom {
-    onDeleteRoom {
-      id
-      isOpened
-      createdAt
-      updatedAt
+      roomParticipantsId
     }
   }
 `;

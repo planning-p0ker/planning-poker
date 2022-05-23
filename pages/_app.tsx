@@ -23,6 +23,7 @@ const updatedAwsConfig = {
       ? localRedirectSignOut
       : productionRedirectSignOut,
   },
+  ssr: true,
 };
 Amplify.configure(updatedAwsConfig);
 

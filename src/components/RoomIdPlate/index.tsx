@@ -19,7 +19,7 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <div className="mx-4 p-2 flex items-center rounded bg-gray-200 shadow-inner">
+    <div className="p-2 flex items-center rounded bg-gray-200 shadow-inner">
       <div className="font-bold text-gray-500">ROOM ID :</div>
       <div className="cursor-pointer flex items-center" onClick={onClickRoomId}>
         <div className="font-bold ml-2">{roomId}</div>

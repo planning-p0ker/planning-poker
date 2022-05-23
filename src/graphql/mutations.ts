@@ -13,6 +13,7 @@ export const createCard = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -29,6 +30,7 @@ export const updateCard = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -45,6 +47,7 @@ export const deleteCard = /* GraphQL */ `
       displayUserName
       point
       roomId
+      ttl
       createdAt
       updatedAt
     }
@@ -58,6 +61,18 @@ export const createRoom = /* GraphQL */ `
     createRoom(input: $input, condition: $condition) {
       id
       isOpened
+      ttl
+      participants {
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -71,6 +86,18 @@ export const updateRoom = /* GraphQL */ `
     updateRoom(input: $input, condition: $condition) {
       id
       isOpened
+      ttl
+      participants {
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -84,8 +111,65 @@ export const deleteRoom = /* GraphQL */ `
     deleteRoom(input: $input, condition: $condition) {
       id
       isOpened
+      ttl
+      participants {
+        items {
+          id
+          username
+          displayUserName
+          createdAt
+          updatedAt
+          roomParticipantsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const createParticipant = /* GraphQL */ `
+  mutation CreateParticipant(
+    $input: CreateParticipantInput!
+    $condition: ModelParticipantConditionInput
+  ) {
+    createParticipant(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
+export const updateParticipant = /* GraphQL */ `
+  mutation UpdateParticipant(
+    $input: UpdateParticipantInput!
+    $condition: ModelParticipantConditionInput
+  ) {
+    updateParticipant(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
+export const deleteParticipant = /* GraphQL */ `
+  mutation DeleteParticipant(
+    $input: DeleteParticipantInput!
+    $condition: ModelParticipantConditionInput
+  ) {
+    deleteParticipant(input: $input, condition: $condition) {
+      id
+      username
+      displayUserName
+      createdAt
+      updatedAt
+      roomParticipantsId
     }
   }
 `;

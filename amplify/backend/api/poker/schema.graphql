@@ -1,23 +1,15 @@
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-# input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
-# type Todo @model {
-#   id: ID!
-#   name: String!
-#   description: String
-# }
-
 type Card
-  @model
+  @model(subscriptions: { level: public })
+  @aws_iam
+  @aws_cognito_user_pools
   @auth(
     rules: [
-      { allow: public,  provider: iam operations: [read, create, delete, update] },
       {
         allow: private
         provider: userPools
         operations: [read, create, delete, update]
       }
+      { allow: public, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
@@ -25,30 +17,74 @@ type Card
   displayUserName: String!
   point: Int!
   roomId: String!
+  ttl: AWSTimestamp!
 }
 
 type Room
-  @model
+  @model(subscriptions: { level: public })
+  @aws_iam
+  @aws_cognito_user_pools
   @auth(
     rules: [
-      { allow: public,  provider: iam operations: [read, create, delete, update] },
       {
         allow: private
         provider: userPools
         operations: [read, create, delete, update]
       }
+      { allow: public, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
   isOpened: Boolean!
+  ttl: AWSTimestamp!
+  participants: [Participant] @hasMany
+}
+
+type Participant
+  @model(subscriptions: { level: public })
+  @aws_iam
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      {
+        allow: private
+        provider: userPools
+        operations: [read, create, delete, update]
+      }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  displayUserName: String!
 }
 
 type Subscription {
+  # Card
   onCreateCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["createCard"])
+    @aws_iam
+    @aws_cognito_user_pools
   onUpdateCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["updateCard"])
+    @aws_iam
+    @aws_cognito_user_pools
   onDeleteCardByRoomId(roomId: String): Card
     @aws_subscribe(mutations: ["deleteCard"])
-  onUpdateRoomById(id: ID!): Room @aws_subscribe(mutations: ["updateRoom"])
+    @aws_iam
+    @aws_cognito_user_pools
+  # Room
+  onUpdateRoomById(id: ID!): Room
+    @aws_subscribe(mutations: ["updateRoom"])
+    @aws_iam
+    @aws_cognito_user_pools
+  # Participant
+  onCreateParticipantByRoomId(roomParticipantsId: String): Participant
+    @aws_subscribe(mutations: ["createParticipant"])
+    @aws_iam
+    @aws_cognito_user_pools
+  onDeleteParticipantByRoomId(roomParticipantsId: String): Participant
+    @aws_subscribe(mutations: ["deleteParticipant"])
+    @aws_iam
+    @aws_cognito_user_pools
 }

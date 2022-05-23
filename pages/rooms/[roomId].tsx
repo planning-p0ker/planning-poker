@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import Hand from '../../src/components/Hand';
 import Field from '../../src/components/Field';
 import Header from '../../src/components/Header';
@@ -15,13 +15,19 @@ import { useRouter } from 'next/router';
 import { useUser } from '../../src/hooks/useUser';
 import { useCards } from '../../src/hooks/useCards';
 import { useRoom } from '../../src/hooks/useRoom';
+import { calcTtl } from '../../src/utils/calcTtl';
+import ParticipantList from '../../src/components/ParticipantList';
+import Point from '../../src/components/Point';
+import Button from '../../src/components/Button';
+import { useParticipant } from '../../src/hooks/useParticipant';
 
 const Room: NextPage = () => {
   const router = useRouter();
   const { roomId } = router.query;
 
-  const { user, onSignIn, onSignOut } = useUser();
+  const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
   const room = useRoom(user, router.isReady, roomId as string | undefined);
+  const participants = useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
     router.isReady,
@@ -43,6 +49,7 @@ const Room: NextPage = () => {
               username: user.username,
               displayUserName: user.displayName,
               roomId,
+              ttl: calcTtl(),
             },
           })
         );
@@ -64,13 +71,17 @@ const Room: NextPage = () => {
       })
     );
     await API.graphql(
-      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: false } })
+      graphqlOperation(updateRoom, {
+        input: { id: room?.id, isOpened: false, ttl: calcTtl() },
+      })
     );
   }, [fieldCards, room?.id]);
 
   const handleOnOpen = useCallback(async () => {
     await API.graphql(
-      graphqlOperation(updateRoom, { input: { id: room?.id, isOpened: true } })
+      graphqlOperation(updateRoom, {
+        input: { id: room?.id, isOpened: true, ttl: calcTtl() },
+      })
     );
   }, [room]);
 
@@ -94,16 +105,37 @@ const Room: NextPage = () => {
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />
-      <div className="mx-4">
+      <div className="mx-4 flex flex-col space-y-4">
         <RoomIdPlate roomId={room?.id || ''} />
-        <Field
-          hidden={!room?.isOpened}
-          user={user}
-          cards={fieldCards}
-          onClickMyCard={handleOnClickFieldCard}
-          onClear={handleOnClear}
-          onOpen={handleOnOpen}
-        />
+        <Point hidden={!room?.isOpened} cards={fieldCards} />
+        <div className="flex space-x-4 min-h-[208px]">
+          <Field
+            hidden={!room?.isOpened}
+            user={user}
+            cards={fieldCards}
+            onClickMyCard={handleOnClickFieldCard}
+            className="w-full"
+          />
+          <ParticipantList
+            className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
+            names={participants.map((i) => i.displayUserName)}
+          />
+        </div>
+        <div className="flex space-x-2 mt-4">
+          <Button
+            primary={true}
+            disabled={!user || fieldCards.length === 0 || room?.isOpened}
+            onClick={handleOnOpen}
+          >
+            open
+          </Button>
+          <Button
+            disabled={!user || fieldCards.length === 0}
+            onClick={handleOnClear}
+          >
+            clear
+          </Button>
+        </div>
         <Hand
           selectNum={myCard?.point}
           onClickCard={handleOnClickHandCard}
