@@ -97,12 +97,10 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       !myParicipant &&
       !room?.participants?.items.some((i) => i.username === user?.username)
     ) {
-      console.log('registerPaticipant');
       registerPaticipant();
     }
 
     return () => {
-      console.log('unregisterPaticipant');
       unregisterPaticipant();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,7 +116,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       } as OnCreateCardByRoomIdSubscriptionVariables,
     });
     if ('subscribe' in createListener) {
-      console.log('subscribe in createCardListener');
       createListener.subscribe({
         next: ({ value: { data } }: CreateParticipantSubscriptionEvent) => {
           if (data.onCreateParticipantByRoomId) {
@@ -135,7 +132,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       variables: { roomId: room.id },
     });
     if ('subscribe' in deleteListener) {
-      console.log('subscribe in deleteCardListener');
       deleteListener.subscribe({
         next: ({ value: { data } }: DeleteParticipantSubscriptionEvent) => {
           if (data.onDeleteParticipantByRoomId) {
@@ -150,11 +146,9 @@ export const useParticipant = (user: User | null, room: Room | null) => {
 
     return () => {
       if ('unsubscribe' in createListener) {
-        console.log('unsubscribe in createCardListener');
         createListener.unsubscribe();
       }
       if ('unsubscribe' in deleteListener) {
-        console.log('unsubscribe in deleteCardListener');
         deleteListener.unsubscribe();
       }
     };
