@@ -19,7 +19,7 @@ import { calcTtl } from '../../src/utils/calcTtl';
 import ParticipantList from '../../src/components/ParticipantList';
 import Point from '../../src/components/Point';
 import Button from '../../src/components/Button';
-import { useParticipant } from '../../src/hooks/useParticipant';
+// import { useParticipant } from '../../src/hooks/useParticipant';
 
 const Room: NextPage = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Room: NextPage = () => {
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
   const room = useRoom(user, router.isReady, roomId as string | undefined);
-  const participants = useParticipant(user, room);
+  // const participants = useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
     router.isReady,
@@ -118,7 +118,8 @@ const Room: NextPage = () => {
           />
           <ParticipantList
             className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
-            names={participants.map((i) => i.displayUserName)}
+            // names={participants.map((i) => i.displayUserName)}
+            names={[]}
           />
         </div>
         <div className="flex space-x-2 mt-4">
