@@ -18,12 +18,10 @@ const updatedAwsConfig = {
     ...awsconfig.oauth,
     redirectSignIn: isLocalhost
       ? localRedirectSignIn
-      : // : productionRedirectSignIn, FIXME: 暫定対応
-        'https://main.denqeqveakjkg.amplifyapp.com/',
+      : productionRedirectSignIn,
     redirectSignOut: isLocalhost
       ? localRedirectSignOut
-      : // : productionRedirectSignIn, FIXME: 暫定対応
-        'https://main.denqeqveakjkg.amplifyapp.com/',
+      : productionRedirectSignOut,
   },
   ssr: true,
 };
