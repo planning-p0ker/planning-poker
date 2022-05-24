@@ -58,7 +58,6 @@ export const useCards = (
       variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables,
     });
     if ('subscribe' in createCardListener) {
-      console.log('subscribe in createCardListener');
       createCardListener.subscribe({
         next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
           if (data.onCreateCardByRoomId) {
@@ -75,7 +74,6 @@ export const useCards = (
       variables: { roomId },
     });
     if ('subscribe' in deleteCardListener) {
-      console.log('subscribe in deleteCardListener');
       deleteCardListener.subscribe({
         next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
           if (data.onDeleteCardByRoomId) {
@@ -90,11 +88,9 @@ export const useCards = (
 
     return () => {
       if ('unsubscribe' in createCardListener) {
-        console.log('unsubscribe in createCardListener');
         createCardListener.unsubscribe();
       }
       if ('unsubscribe' in deleteCardListener) {
-        console.log('unsubscribe in deleteCardListener');
         deleteCardListener.unsubscribe();
       }
     };
