@@ -10,8 +10,7 @@ import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Flex, Text } from "@aws-amplify/ui-react";
 import Input from "./Input";
 export default function Form(props) {
-  const { overrides: overridesProp, ...rest } = props;
-  const overrides = { ...overridesProp };
+  const { overrides, ...rest } = props;
   return (
     <Flex
       gap="8px"
@@ -19,7 +18,7 @@ export default function Form(props) {
       position="relative"
       padding="0px 0px 0px 0px"
       {...rest}
-      {...getOverrideProps(overrides, "Flex")}
+      {...getOverrideProps(overrides, "Form")}
     >
       <Text
         fontFamily="Inter"
@@ -36,7 +35,7 @@ export default function Form(props) {
         padding="0px 0px 0px 0px"
         whiteSpace="pre-wrap"
         children="Join room"
-        {...getOverrideProps(overrides, "Flex.Text[0]")}
+        {...getOverrideProps(overrides, "Join room")}
       ></Text>
       <Input
         display="flex"
@@ -50,7 +49,7 @@ export default function Form(props) {
         borderRadius="8px"
         padding="9px 9px 9px 9px"
         backgroundColor="rgba(255,255,255,1)"
-        {...getOverrideProps(overrides, "Flex.Input[0]")}
+        {...getOverrideProps(overrides, "Input")}
       ></Input>
     </Flex>
   );

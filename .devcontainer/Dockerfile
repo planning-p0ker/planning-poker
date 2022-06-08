@@ -24,7 +24,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Install amplify-cli
     && npm config set user 0 \
     && npm config set unsafe-perm true \
-    && npm install -g @aws-amplify/cli@7.6.2
+    && npm install -g @aws-amplify/cli@8.4.0
 
 # [Optional] Uncomment if you want to install an additional version of node using nvm
 # ARG EXTRA_NODE_VERSION=10

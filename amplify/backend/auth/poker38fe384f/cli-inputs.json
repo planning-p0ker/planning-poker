@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "poker38fe384f_identitypool_38fe384f",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "poker38fe384f",
     "userPoolName": "poker38fe384f_userpool_38fe384f",
     "autoVerifiedAttributes": [
@@ -25,12 +25,8 @@
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [
-      "email"
-    ],
-    "userpoolClientReadAttributes": [
-      "email"
-    ],
+    "userpoolClientWriteAttributes": [],
+    "userpoolClientReadAttributes": [],
     "userpoolClientLambdaRole": "poker338fe384f_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
     "sharedId": "38fe384f",
@@ -64,14 +60,15 @@
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
     "authProviders": [],
-    "thirdPartyAuth": true,
-    "userPoolGroups": true,
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
     "adminQueries": false,
     "triggers": {},
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://develop.denqeqveakjkg.amplifyapp.com/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://develop.denqeqveakjkg.amplifyapp.com/\"]}",
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "permissions": []
+    "permissions": [],
+    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\"}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://main.denqeqveakjkg.amplifyapp.com/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://main.denqeqveakjkg.amplifyapp.com/\"]}"
   }
 }
