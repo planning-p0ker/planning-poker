@@ -16,8 +16,8 @@ const updatedAwsConfig = {
   ...awsconfig,
   oauth: {
     ...awsconfig.oauth,
-    redirectSignIn: process.env.REDIRECT_SIGN_IN_URL,
-    redirectSignOut: process.env.REDIRECT_SIGN_OUT_URL,
+    redirectSignIn: process.env.NEXT_PUBLIC_REDIRECT_SIGN_IN_URL,
+    redirectSignOut: process.env.NEXT_PUBLIC_REDIRECT_SIGN_OUT_URL,
   },
   ssr: true,
 };
