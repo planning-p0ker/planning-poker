@@ -1,10 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { NextRouter } from 'next/router';
 
@@ -15,18 +10,42 @@ export type User = {
 
 export const useUser = (router: NextRouter, pathname: string) => {
   const [user, setUser] = useState<User | null>(null);
+
   const onSignIn = useCallback(() => {
     Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
       customState: pathname,
     });
   }, [pathname]);
+
   const onSignOut = useCallback(() => {
     Auth.signOut();
   }, []);
 
+  const getUser = async () => {
+    console.log('getUser');
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      console.log('getUser:userData', userData);
+      Amplify.configure({
+        aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+      });
+
+      return userData;
+    } catch (e) {
+      console.log(e);
+      Amplify.configure({
+        aws_appsync_authenticationType: 'AWS_IAM',
+      });
+      return;
+    }
+  };
+
   useEffect(() => {
+    console.log('TEST useEffect');
     Hub.listen('auth', ({ payload: { event, data } }) => {
+      console.log('data', data);
+      console.log('event', event);
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
@@ -60,22 +79,6 @@ export const useUser = (router: NextRouter, pathname: string) => {
       }
     });
   }, [pathname, router]);
-
-  const getUser = async () => {
-    try {
-      const userData = await Auth.currentAuthenticatedUser();
-      Amplify.configure({
-        aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-      });
-
-      return userData;
-    } catch (e) {
-      Amplify.configure({
-        aws_appsync_authenticationType: 'AWS_IAM',
-      });
-      return;
-    }
-  };
 
   return { user, onSignIn, onSignOut };
 };
