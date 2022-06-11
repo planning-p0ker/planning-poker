@@ -44,15 +44,7 @@ export const useUser = (router: NextRouter, pathname: string) => {
   useEffect(() => {
     console.log('TEST useEffect');
     Hub.listen('auth', ({ payload: { event, data } }) => {
-      getUser().then((userData) => {
-        if (!!userData) {
-          setUser({
-            username: userData.username,
-            displayName: userData.attributes.name,
-          });
-        }
-      });
-
+      console.log(`${event}: data`, data);
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
