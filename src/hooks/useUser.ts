@@ -56,7 +56,7 @@ export const useUser = (router: NextRouter, pathname: string) => {
               if (userData) {
                 setUser({
                   username: userData.username,
-                  displayName: userData.attributes.name,
+                  displayName: 'test', // userData.attributes.name,
                 });
               }
             })
@@ -77,6 +77,7 @@ export const useUser = (router: NextRouter, pathname: string) => {
     });
 
     getUser().then((userData) => {
+      console.log('success getdata');
       if (!!userData) {
         setUser({
           username: userData.username,

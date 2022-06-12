@@ -53,6 +53,6 @@
     },
     "permissions": [],
     "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\"}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://develop.denqeqveakjkg.amplifyapp.com/\",\"https://main.denqeqveakjkg.amplifyapp.com/\"],\"LogoutURLs\":[\"https://develop.denqeqveakjkg.amplifyapp.com/\",\"https://main.denqeqveakjkg.amplifyapp.com/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://develop.denqeqveakjkg.amplifyapp.com/\",\"https://main.denqeqveakjkg.amplifyapp.com/\", \"http://localhost:3000/\"],\"LogoutURLs\":[\"https://develop.denqeqveakjkg.amplifyapp.com/\",\"https://main.denqeqveakjkg.amplifyapp.com/\",\"http://localhost:3000/\"]}"
   }
 }
