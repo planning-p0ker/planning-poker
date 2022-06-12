@@ -18,7 +18,8 @@ import { useRoom } from '../../src/hooks/useRoom';
 import { calcTtl } from '../../src/utils/calcTtl';
 import ParticipantList from '../../src/components/ParticipantList';
 import Point from '../../src/components/Point';
-import Button from '../../src/components/Button';
+import { Button } from 'ui-neumorphism';
+// import Button from '../../src/components/Button';
 // import { useParticipant } from '../../src/hooks/useParticipant';
 
 const Room: NextPage = () => {
@@ -105,7 +106,7 @@ const Room: NextPage = () => {
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />
-      <div className="mx-4 flex flex-col space-y-4">
+      <div className="mt-3 mx-4 flex flex-col space-y-4">
         <RoomIdPlate roomId={room?.id || ''} />
         <Point hidden={!room?.isOpened} cards={fieldCards} />
         <div className="flex space-x-4 min-h-[208px]">
@@ -122,9 +123,9 @@ const Room: NextPage = () => {
             names={[]}
           />
         </div>
-        <div className="flex space-x-2 mt-4">
+        <div className="flex space-x-6 mt-4">
           <Button
-            primary={true}
+            color="var(--primary)"
             disabled={!user || fieldCards.length === 0 || room?.isOpened}
             onClick={handleOnOpen}
           >

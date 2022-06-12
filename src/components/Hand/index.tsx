@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  Card,
+  CardContent,
+  ToggleButton,
+  ToggleButtonGroup,
+} from 'ui-neumorphism';
 import CardUI from '../Card';
 
 const pointList = [1, 2, 3, 5, 8, 13];
@@ -10,18 +16,23 @@ const Hand: React.VFC<{
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
 }> = ({ selectNum, onClickCard, disabledAll = false, className = '' }) => {
   return (
-    <div className={`flex flex-wrap space-x-2 ${className}`}>
+    <ToggleButtonGroup className={'space-x-3'}>
       {pointList.map((p) => (
-        <div key={p} className="">
-          <CardUI
-            disabled={disabledAll}
-            selected={p === selectNum}
-            point={p}
-            onClick={onClickCard(p === selectNum ? null : p)}
-          />
-        </div>
+        <ToggleButton
+          key={p}
+          className={'p-5'}
+          selected={p === selectNum}
+          size="large"
+          disabled={disabledAll}
+          value={p}
+          onClick={onClickCard(p === selectNum ? null : p)}
+        >
+          <Card inset={p === selectNum}>
+            <CardContent>{p}</CardContent>
+          </Card>
+        </ToggleButton>
       ))}
-    </div>
+    </ToggleButtonGroup>
   );
 };
 

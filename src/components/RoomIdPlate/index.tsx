@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { AiOutlineCopy } from 'react-icons/ai';
+import { Card, CardContent } from 'ui-neumorphism';
 
 const RoomIdPlate: React.VFC<{
   roomId: string;
@@ -8,7 +9,7 @@ const RoomIdPlate: React.VFC<{
   const clearCopied = useCallback(() => {
     setTimeout(() => {
       setCopied(false);
-    }, 3 * 1000);
+    }, 1 * 1000);
   }, []);
 
   const onClickRoomId = useCallback(() => {
@@ -19,20 +20,25 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <div className="p-2 flex items-center rounded bg-gray-200 shadow-inner">
-      <div className="font-bold text-gray-500">ROOM ID :</div>
-      <div className="cursor-pointer flex items-center" onClick={onClickRoomId}>
-        <div className="font-bold ml-2">{roomId}</div>
-        <AiOutlineCopy className="ml-2" />
-      </div>
-      <div
-        className={`transition ml-4 font-bold text-green-500 delay-200 ${
-          copied ? '' : 'hidden'
-        }`}
-      >
-        Copied!
-      </div>
-    </div>
+    <Card inset>
+      <CardContent className={'flex'}>
+        <div className="font-bold text-gray-500">ROOM ID :</div>
+        <div
+          className="cursor-pointer flex items-center"
+          onClick={onClickRoomId}
+        >
+          <div className="font-bold ml-2">{roomId}</div>
+          <AiOutlineCopy className="ml-2" />
+        </div>
+        <div
+          className={`transition ml-4 font-bold text-green-500 delay-100 ${
+            copied ? '' : 'hidden'
+          }`}
+        >
+          Copied!
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

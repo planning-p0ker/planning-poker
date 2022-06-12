@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { Button, H5, Divider } from 'ui-neumorphism';
 import UserButton from '../UserButton';
 
 export type HeaderProps = {
@@ -14,18 +15,27 @@ const Header: React.VFC<HeaderProps> = ({
   displayName,
 }) => {
   return (
-    <h1 className="font-bold mb-4 p-4 flex justify-between shadow-lg">
-      <Link href="/">🃏Planning poker</Link>
-      <div>
-        {!displayName ? (
-          <button onClick={onSignIn}>Sing in</button>
-        ) : (
-          <UserButton displayName={displayName}>
-            <button onClick={onSignOut}>Sing out 🖐️</button>
-          </UserButton>
-        )}
+    <>
+      <header className="font-bold p-4 flex justify-between">
+        <Link href="/" passHref>
+          <H5>
+            <a>🃏Planning poker</a>
+          </H5>
+        </Link>
+        <div>
+          {!displayName ? (
+            <Button onClick={onSignIn}>SING IN</Button>
+          ) : (
+            <UserButton displayName={displayName}>
+              <button onClick={onSignOut}>Sing out 🖐️</button>
+            </UserButton>
+          )}
+        </div>
+      </header>
+      <div className="px-4">
+        <Divider />
       </div>
-    </h1>
+    </>
   );
 };
 
