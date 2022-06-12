@@ -33,7 +33,7 @@ export const useUser = (router: NextRouter, pathname: string) => {
 
       return userData;
     } catch (e) {
-      console.log(e);
+      console.log('getUser ERROR', e);
       Amplify.configure({
         aws_appsync_authenticationType: 'AWS_IAM',
       });
@@ -42,20 +42,27 @@ export const useUser = (router: NextRouter, pathname: string) => {
   };
 
   useEffect(() => {
-    console.log('TEST useEffect');
     Hub.listen('auth', ({ payload: { event, data } }) => {
-      console.log(`${event}: data`, data);
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then((userData) => {
-            if (userData) {
-              setUser({
-                username: userData.username,
-                displayName: userData.attributes.name,
-              });
-            }
-          });
+          console.log('[event/' + event + '] ' + 'try: getUser');
+          getUser()
+            .then((userData) => {
+              console.log(
+                '[event/' + event + '] ' + 'resolve: getUser',
+                userData
+              );
+              if (userData) {
+                setUser({
+                  username: userData.username,
+                  displayName: userData.attributes.name,
+                });
+              }
+            })
+            .catch((e) => {
+              console.log('[event/' + event + '] ' + 'fail: getUser', e);
+            });
           break;
         case 'signOut':
           setUser(null);
