@@ -23,17 +23,14 @@ export const useUser = (router: NextRouter, pathname: string) => {
   }, []);
 
   const getUser = async () => {
-    console.log('getUser');
     try {
       const userData = await Auth.currentAuthenticatedUser();
-      console.log('getUser:userData', userData);
       Amplify.configure({
         aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
       });
 
       return userData;
     } catch (e) {
-      console.log('getUser ERROR', e);
       Amplify.configure({
         aws_appsync_authenticationType: 'AWS_IAM',
       });
@@ -46,13 +43,8 @@ export const useUser = (router: NextRouter, pathname: string) => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          console.log('[event/' + event + '] ' + 'try: getUser');
           getUser()
             .then((userData) => {
-              console.log(
-                '[event/' + event + '] ' + 'resolve: getUser',
-                userData
-              );
               if (userData) {
                 setUser({
                   username: userData.username,
@@ -63,9 +55,7 @@ export const useUser = (router: NextRouter, pathname: string) => {
                 });
               }
             })
-            .catch((e) => {
-              console.log('[event/' + event + '] ' + 'fail: getUser', e);
-            });
+            .catch(() => {}); // noop
           break;
         case 'signOut':
           setUser(null);
@@ -80,7 +70,6 @@ export const useUser = (router: NextRouter, pathname: string) => {
     });
 
     getUser().then((userData) => {
-      console.log('success getdata');
       if (!!userData) {
         setUser({
           username: userData.username,
