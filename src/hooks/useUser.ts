@@ -56,7 +56,10 @@ export const useUser = (router: NextRouter, pathname: string) => {
               if (userData) {
                 setUser({
                   username: userData.username,
-                  displayName: userData.attributes.name,
+                  displayName:
+                    userData.attributes.name ||
+                    userData.attributes.email ||
+                    'guest',
                 });
               }
             })
