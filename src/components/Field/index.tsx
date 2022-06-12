@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import NamedCard from '../NamedCard';
 import { Card } from '../../API';
 import { User } from '../../hooks/useUser';
+import { Card as CardUI, CardContent } from 'ui-neumorphism';
 
 const Field: React.VFC<{
   user: User | null;
@@ -18,23 +19,28 @@ const Field: React.VFC<{
   );
 
   return (
-    <div
-      className={`p-4 w-full rounded bg-gray-200 shadow-inner flex flex-wrap ${className}`}
+    <CardUI
+      inset={true}
+      className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
     >
-      {cards.map((c, idx) => {
-        return (
-          <div key={idx} className="my-2 ml-2">
-            <NamedCard
-              userDisplayName={c.displayUserName}
-              hidden={hidden}
-              point={c.point}
-              disabled={!(hidden && user && c.username === user.username)}
-              onClick={onClickCard(c)}
-            />
-          </div>
-        );
-      })}
-    </div>
+      <CardContent>
+        <div>
+          {cards.map((c, idx) => {
+            return (
+              <div key={idx} className="my-2 ml-2">
+                <NamedCard
+                  userDisplayName={c.displayUserName}
+                  hidden={hidden}
+                  point={c.point}
+                  disabled={!(hidden && user && c.username === user.username)}
+                  onClick={onClickCard(c)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </CardContent>
+    </CardUI>
   );
 };
 

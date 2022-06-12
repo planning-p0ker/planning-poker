@@ -6,7 +6,7 @@ const ParticipantList: React.VFC<{
 }> = ({ names = ['a'], className = '' }) => {
   return (
     <ul
-      className={`p-2 text-sm w-full rounded bg-gray-200 shadow-inner flex flex-wrap flex-col whitespace-nowrap truncate ${className}`}
+      className={`p-2 text-sm w-full rounded shadow-inner flex flex-wrap flex-col whitespace-nowrap truncate ${className}`}
     >
       {names.map((name, idx) => {
         return (

@@ -108,8 +108,29 @@ const Room: NextPage = () => {
       />
       <div className="mt-3 mx-4 flex flex-col space-y-4">
         <RoomIdPlate roomId={room?.id || ''} />
-        <Point hidden={!room?.isOpened} cards={fieldCards} />
-        <div className="flex space-x-4 min-h-[208px]">
+        <div className="flex justify-between align-middle">
+          <Point
+            className="my-auto"
+            hidden={!room?.isOpened}
+            cards={fieldCards}
+          />
+          <div className="flex space-x-6 mt-4">
+            <Button
+              color="var(--primary)"
+              disabled={!user || fieldCards.length === 0 || room?.isOpened}
+              onClick={handleOnOpen}
+            >
+              open
+            </Button>
+            <Button
+              disabled={!user || fieldCards.length === 0}
+              onClick={handleOnClear}
+            >
+              clear
+            </Button>
+          </div>
+        </div>
+        <div className="flex space-x-4 min-h-[208px] pb-4">
           <Field
             hidden={!room?.isOpened}
             user={user}
@@ -122,21 +143,6 @@ const Room: NextPage = () => {
             // names={participants.map((i) => i.displayUserName)}
             names={[]}
           />
-        </div>
-        <div className="flex space-x-6 mt-4">
-          <Button
-            color="var(--primary)"
-            disabled={!user || fieldCards.length === 0 || room?.isOpened}
-            onClick={handleOnOpen}
-          >
-            open
-          </Button>
-          <Button
-            disabled={!user || fieldCards.length === 0}
-            onClick={handleOnClear}
-          >
-            clear
-          </Button>
         </div>
         <Hand
           selectNum={myCard?.point}
