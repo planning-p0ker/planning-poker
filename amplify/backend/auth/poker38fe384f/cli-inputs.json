@@ -42,7 +42,7 @@
     "hostedUI": true,
     "hostedUIDomainName": "poker",
     "authProvidersUserPool": ["Google"],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"username\":\"sub\"}}]",
     "authProviders": [],
     "thirdPartyAuth": false,
     "userPoolGroups": false,
