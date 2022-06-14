@@ -1,17 +1,14 @@
 import type { NextPage } from 'next';
 import React, { useCallback, useRef, useState } from 'react';
-import Header from '../src/components/Header';
+import Header from '../components/Header';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { createRoom } from '../src/graphql/mutations';
+import { createRoom } from '../graphql/mutations';
 import { useRouter } from 'next/router';
-import { useUser } from '../src/hooks/useUser';
-// import Button from '../src/components/Button';
-import { calcTtl } from '../src/utils/calcTtl';
-import { generateUniqueRoomId } from '../src/utils/generateUniqueRoomId';
-import { CreateRoomMutation } from '../src/API';
-import Image from 'next/image';
-import topImage from '../public/topImage.png';
+import { useUser } from '../hooks/useUser';
+import { calcTtl } from '../utils/calcTtl';
+import { generateUniqueRoomId } from '../utils/generateUniqueRoomId';
+import { CreateRoomMutation } from '../API';
 import {
   Body2,
   Card,

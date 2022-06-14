@@ -1,26 +1,20 @@
 import type { NextPage } from 'next';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import Hand from '../../src/components/Hand';
-import Field from '../../src/components/Field';
-import Header from '../../src/components/Header';
-import RoomIdPlate from '../../src/components/RoomIdPlate';
+import React, { useCallback } from 'react';
+import Hand from '../../components/Hand';
+import Field from '../../components/Field';
+import Header from '../../components/Header';
+import RoomIdPlate from '../../components/RoomIdPlate';
 import { API, graphqlOperation } from 'aws-amplify';
-import {
-  deleteCard,
-  createCard,
-  updateRoom,
-} from '../../src/graphql/mutations';
-import { Card } from '../../src/API';
+import { deleteCard, createCard, updateRoom } from '../../graphql/mutations';
+import { Card } from '../../API';
 import { useRouter } from 'next/router';
-import { useUser } from '../../src/hooks/useUser';
-import { useCards } from '../../src/hooks/useCards';
-import { useRoom } from '../../src/hooks/useRoom';
-import { calcTtl } from '../../src/utils/calcTtl';
-import ParticipantList from '../../src/components/ParticipantList';
-import Point from '../../src/components/Point';
+import { useUser } from '../../hooks/useUser';
+import { useCards } from '../../hooks/useCards';
+import { useRoom } from '../../hooks/useRoom';
+import { calcTtl } from '../../utils/calcTtl';
+import ParticipantList from '../../components/ParticipantList';
+import Point from '../../components/Point';
 import { Button } from 'ui-neumorphism';
-// import Button from '../../src/components/Button';
-// import { useParticipant } from '../../src/hooks/useParticipant';
 
 const Room: NextPage = () => {
   const router = useRouter();
