@@ -1,9 +1,6 @@
 import type { NextPage } from 'next';
 import React, { useCallback } from 'react';
-import Hand from '../../components/Hand';
-import Field from '../../components/Field';
 import Header from '../../components/Header';
-import RoomIdPlate from '../../components/RoomIdPlate';
 import { API, graphqlOperation } from 'aws-amplify';
 import { deleteCard, createCard, updateRoom } from '../../graphql/mutations';
 import { Card } from '../../API';
@@ -12,11 +9,9 @@ import { useUser } from '../../hooks/useUser';
 import { useCards } from '../../hooks/useCards';
 import { useRoom } from '../../hooks/useRoom';
 import { calcTtl } from '../../utils/calcTtl';
-import ParticipantList from '../../components/ParticipantList';
-import Point from '../../components/Point';
-import { Button } from 'ui-neumorphism';
+import { RoomPage } from '../../components/pages/room';
 
-const Room: NextPage = () => {
+const RoomPageContainer: NextPage = () => {
   const router = useRouter();
   const { roomId } = router.query;
 
@@ -94,58 +89,19 @@ const Room: NextPage = () => {
   }
 
   return (
-    <div>
-      <Header
-        displayName={user?.displayName}
-        onSignIn={onSignIn}
-        onSignOut={onSignOut}
-      />
-      <div className="mt-3 mx-4 flex flex-col space-y-4">
-        <RoomIdPlate roomId={room?.id || ''} />
-        <div className="flex justify-between align-middle">
-          <Point
-            className="my-auto"
-            hidden={!room?.isOpened}
-            cards={fieldCards}
-          />
-          <div className="flex space-x-6 mt-4">
-            <Button
-              color="var(--primary)"
-              disabled={!user || fieldCards.length === 0 || room?.isOpened}
-              onClick={handleOnOpen}
-            >
-              open
-            </Button>
-            <Button
-              disabled={!user || fieldCards.length === 0}
-              onClick={handleOnClear}
-            >
-              clear
-            </Button>
-          </div>
-        </div>
-        <div className="flex space-x-4 min-h-[208px] pb-4">
-          <Field
-            hidden={!room?.isOpened}
-            user={user}
-            cards={fieldCards}
-            onClickMyCard={handleOnClickFieldCard}
-            className="w-full"
-          />
-          <ParticipantList
-            className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
-            // names={participants.map((i) => i.displayUserName)}
-            names={[]}
-          />
-        </div>
-        <Hand
-          selectNum={myCard?.point}
-          onClickCard={handleOnClickHandCard}
-          disabledAll={!user || !!room?.isOpened}
-        />
-      </div>
-    </div>
+    <RoomPage
+      user={user}
+      room={room}
+      myCard={myCard}
+      fieldCards={fieldCards}
+      onSignIn={onSignIn}
+      onSignOut={onSignOut}
+      onOpen={handleOnOpen}
+      onClear={handleOnClear}
+      onClickFieldCard={handleOnClickFieldCard}
+      onClickHandCard={handleOnClickHandCard}
+    />
   );
 };
 
-export default Room;
+export default RoomPageContainer;
