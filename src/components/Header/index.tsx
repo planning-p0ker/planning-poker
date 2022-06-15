@@ -17,11 +17,15 @@ const Header: React.VFC<HeaderProps> = ({
   return (
     <>
       <header className="font-bold p-4 flex justify-between">
-        <Link href="/" passHref>
-          <H5>
-            <a>🃏Planning poker</a>
-          </H5>
-        </Link>
+        <p
+          style={{
+            letterSpacing: 0,
+            fontWeight: 500,
+            fontSize: 24,
+          }}
+        >
+          <Link href="/">🃏Planning poker</Link>
+        </p>
         <div>
           {!displayName ? (
             <Button onClick={onSignIn}>SING IN</Button>
