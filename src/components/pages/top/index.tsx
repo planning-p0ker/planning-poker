@@ -32,6 +32,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
 }) => {
   const [roomId, setRoomId] = useState('');
   const onChangeRoomId = useCallback((ev) => {
+    console.log(ev.value);
     setRoomId(ev.value);
   }, []);
 
@@ -74,7 +75,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
               </Subtitle2>
               <div className="flex">
                 <TextField value={roomId} onChange={onChangeRoomId} />
-                <Fab disabled={!roomId} onClick={onJoinRoom}>
+                <Fab disabled={!roomId} onClick={() => onJoinRoom(roomId)}>
                   🚀
                 </Fab>
               </div>
