@@ -39,57 +39,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       : GRAPHQL_AUTH_MODE.AWS_IAM;
   }, [user]);
 
-  const onBeforeUnload = () => {
-    console.log('onBeforeUnload');
-  };
-
-  const onRegister = useCallback(async () => {
-    if (!room?.id || !user) return;
-    console.log('register pat!');
-    try {
-      const res = await API.graphql(
-        graphqlOperation(createParticipant, {
-          input: {
-            roomParticipantsId: room.id,
-            username: user.username,
-            displayUserName: user.displayName,
-          } as CreateParticipantInput,
-        })
-      );
-      console.log('result', res);
-    } catch (e) {
-      console.log('reg ERRORXXXXX', e);
-    }
-  }, [room, user]);
-
-  useEffect(() => {
-    onRegister();
-  }, [onRegister]);
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', onBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', onBeforeUnload);
-    };
-  }, [router.events]);
-
-  useEffect(() => {
-    if (!room?.id) {
-      console.log('[query]room id is not seted, return');
-      return;
-    }
-    (async () => {
-      const result = (await API.graphql({
-        query: listParticipants,
-        authMode,
-        variables: { filter: { roomParticipantsId: { eq: room.id } } },
-      })) as GraphQLResult<ListParticipantsQuery>;
-      const items = result.data?.listParticipants?.items;
-      if (items) setParicipants(items);
-    })();
-  }, [authMode, room?.id]);
-
   // Subscription
   useEffect(() => {
     if (!room?.id) {
@@ -100,9 +49,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     const createListener: any = API.graphql({
       query: onCreateParticipantByRoomId,
       authMode,
-      variables: {
-        roomId: room.id,
-      } as OnCreateCardByRoomIdSubscriptionVariables,
+      variables: { roomParticipantsId: room.id },
     });
     if ('subscribe' in createListener) {
       createListener.subscribe({
@@ -119,7 +66,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     const deleteListener: any = API.graphql({
       query: onDeleteParticipantByRoomId,
       authMode,
-      variables: { roomId: room.id },
+      variables: { roomParticipantsId: room.id },
     });
     if ('subscribe' in deleteListener) {
       deleteListener.subscribe({
@@ -144,6 +91,65 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       }
     };
   }, [authMode, room]);
+
+  const onRegister = useCallback(async () => {
+    if (!room?.id || !user) return;
+    console.log('register pat!');
+    try {
+      const { data } = (await API.graphql(
+        graphqlOperation(createParticipant, {
+          input: {
+            roomParticipantsId: room.id,
+            username: user.username,
+            displayUserName: user.displayName,
+          } as CreateParticipantInput,
+        })
+      )) as GraphQLResult<CreateParticipantMutation>;
+      if (data?.createParticipant) setMyParicipant(data.createParticipant);
+    } catch (e) {
+      console.log('reg ERRORXXXXX', e);
+    }
+  }, [room, user]);
+
+  const onBeforeUnload = useCallback(async () => {
+    if (!myParicipant) return;
+    console.log('DELETE !!!!', myParicipant);
+    await API.graphql(
+      graphqlOperation(deleteParticipant, {
+        input: {
+          id: myParicipant.id,
+        },
+      })
+    );
+  }, [myParicipant]);
+
+  useEffect(() => {
+    onRegister();
+  }, [onRegister]);
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', onBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, [onBeforeUnload]);
+
+  useEffect(() => {
+    if (!room?.id) {
+      console.log('[query]room id is not seted, return');
+      return;
+    }
+    (async () => {
+      const result = (await API.graphql({
+        query: listParticipants,
+        authMode,
+        variables: { filter: { roomParticipantsId: { eq: room.id } } },
+      })) as GraphQLResult<ListParticipantsQuery>;
+      const items = result.data?.listParticipants?.items;
+      if (items) setParicipants(items);
+    })();
+  }, [authMode, room?.id]);
 
   return paricipants;
 };
