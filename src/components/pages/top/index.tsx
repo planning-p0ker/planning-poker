@@ -50,7 +50,6 @@ export const TopPage: React.VFC<TopPageProps> = ({
           <Card loading={isLoading}>
             <CardContent>
               <H5>CREATE YOUR ROOM</H5>
-              {/* TODO: 未ログイン時のみ表示したい注釈 */}
               <Subtitle2 secondary style={{ marginBottom: '12px' }}>
                 You must be logged in to create a room
               </Subtitle2>
@@ -74,7 +73,11 @@ export const TopPage: React.VFC<TopPageProps> = ({
                 {"Enter your team's  roomID"}
               </Subtitle2>
               <div className="flex">
-                <TextField value={roomId} onChange={onChangeRoomId} />
+                <TextField
+                  id="roomId"
+                  value={roomId}
+                  onChange={onChangeRoomId}
+                />
                 <Fab disabled={!roomId} onClick={() => onJoinRoom(roomId)}>
                   🚀
                 </Fab>
