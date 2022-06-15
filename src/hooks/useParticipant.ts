@@ -43,9 +43,28 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     console.log('onBeforeUnload');
   };
 
+  const onRegister = useCallback(async () => {
+    if (!room?.id || !user) return;
+    console.log('register pat!');
+    try {
+      const res = await API.graphql(
+        graphqlOperation(createParticipant, {
+          input: {
+            roomParticipantsId: room.id,
+            username: user.username,
+            displayUserName: user.displayName,
+          } as CreateParticipantInput,
+        })
+      );
+      console.log('result', res);
+    } catch (e) {
+      console.log('reg ERRORXXXXX', e);
+    }
+  }, [room, user]);
+
   useEffect(() => {
-    console.log('Register!');
-  }, []);
+    onRegister();
+  }, [onRegister]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', onBeforeUnload);
@@ -88,6 +107,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     if ('subscribe' in createListener) {
       createListener.subscribe({
         next: ({ value: { data } }: CreateParticipantSubscriptionEvent) => {
+          console.log('onCreate Pat', data);
           if (data.onCreateParticipantByRoomId) {
             const newItem = data.onCreateParticipantByRoomId;
             setParicipants((prev) => [...prev, newItem]);
@@ -104,6 +124,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     if ('subscribe' in deleteListener) {
       deleteListener.subscribe({
         next: ({ value: { data } }: DeleteParticipantSubscriptionEvent) => {
+          console.log('onDelete Pat', data);
           if (data.onDeleteParticipantByRoomId) {
             const deletedCard = data.onDeleteParticipantByRoomId;
             setParicipants((prev) =>
