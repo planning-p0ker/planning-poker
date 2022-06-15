@@ -19,6 +19,7 @@ import {
   onCreateParticipantByRoomId,
   onDeleteParticipantByRoomId,
 } from '../graphql/subscriptions';
+import { useRouter } from 'next/router';
 
 type CreateParticipantSubscriptionEvent = {
   value: { data: OnCreateParticipantByRoomIdSubscription };
@@ -28,9 +29,9 @@ type DeleteParticipantSubscriptionEvent = {
 };
 
 export const useParticipant = (user: User | null, room: Room | null) => {
-  const [isReady, setReady] = useState(false);
   const [paricipants, setParicipants] = useState<Participant[]>([]);
   const [myParicipant, setMyParicipant] = useState<Participant | null>(null);
+  const router = useRouter();
 
   const authMode = useMemo(() => {
     return user
@@ -38,76 +39,45 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       : GRAPHQL_AUTH_MODE.AWS_IAM;
   }, [user]);
 
-  useEffect(() => {
-    if (!!room && !!user) {
-      setReady(true);
-    }
-  }, [room, user]);
+  const onBeforeUnload = () => {
+    console.log('onBeforeUnload');
+  };
 
   useEffect(() => {
-    if (isReady) return;
+    console.log('Register!');
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', onBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, [router.events]);
+
+  useEffect(() => {
+    if (!room?.id) {
+      console.log('[query]room id is not seted, return');
+      return;
+    }
     (async () => {
       const result = (await API.graphql({
         query: listParticipants,
         authMode,
-        variables: { filter: { roomParticipantsId: { eq: room!.id } } },
+        variables: { filter: { roomParticipantsId: { eq: room.id } } },
       })) as GraphQLResult<ListParticipantsQuery>;
       const items = result.data?.listParticipants?.items;
       if (items) setParicipants(items);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authMode, isReady, room?.id]);
+  }, [authMode, room?.id]);
 
-  const registerPaticipant = useCallback(async () => {
-    if (isReady) {
-      const result = (await API.graphql(
-        graphqlOperation(createParticipant, {
-          input: {
-            roomParticipantsId: room!.id,
-            username: user!.username,
-            displayUserName: user!.displayName,
-          } as CreateParticipantInput,
-        })
-      )) as GraphQLResult<CreateParticipantMutation>;
-
-      const createParticipantResult = result.data?.createParticipant;
-      if (createParticipantResult) {
-        setMyParicipant(createParticipantResult);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady]);
-
-  const unregisterPaticipant = useCallback(async () => {
-    if (myParicipant) {
-      API.graphql(
-        graphqlOperation(deleteParticipant, {
-          input: {
-            id: myParicipant.id,
-          } as DeleteParticipantInput,
-        })
-      );
-      setMyParicipant(null);
-    }
-  }, [myParicipant]);
-
+  // Subscription
   useEffect(() => {
-    if (
-      isReady &&
-      !myParicipant &&
-      !room?.participants?.items.some((i) => i.username === user?.username)
-    ) {
-      registerPaticipant();
+    if (!room?.id) {
+      console.log('[subscripion]room id is not seted, return');
+      return;
     }
 
-    return () => {
-      unregisterPaticipant();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady]);
-
-  useEffect(() => {
-    if (!room?.id || !isReady) return;
     const createListener: any = API.graphql({
       query: onCreateParticipantByRoomId,
       authMode,
@@ -152,7 +122,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
         deleteListener.unsubscribe();
       }
     };
-  }, [authMode, isReady, room]);
+  }, [authMode, room]);
 
   return paricipants;
 };

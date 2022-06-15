@@ -10,6 +10,7 @@ import { useCards } from '../../hooks/useCards';
 import { useRoom } from '../../hooks/useRoom';
 import { calcTtl } from '../../utils/calcTtl';
 import { RoomPage } from '../../components/pages/room';
+import { useParticipant } from '../../hooks/useParticipant';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const RoomPageContainer: NextPage = () => {
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
   const room = useRoom(user, router.isReady, roomId as string | undefined);
-  // const participants = useParticipant(user, room);
+  const participants = useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
     router.isReady,
@@ -87,6 +88,8 @@ const RoomPageContainer: NextPage = () => {
       </div>
     );
   }
+
+  console.log('participants', participants);
 
   return (
     <RoomPage
