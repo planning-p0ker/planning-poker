@@ -131,11 +131,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     onRegister();
   }, [onRegister]);
 
-  const onRouteChangeStart = useCallback((a, b) => {
-    console.log('onRouteChangeStart(a)', a);
-    console.log('onRouteChangeStart(b)', b);
-  }, []);
-
   /**
    * ユーザー離脱時に参加者データを削除
    * - [x] タブを閉じる
@@ -144,13 +139,14 @@ export const useParticipant = (user: User | null, room: Room | null) => {
    * - [ ] ログアウトする
    */
   useEffect(() => {
-    router.events.on('routeChangeStart', onRouteChangeStart);
+    router.events.on('routeChangeStart', onBeforeUnload);
     window.addEventListener('beforeunload', onBeforeUnload);
 
     return () => {
+      router.events.off('routeChangeStart', onBeforeUnload);
       window.removeEventListener('beforeunload', onBeforeUnload);
     };
-  }, [onBeforeUnload, onRouteChangeStart, router.events]);
+  }, [onBeforeUnload, router.events]);
 
   useEffect(() => {
     if (!room?.id) {
