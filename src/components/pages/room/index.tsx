@@ -1,5 +1,5 @@
 import { Button } from 'ui-neumorphism';
-import { Card, Room } from '../../../API';
+import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
 import Field from '../../Field';
 import Hand from '../../Hand';
@@ -13,6 +13,7 @@ type RoomPageProps = {
   room: Room | null;
   myCard: Card | null;
   fieldCards: Card[];
+  participants: Participant[];
   onSignIn: () => void;
   onSignOut: () => void;
   onOpen: () => void;
@@ -26,6 +27,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   room,
   myCard,
   fieldCards,
+  participants,
   onSignIn,
   onSignOut,
   onOpen,
@@ -74,8 +76,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
           />
           <ParticipantList
             className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
-            // names={participants.map((i) => i.displayUserName)}
-            names={[]}
+            names={participants.map((i) => i.displayUserName)}
           />
         </div>
         <Hand

@@ -97,6 +97,7 @@ const RoomPageContainer: NextPage = () => {
       room={room}
       myCard={myCard}
       fieldCards={fieldCards}
+      participants={participants}
       onSignIn={onSignIn}
       onSignOut={onSignOut}
       onOpen={handleOnOpen}

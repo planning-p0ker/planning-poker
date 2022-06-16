@@ -94,6 +94,10 @@ export const useParticipant = (user: User | null, room: Room | null) => {
 
   const onRegister = useCallback(async () => {
     if (!room?.id || !user) return;
+
+    // 重複登録されないようにする
+    if (paricipants.some((p) => p.username === user.username)) return;
+
     console.log('register pat!');
     try {
       const { data } = (await API.graphql(
@@ -109,7 +113,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     } catch (e) {
       console.log('reg ERRORXXXXX', e);
     }
-  }, [room, user]);
+  }, [paricipants, room?.id, user]);
 
   const onBeforeUnload = useCallback(async () => {
     if (!myParicipant) return;
@@ -127,13 +131,26 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     onRegister();
   }, [onRegister]);
 
+  const onRouteChangeStart = useCallback((a, b) => {
+    console.log('onRouteChangeStart(a)', a);
+    console.log('onRouteChangeStart(b)', b);
+  }, []);
+
+  /**
+   * ユーザー離脱時に参加者データを削除
+   * - [x] タブを閉じる
+   * - [x] 別サイトに行く
+   * - [ ] TOPページに行く
+   * - [ ] ログアウトする
+   */
   useEffect(() => {
+    router.events.on('routeChangeStart', onRouteChangeStart);
     window.addEventListener('beforeunload', onBeforeUnload);
 
     return () => {
       window.removeEventListener('beforeunload', onBeforeUnload);
     };
-  }, [onBeforeUnload]);
+  }, [onBeforeUnload, onRouteChangeStart, router.events]);
 
   useEffect(() => {
     if (!room?.id) {
