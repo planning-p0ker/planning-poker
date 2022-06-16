@@ -76,7 +76,9 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
           />
           <ParticipantList
             className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
-            names={participants.map((i) => i.displayUserName)}
+            isOpened={room?.isOpened || false}
+            participants={participants}
+            fieldsCard={fieldCards}
           />
         </div>
         <Hand

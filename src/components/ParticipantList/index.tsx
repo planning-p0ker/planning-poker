@@ -1,17 +1,24 @@
 import React from 'react';
+import { Participant, Card } from '../../API';
 
 const ParticipantList: React.VFC<{
-  names?: string[];
+  participants: Participant[];
+  fieldsCard: Card[];
+  isOpened: boolean;
   className?: React.HTMLAttributes<HTMLUListElement>['className'];
-}> = ({ names = ['a'], className = '' }) => {
+}> = ({ participants, fieldsCard, isOpened, className = '' }) => {
   return (
     <ul
       className={`p-2 text-sm w-full rounded shadow-inner flex flex-wrap flex-col whitespace-nowrap truncate ${className}`}
     >
-      {names.map((name, idx) => {
+      {participants.map((p, idx) => {
+        const card = fieldsCard.find((fc) => fc.username === p.username);
+        const emoji = !!card ? '😎' : '🤔';
+        const point = card?.point || '🤔';
         return (
           <li key={idx} className="px-2">
-            {name}
+            <span className="mr-1">{isOpened ? point : emoji}</span>
+            {p.displayUserName}
           </li>
         );
       })}
