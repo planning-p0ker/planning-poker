@@ -92,29 +92,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     };
   }, [authMode, room]);
 
-  const onRegister = useCallback(async () => {
-    if (!room?.id || !user) return;
-
-    // 重複登録されないようにする
-    if (paricipants.some((p) => p.username === user.username)) return;
-
-    console.log('register pat!');
-    try {
-      const { data } = (await API.graphql(
-        graphqlOperation(createParticipant, {
-          input: {
-            roomParticipantsId: room.id,
-            username: user.username,
-            displayUserName: user.displayName,
-          } as CreateParticipantInput,
-        })
-      )) as GraphQLResult<CreateParticipantMutation>;
-      if (data?.createParticipant) setMyParicipant(data.createParticipant);
-    } catch (e) {
-      console.log('reg ERRORXXXXX', e);
-    }
-  }, [paricipants, room?.id, user]);
-
   const onBeforeUnload = useCallback(async () => {
     if (!myParicipant) return;
     console.log('DELETE !!!!', myParicipant);
@@ -126,10 +103,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       })
     );
   }, [myParicipant]);
-
-  useEffect(() => {
-    onRegister();
-  }, [onRegister]);
 
   /**
    * ユーザー離脱時に参加者データを削除
@@ -160,9 +133,32 @@ export const useParticipant = (user: User | null, room: Room | null) => {
         variables: { filter: { roomParticipantsId: { eq: room.id } } },
       })) as GraphQLResult<ListParticipantsQuery>;
       const items = result.data?.listParticipants?.items;
-      if (items) setParicipants(items);
+      if (items) {
+        // roomの参加者をセット
+        setParicipants(items);
+
+        // user
+        if (user) {
+          const myP = items.find((i) => i.username === user.username);
+          if (myP) {
+            setMyParicipant(myP);
+          } else {
+            const { data } = (await API.graphql(
+              graphqlOperation(createParticipant, {
+                input: {
+                  roomParticipantsId: room.id,
+                  username: user.username,
+                  displayUserName: user.displayName,
+                } as CreateParticipantInput,
+              })
+            )) as GraphQLResult<CreateParticipantMutation>;
+            if (data?.createParticipant)
+              setMyParicipant(data.createParticipant);
+          }
+        }
+      }
     })();
-  }, [authMode, room?.id]);
+  }, [authMode, room?.id, user]);
 
   return paricipants;
 };
