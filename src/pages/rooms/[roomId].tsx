@@ -1,9 +1,9 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import React, { useCallback } from 'react';
 import Header from '../../components/Header';
 import { API, graphqlOperation } from 'aws-amplify';
 import { deleteCard, createCard, updateRoom } from '../../graphql/mutations';
-import { Card } from '../../API';
+import { Card, GetRoomQuery, Participant, Room } from '../../API';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
 import { useCards } from '../../hooks/useCards';
@@ -11,8 +11,17 @@ import { useRoom } from '../../hooks/useRoom';
 import { calcTtl } from '../../utils/calcTtl';
 import { RoomPage } from '../../components/pages/room';
 import { useParticipant } from '../../hooks/useParticipant';
+import { getRoom } from '../../graphql/queries';
+import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 
-const RoomPageContainer: NextPage = () => {
+type Props = {
+  rooom: Room;
+  // participants: Participant[];
+  // fieldsCard: Card[];
+};
+
+const RoomPageContainer: NextPage<Props> = ({ rooom }) => {
+  console.log('SSR room: ', rooom);
   const router = useRouter();
   const { roomId } = router.query;
 
@@ -125,6 +134,19 @@ const RoomPageContainer: NextPage = () => {
       onClickHandCard={handleOnClickHandCard}
     />
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const roomId = context.query.roomId;
+  const room = (await API.graphql({
+    query: getRoom,
+    variables: { id: roomId },
+  })) as GraphQLResult<GetRoomQuery>;
+  return {
+    props: {
+      room,
+    }, // will be passed to the page component as props
+  };
 };
 
 export default RoomPageContainer;
