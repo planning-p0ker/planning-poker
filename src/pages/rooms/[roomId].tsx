@@ -24,6 +24,27 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
+  const deleteParticipant = useCallback(async () => {
+    if (!user) return;
+
+    const myParicipant = participants.find(
+      (p) => p.username === user?.username
+    );
+    if (!myParicipant) return;
+
+    await API.graphql(
+      graphqlOperation(deleteParticipant, {
+        input: {
+          id: myParicipant.id,
+        },
+      })
+    );
+  }, [participants, user]);
+
+  const handleOnSignOut = useCallback(async () => {
+    await deleteParticipant();
+    onSignOut();
+  }, [deleteParticipant, onSignOut]);
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
@@ -97,7 +118,7 @@ const RoomPageContainer: NextPage = () => {
       fieldCards={fieldCards}
       participants={participants}
       onSignIn={onSignIn}
-      onSignOut={onSignOut}
+      onSignOut={handleOnSignOut}
       onOpen={handleOnOpen}
       onClear={handleOnClear}
       onClickFieldCard={handleOnClickFieldCard}
