@@ -1,12 +1,11 @@
 import { Button } from 'ui-neumorphism';
 import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
-import Field from '../../Field';
-import Hand from '../../Hand';
+import Field from './components/Field';
+import Hand from './components/Hand';
 import Header from '../../Header';
-import ParticipantList from '../../ParticipantList';
-import Point from '../../Point';
-import RoomIdPlate from '../../RoomIdPlate';
+import ParticipantList from './components/ParticipantList';
+import RoomIdPlate from './components/RoomIdPlate';
 
 type RoomPageProps = {
   user: User | null;

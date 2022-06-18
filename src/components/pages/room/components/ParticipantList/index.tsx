@@ -1,5 +1,5 @@
 import React from 'react';
-import { Participant, Card } from '../../API';
+import { Participant, Card } from '../../../../../API';
 
 const ParticipantList: React.VFC<{
   participants: Participant[];

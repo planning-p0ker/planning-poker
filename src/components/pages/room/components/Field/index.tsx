@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import { Card } from '../../API';
-import { User } from '../../hooks/useUser';
+import { Card } from '../../../../../API';
+import { User } from '../../../../../hooks/useUser';
 import { Card as CardUI } from 'ui-neumorphism';
 import styles from './Field.module.css';
 import CountUp from 'react-countup';

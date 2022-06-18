@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
-import { Button, H5, Divider } from 'ui-neumorphism';
-import UserButton from '../UserButton';
+import { Button, Divider } from 'ui-neumorphism';
+import UserButton from './components/UserButton';
 
 export type HeaderProps = {
   onSignIn: () => void;

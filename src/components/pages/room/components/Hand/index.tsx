@@ -5,7 +5,6 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from 'ui-neumorphism';
-import CardUI from '../Card';
 
 const pointList = [1, 2, 3, 5, 8, 13, 21, 34];
 
