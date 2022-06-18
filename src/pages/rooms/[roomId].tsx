@@ -141,6 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const room = (await API.graphql({
     query: getRoom,
     variables: { id: roomId },
+    authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
   })) as GraphQLResult<GetRoomQuery>;
   return {
     props: {
