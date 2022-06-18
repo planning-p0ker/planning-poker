@@ -7,7 +7,7 @@ import {
 } from 'ui-neumorphism';
 import CardUI from '../Card';
 
-const pointList = [1, 2, 3, 5, 8, 13];
+const pointList = [1, 2, 3, 5, 8, 13, 21, 34];
 
 const Hand: React.VFC<{
   selectNum?: number | null;

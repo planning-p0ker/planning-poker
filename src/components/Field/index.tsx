@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
-import NamedCard from '../NamedCard';
+import React, { useMemo } from 'react';
 import { Card } from '../../API';
 import { User } from '../../hooks/useUser';
-import { Card as CardUI, CardContent } from 'ui-neumorphism';
+import { Card as CardUI } from 'ui-neumorphism';
+import styles from './Field.module.css';
+import CountUp from 'react-countup';
+import BigNumber from 'bignumber.js';
 
 const Field: React.VFC<{
   user: User | null;
@@ -11,35 +13,37 @@ const Field: React.VFC<{
   onClickMyCard: (card: Card) => void;
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
 }> = ({ onClickMyCard, user, cards, hidden, className = '' }) => {
-  const onClickCard = useCallback(
-    (card: Card) => () => {
-      onClickMyCard(card);
-    },
-    [onClickMyCard]
-  );
+  const sum = useMemo(() => {
+    return cards.reduce((prev, current) => prev + current.point, 0);
+  }, [cards]);
+
+  const [integer, decimal] = useMemo(() => {
+    if (!cards.length) return [0, 0];
+    const [i, d] = new BigNumber(sum)
+      .div(cards.length + 2)
+      .dp(1)
+      .toString()
+      .split('.');
+
+    return [Number(i), Number(d)];
+  }, [cards, sum]);
 
   return (
     <CardUI
       inset={true}
       className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
     >
-      <CardContent>
-        <div>
-          {cards.map((c, idx) => {
-            return (
-              <div key={idx} className="my-2 ml-2">
-                <NamedCard
-                  userDisplayName={c.displayUserName}
-                  hidden={hidden}
-                  point={c.point}
-                  disabled={!(hidden && user && c.username === user.username)}
-                  onClick={onClickCard(c)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </CardContent>
+      <div className={styles.point}>
+        {hidden ? (
+          <span className={styles.i}>?</span>
+        ) : (
+          <>
+            <CountUp className={styles.i} duration={0.2} end={integer} />
+            <span className={styles.dot}>.</span>
+            <CountUp className={styles.d} duration={0.2} end={decimal} />
+          </>
+        )}
+      </div>
     </CardUI>
   );
 };

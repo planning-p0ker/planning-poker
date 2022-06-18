@@ -44,12 +44,12 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
       />
       <div className="mt-3 mx-4 flex flex-col space-y-4">
         <RoomIdPlate roomId={room?.id || ''} />
-        <div className="flex justify-between align-middle">
-          <Point
+        <div className="flex justify-end align-middle">
+          {/* <Point
             className="my-auto"
             hidden={!room?.isOpened}
             cards={fieldCards}
-          />
+          /> */}
           <div className="flex space-x-6 mt-4">
             <Button
               color="var(--primary)"
@@ -72,10 +72,10 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             user={user}
             cards={fieldCards}
             onClickMyCard={onClickFieldCard}
-            className="w-full"
+            className="flex-shrink max-w-[200px] min-w-[140px]"
           />
           <ParticipantList
-            className="p-4 flex-shrink max-w-[200px] min-w-[140px]"
+            className="p-4"
             isOpened={room?.isOpened || false}
             participants={participants}
             fieldsCard={fieldCards}

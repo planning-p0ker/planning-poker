@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Card } from '../../API';
+import CountUp from 'react-countup';
 
 const Point: React.VFC<{
   cards: Card[];
@@ -24,6 +25,7 @@ const Point: React.VFC<{
     <div className={className}>
       {cardLength} cards / sum: {hidden ? '?' : sum} / average:{' '}
       {hidden ? '?' : average}
+      {!!average && <CountUp decimal="" duration={0.2} end={average} />}
     </div>
   );
 };

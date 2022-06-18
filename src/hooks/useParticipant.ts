@@ -42,7 +42,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
   // Subscription
   useEffect(() => {
     if (!room?.id) {
-      console.log('[subscripion]room id is not seted, return');
       return;
     }
 
@@ -54,10 +53,15 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     if ('subscribe' in createListener) {
       createListener.subscribe({
         next: ({ value: { data } }: CreateParticipantSubscriptionEvent) => {
-          console.log('onCreate Pat', data);
           if (data.onCreateParticipantByRoomId) {
             const newItem = data.onCreateParticipantByRoomId;
-            setParicipants((prev) => [...prev, newItem]);
+            setParicipants((prev) => {
+              if (prev.some((p) => p.username === newItem.username)) {
+                return prev;
+              }
+
+              return [...prev, newItem];
+            });
           }
         },
       });
@@ -71,7 +75,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     if ('subscribe' in deleteListener) {
       deleteListener.subscribe({
         next: ({ value: { data } }: DeleteParticipantSubscriptionEvent) => {
-          console.log('onDelete Pat', data);
           if (data.onDeleteParticipantByRoomId) {
             const deletedCard = data.onDeleteParticipantByRoomId;
             setParicipants((prev) =>
@@ -94,7 +97,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
 
   const onBeforeUnload = useCallback(async () => {
     if (!myParicipant) return;
-    console.log('DELETE !!!!', myParicipant);
     await API.graphql(
       graphqlOperation(deleteParticipant, {
         input: {
@@ -108,7 +110,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
    * ユーザー離脱時に参加者データを削除
    * - [x] タブを閉じる
    * - [x] 別サイトに行く
-   * - [ ] TOPページに行く
+   * - [x] TOPページに行く
    * - [ ] ログアウトする
    */
   useEffect(() => {
@@ -123,7 +125,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
 
   useEffect(() => {
     if (!room?.id) {
-      console.log('[query]room id is not seted, return');
       return;
     }
     (async () => {
