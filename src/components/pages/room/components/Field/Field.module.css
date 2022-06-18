@@ -1,0 +1,18 @@
+.point {
+  @apply m-auto;
+}
+
+.i {
+  font-size: 84px;
+  font-weight: 900;
+}
+
+.d {
+  font-size: 50px;
+  font-weight: 900;
+}
+
+.dot {
+  font-size: 50px;
+  font-weight: 900;
+}

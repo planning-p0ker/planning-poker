@@ -19,6 +19,7 @@ import {
   onCreateParticipantByRoomId,
   onDeleteParticipantByRoomId,
 } from '../graphql/subscriptions';
+import { useRouter } from 'next/router';
 
 type CreateParticipantSubscriptionEvent = {
   value: { data: OnCreateParticipantByRoomIdSubscription };
@@ -28,9 +29,9 @@ type DeleteParticipantSubscriptionEvent = {
 };
 
 export const useParticipant = (user: User | null, room: Room | null) => {
-  const [isReady, setReady] = useState(false);
   const [paricipants, setParicipants] = useState<Participant[]>([]);
   const [myParicipant, setMyParicipant] = useState<Participant | null>(null);
+  const router = useRouter();
 
   const authMode = useMemo(() => {
     return user
@@ -38,89 +39,29 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       : GRAPHQL_AUTH_MODE.AWS_IAM;
   }, [user]);
 
+  // Subscription
   useEffect(() => {
-    if (!!room && !!user) {
-      setReady(true);
-    }
-  }, [room, user]);
-
-  useEffect(() => {
-    if (isReady) return;
-    (async () => {
-      const result = (await API.graphql({
-        query: listParticipants,
-        authMode,
-        variables: { filter: { roomParticipantsId: { eq: room!.id } } },
-      })) as GraphQLResult<ListParticipantsQuery>;
-      const items = result.data?.listParticipants?.items;
-      if (items) setParicipants(items);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authMode, isReady, room?.id]);
-
-  const registerPaticipant = useCallback(async () => {
-    if (isReady) {
-      const result = (await API.graphql(
-        graphqlOperation(createParticipant, {
-          input: {
-            roomParticipantsId: room!.id,
-            username: user!.username,
-            displayUserName: user!.displayName,
-          } as CreateParticipantInput,
-        })
-      )) as GraphQLResult<CreateParticipantMutation>;
-
-      const createParticipantResult = result.data?.createParticipant;
-      if (createParticipantResult) {
-        setMyParicipant(createParticipantResult);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady]);
-
-  const unregisterPaticipant = useCallback(async () => {
-    if (myParicipant) {
-      API.graphql(
-        graphqlOperation(deleteParticipant, {
-          input: {
-            id: myParicipant.id,
-          } as DeleteParticipantInput,
-        })
-      );
-      setMyParicipant(null);
-    }
-  }, [myParicipant]);
-
-  useEffect(() => {
-    if (
-      isReady &&
-      !myParicipant &&
-      !room?.participants?.items.some((i) => i.username === user?.username)
-    ) {
-      registerPaticipant();
+    if (!room?.id) {
+      return;
     }
 
-    return () => {
-      unregisterPaticipant();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady]);
-
-  useEffect(() => {
-    if (!room?.id || !isReady) return;
     const createListener: any = API.graphql({
       query: onCreateParticipantByRoomId,
       authMode,
-      variables: {
-        roomId: room.id,
-      } as OnCreateCardByRoomIdSubscriptionVariables,
+      variables: { roomParticipantsId: room.id },
     });
     if ('subscribe' in createListener) {
       createListener.subscribe({
         next: ({ value: { data } }: CreateParticipantSubscriptionEvent) => {
           if (data.onCreateParticipantByRoomId) {
             const newItem = data.onCreateParticipantByRoomId;
-            setParicipants((prev) => [...prev, newItem]);
+            setParicipants((prev) => {
+              if (prev.some((p) => p.username === newItem.username)) {
+                return prev;
+              }
+
+              return [...prev, newItem];
+            });
           }
         },
       });
@@ -129,7 +70,7 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     const deleteListener: any = API.graphql({
       query: onDeleteParticipantByRoomId,
       authMode,
-      variables: { roomId: room.id },
+      variables: { roomParticipantsId: room.id },
     });
     if ('subscribe' in deleteListener) {
       deleteListener.subscribe({
@@ -152,7 +93,73 @@ export const useParticipant = (user: User | null, room: Room | null) => {
         deleteListener.unsubscribe();
       }
     };
-  }, [authMode, isReady, room]);
+  }, [authMode, room]);
+
+  const onBeforeUnload = useCallback(async () => {
+    if (!myParicipant) return;
+    await API.graphql(
+      graphqlOperation(deleteParticipant, {
+        input: {
+          id: myParicipant.id,
+        },
+      })
+    );
+  }, [myParicipant]);
+
+  /**
+   * ユーザー離脱時に参加者データを削除
+   * - [x] タブを閉じる
+   * - [x] 別サイトに行く
+   * - [x] TOPページに行く
+   * - [ ] ログアウトする
+   */
+  useEffect(() => {
+    router.events.on('routeChangeStart', onBeforeUnload);
+    window.addEventListener('beforeunload', onBeforeUnload);
+
+    return () => {
+      router.events.off('routeChangeStart', onBeforeUnload);
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, [onBeforeUnload, router.events]);
+
+  useEffect(() => {
+    if (!room?.id) {
+      return;
+    }
+    (async () => {
+      const result = (await API.graphql({
+        query: listParticipants,
+        authMode,
+        variables: { filter: { roomParticipantsId: { eq: room.id } } },
+      })) as GraphQLResult<ListParticipantsQuery>;
+      const items = result.data?.listParticipants?.items;
+      if (items) {
+        // roomの参加者をセット
+        setParicipants(items);
+
+        // user
+        if (user) {
+          const myP = items.find((i) => i.username === user.username);
+          if (myP) {
+            setMyParicipant(myP);
+          } else {
+            const { data } = (await API.graphql(
+              graphqlOperation(createParticipant, {
+                input: {
+                  roomParticipantsId: room.id,
+                  username: user.username,
+                  displayUserName: user.displayName,
+                } as CreateParticipantInput,
+              })
+            )) as GraphQLResult<CreateParticipantMutation>;
+            if (data?.createParticipant)
+              setMyParicipant(data.createParticipant);
+          }
+        }
+      }
+    })();
+  }, [authMode, room?.id, user]);
 
   return paricipants;
 };
