@@ -33,7 +33,6 @@ export const TopPage: React.VFC<TopPageProps> = ({
 }) => {
   const [roomId, setRoomId] = useState('');
   const onChangeRoomId = useCallback((ev) => {
-    console.log(ev.value);
     setRoomId(ev.value);
   }, []);
 
