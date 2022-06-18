@@ -3,9 +3,9 @@ import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
 import Field from './components/Field';
 import Hand from './components/Hand';
-import Header from '../../Header';
 import ParticipantList from './components/ParticipantList';
 import RoomIdPlate from './components/RoomIdPlate';
+import { Layout } from '../../Layout';
 
 type RoomPageProps = {
   user: User | null;
@@ -35,20 +35,10 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   onClickHandCard,
 }) => {
   return (
-    <div>
-      <Header
-        displayName={user?.displayName}
-        onSignIn={onSignIn}
-        onSignOut={onSignOut}
-      />
-      <div className="mt-3 mx-4 flex flex-col space-y-4">
+    <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
+      <div className="mt-10 mx-4 flex flex-col space-y-4">
         <RoomIdPlate roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
-          {/* <Point
-            className="my-auto"
-            hidden={!room?.isOpened}
-            cards={fieldCards}
-          /> */}
           <div className="flex space-x-6 mt-4">
             <Button
               color="var(--primary)"
@@ -65,7 +55,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             </Button>
           </div>
         </div>
-        <div className="flex space-x-4 min-h-[208px] pb-4">
+        <div className="flex justify-center space-x-4 min-h-[208px] pb-4">
           <Field
             hidden={!room?.isOpened}
             user={user}
@@ -74,7 +64,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             className="flex-shrink max-w-[200px] min-w-[140px]"
           />
           <ParticipantList
-            className="p-4"
+            className="flex-shrink max-w-[200px] min-w-[140px]"
             isOpened={room?.isOpened || false}
             participants={participants}
             fieldsCard={fieldCards}
@@ -86,6 +76,6 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
           disabledAll={!user || !!room?.isOpened}
         />
       </div>
-    </div>
+    </Layout>
   );
 };

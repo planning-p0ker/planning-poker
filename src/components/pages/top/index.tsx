@@ -12,6 +12,7 @@ import {
 } from 'ui-neumorphism';
 import { User } from '../../../hooks/useUser';
 import Header from '../../Header';
+import { Layout } from '../../Layout';
 
 type TopPageProps = {
   user: User | null;
@@ -37,12 +38,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
   }, []);
 
   return (
-    <div>
-      <Header
-        displayName={user?.displayName}
-        onSignIn={onSignIn}
-        onSignOut={onSignOut}
-      />
+    <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mx-4 pt-3">
         <Subtitle1>Use it to estimate story points online.</Subtitle1>
         <div className="mt-5 flex space-x-6">
@@ -86,6 +82,6 @@ export const TopPage: React.VFC<TopPageProps> = ({
           </Card>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };

@@ -20,7 +20,7 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <Card inset>
+    <Card inset={true}>
       <CardContent className={'flex'}>
         <div className="font-bold text-gray-500">ROOM ID :</div>
         <div

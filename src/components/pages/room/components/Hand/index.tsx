@@ -13,9 +13,9 @@ const Hand: React.VFC<{
   onClickCard: (num: number | null) => () => void;
   disabledAll?: boolean;
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
-}> = ({ selectNum, onClickCard, disabledAll = false, className = '' }) => {
+}> = ({ selectNum, onClickCard, disabledAll = false }) => {
   return (
-    <ToggleButtonGroup className={'space-x-3'}>
+    <ToggleButtonGroup className={'space-x-3 mx-auto'}>
       {pointList.map((p) => (
         <ToggleButton
           key={p}

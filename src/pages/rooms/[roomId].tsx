@@ -89,8 +89,6 @@ const RoomPageContainer: NextPage = () => {
     );
   }
 
-  console.log('participants', participants);
-
   return (
     <RoomPage
       user={user}
