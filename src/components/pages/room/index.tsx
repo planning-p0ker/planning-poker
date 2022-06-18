@@ -1,4 +1,4 @@
-import { Button } from 'ui-neumorphism';
+import { Button, ProgressCircular } from 'ui-neumorphism';
 import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
 import Field from './components/Field';
@@ -6,6 +6,8 @@ import Hand from './components/Hand';
 import ParticipantList from './components/ParticipantList';
 import RoomIdPlate from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
+import { useMemo } from 'react';
+import BigNumber from 'bignumber.js';
 
 type RoomPageProps = {
   user: User | null;
@@ -34,6 +36,13 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   onClickFieldCard,
   onClickHandCard,
 }) => {
+  const rate = useMemo(() => {
+    return new BigNumber(fieldCards.length)
+      .div(participants.length)
+      .times(100)
+      .toNumber();
+  }, [fieldCards.length, participants.length]);
+
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mt-10 mx-4 flex flex-col space-y-4">
@@ -41,11 +50,12 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4">
             <Button
-              color="var(--primary)"
+              color={'var(--primary)'}
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
               onClick={onOpen}
             >
-              open
+              <span className="mr-1">open</span>
+              <ProgressCircular value={rate} color={'var(--info)'} size={20} />
             </Button>
             <Button
               disabled={!user || fieldCards.length === 0}
@@ -64,7 +74,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             className="flex-shrink max-w-[200px] min-w-[140px]"
           />
           <ParticipantList
-            className="flex-shrink max-w-[200px] min-w-[140px]"
+            className="flex-shrink max-w-[400px] min-w-[140px]"
             isOpened={room?.isOpened || false}
             participants={participants}
             fieldsCard={fieldCards}
