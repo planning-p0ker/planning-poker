@@ -16,9 +16,9 @@ const ParticipantList: React.VFC<{
         const emoji = !!card ? '😎' : '🤔';
         const point = card?.point || '🤔';
         return (
-          <li key={idx} className="px-2">
+          <li key={idx} className="px-2 text-lg font-bold">
             <span className="mr-1">{isOpened ? point : emoji}</span>
-            {p.displayUserName}
+            <span className="">{p.displayUserName}</span>
           </li>
         );
       })}
