@@ -20,7 +20,7 @@ const Field: React.VFC<{
   const [integer, decimal] = useMemo(() => {
     if (!cards.length) return [0, 0];
     const [i, d] = new BigNumber(sum)
-      .div(cards.length + 2)
+      .div(cards.length)
       .dp(1)
       .toString()
       .split('.');
