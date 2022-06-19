@@ -24,7 +24,7 @@ const ParticipantList: React.VFC<{
                 <div className="mr-1 flex-shrink w-7 text-xl">
                   {isOpened ? point : emoji}
                 </div>
-                <div className="">{p.displayUserName}</div>
+                <div className="overflow-ellipsis">{p.displayUserName}</div>
               </li>
             );
           })}

@@ -62,7 +62,5 @@ export const useRoom = (
     };
   }, [authMode, isReady, roomId]);
 
-  console.log(isLoading);
-
   return { room, isLoading };
 };

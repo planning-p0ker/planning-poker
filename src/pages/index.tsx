@@ -59,7 +59,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (!isSearchingRoom) return;
     (async () => {
-      console.log('SEARCH', roomId);
       const result = (await API.graphql({
         query: getRoom,
         variables: { id: roomId },

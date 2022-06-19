@@ -57,7 +57,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
               onClick={onOpen}
             >
               <span className="mr-1">open</span>
-              <ProgressCircular value={rate} color={'var(--info)'} size={20} />
+              <ProgressCircular value={rate} size={20} />
             </Button>
             <Button
               disabled={!user || fieldCards.length === 0}
