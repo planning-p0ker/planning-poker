@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import Header from '../../components/Header';
 import { API, graphqlOperation } from 'aws-amplify';
 import { deleteCard, createCard, updateRoom } from '../../graphql/mutations';
-import { Card, GetRoomQuery, Participant, Room } from '../../API';
+import { Card } from '../../API';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
 import { useCards } from '../../hooks/useCards';
@@ -11,15 +11,17 @@ import { useRoom } from '../../hooks/useRoom';
 import { calcTtl } from '../../utils/calcTtl';
 import { RoomPage } from '../../components/pages/room';
 import { useParticipant } from '../../hooks/useParticipant';
-import { getRoom } from '../../graphql/queries';
-import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
   const { roomId } = router.query;
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
-  const room = useRoom(user, router.isReady, roomId as string | undefined);
+  const { room, isLoading } = useRoom(
+    user,
+    router.isReady,
+    roomId as string | undefined
+  );
   const participants = useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
@@ -99,7 +101,7 @@ const RoomPageContainer: NextPage = () => {
     );
   }, [room]);
 
-  if (!roomId || !room) {
+  if (!isLoading && (!roomId || !room)) {
     return (
       <div>
         <Header
@@ -114,6 +116,7 @@ const RoomPageContainer: NextPage = () => {
 
   return (
     <RoomPage
+      isLoading={isLoading}
       user={user}
       room={room}
       myCard={myCard}

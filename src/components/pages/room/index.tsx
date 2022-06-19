@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
 type RoomPageProps = {
+  isLoading: boolean;
   user: User | null;
   room: Room | null;
   myCard: Card | null;
@@ -24,6 +25,7 @@ type RoomPageProps = {
 };
 
 export const RoomPage: React.VFC<RoomPageProps> = ({
+  isLoading,
   user,
   room,
   myCard,
@@ -46,7 +48,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mt-10 mx-4 flex flex-col space-y-4">
-        <RoomIdPlate roomId={room?.id || ''} />
+        <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4">
             <Button
@@ -83,7 +85,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <Hand
           selectNum={myCard?.point}
           onClickCard={onClickHandCard}
-          disabledAll={!user || !!room?.isOpened}
+          disabledAll={isLoading || !user || !!room?.isOpened}
         />
       </div>
     </Layout>

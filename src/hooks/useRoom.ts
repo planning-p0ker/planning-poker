@@ -16,6 +16,7 @@ export const useRoom = (
   roomId?: string
 ) => {
   const [room, setRoom] = useState<Room | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const authMode = useMemo(() => {
     return user
       ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
@@ -31,6 +32,7 @@ export const useRoom = (
         authMode,
       })) as GraphQLResult<GetRoomQuery>;
       setRoom(result.data?.getRoom || null);
+      setIsLoading(false);
     })();
   }, [authMode, isReady, roomId]);
 
@@ -60,5 +62,7 @@ export const useRoom = (
     };
   }, [authMode, isReady, roomId]);
 
-  return room;
+  console.log(isLoading);
+
+  return { room, isLoading };
 };
