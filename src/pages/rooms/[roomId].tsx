@@ -14,14 +14,7 @@ import { useParticipant } from '../../hooks/useParticipant';
 import { getRoom } from '../../graphql/queries';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 
-type Props = {
-  rooom: Room;
-  // participants: Participant[];
-  // fieldsCard: Card[];
-};
-
-const RoomPageContainer: NextPage<Props> = ({ rooom }) => {
-  console.log('SSR room: ', rooom);
+const RoomPageContainer: NextPage = () => {
   const router = useRouter();
   const { roomId } = router.query;
 
@@ -134,20 +127,6 @@ const RoomPageContainer: NextPage<Props> = ({ rooom }) => {
       onClickHandCard={handleOnClickHandCard}
     />
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const roomId = context.query.roomId;
-  const room = (await API.graphql({
-    query: getRoom,
-    variables: { id: roomId },
-    authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
-  })) as GraphQLResult<GetRoomQuery>;
-  return {
-    props: {
-      room,
-    }, // will be passed to the page component as props
-  };
 };
 
 export default RoomPageContainer;
