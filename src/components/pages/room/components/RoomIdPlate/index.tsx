@@ -21,7 +21,7 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <Card loading={isLoading} inset={true}>
+    <Card className="w-full mx-auto" loading={isLoading} inset={true}>
       <CardContent className={'flex'}>
         <div className="font-bold text-gray-500">ROOM ID :</div>
         {!isLoading && (

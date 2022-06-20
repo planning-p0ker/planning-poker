@@ -47,7 +47,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
 
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
-      <div className="mt-10 mx-4 flex flex-col space-y-4">
+      <div className="mt-10 flex flex-col space-y-4 px-16">
         <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4">
