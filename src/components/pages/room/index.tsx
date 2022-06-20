@@ -52,7 +52,6 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4">
             <Button
-              color={'var(--primary)'}
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
               onClick={onOpen}
             >
