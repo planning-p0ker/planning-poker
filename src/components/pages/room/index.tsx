@@ -50,7 +50,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
       <div className="mt-10 flex flex-col space-y-4 px-16">
         <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
-          <div className="flex space-x-6 mt-4">
+          <div className="flex space-x-6 mt-4 pr-3">
             <Button
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
               onClick={onOpen}
@@ -66,7 +66,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             </Button>
           </div>
         </div>
-        <div className="flex justify-center space-x-4 min-h-[208px] pb-4">
+        <div className="flex justify-center space-x-5 min-h-[208px] pb-4">
           <Field
             hidden={!room?.isOpened}
             user={user}
