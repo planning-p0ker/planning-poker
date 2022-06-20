@@ -28,27 +28,11 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
-  const deleteParticipant = useCallback(async () => {
-    if (!user) return;
-
-    const myParicipant = participants.find(
-      (p) => p.username === user?.username
-    );
-    if (!myParicipant) return;
-
-    await API.graphql(
-      graphqlOperation(deleteParticipant, {
-        input: {
-          id: myParicipant.id,
-        },
-      })
-    );
-  }, [participants, user]);
 
   const handleOnSignOut = useCallback(async () => {
-    await deleteParticipant();
+    // TODO: ログアウト時の参加者削除
     onSignOut();
-  }, [deleteParticipant, onSignOut]);
+  }, [onSignOut]);
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
