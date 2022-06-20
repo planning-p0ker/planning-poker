@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
 type RoomPageProps = {
+  isLoading: boolean;
   user: User | null;
   room: Room | null;
   myCard: Card | null;
@@ -24,6 +25,7 @@ type RoomPageProps = {
 };
 
 export const RoomPage: React.VFC<RoomPageProps> = ({
+  isLoading,
   user,
   room,
   myCard,
@@ -45,17 +47,16 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
 
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
-      <div className="mt-10 mx-4 flex flex-col space-y-4">
-        <RoomIdPlate roomId={room?.id || ''} />
+      <div className="mt-10 flex flex-col space-y-4 px-16">
+        <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
-          <div className="flex space-x-6 mt-4">
+          <div className="flex space-x-6 mt-4 pr-3">
             <Button
-              color={'var(--primary)'}
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
               onClick={onOpen}
             >
               <span className="mr-1">open</span>
-              <ProgressCircular value={rate} color={'var(--info)'} size={20} />
+              <ProgressCircular value={rate} size={20} />
             </Button>
             <Button
               disabled={!user || fieldCards.length === 0}
@@ -65,7 +66,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             </Button>
           </div>
         </div>
-        <div className="flex justify-center space-x-4 min-h-[208px] pb-4">
+        <div className="flex justify-center space-x-5 min-h-[208px] pb-4">
           <Field
             hidden={!room?.isOpened}
             user={user}
@@ -83,7 +84,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <Hand
           selectNum={myCard?.point}
           onClickCard={onClickHandCard}
-          disabledAll={!user || !!room?.isOpened}
+          disabledAll={isLoading || !user || !!room?.isOpened}
         />
       </div>
     </Layout>

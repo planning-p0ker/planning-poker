@@ -16,6 +16,7 @@ export const useRoom = (
   roomId?: string
 ) => {
   const [room, setRoom] = useState<Room | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const authMode = useMemo(() => {
     return user
       ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
@@ -31,6 +32,7 @@ export const useRoom = (
         authMode,
       })) as GraphQLResult<GetRoomQuery>;
       setRoom(result.data?.getRoom || null);
+      setIsLoading(false);
     })();
   }, [authMode, isReady, roomId]);
 
@@ -45,7 +47,6 @@ export const useRoom = (
     if ('subscribe' in updateRoomListener) {
       updateRoomListener.subscribe({
         next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
-          console.log('UPDATE ROOM');
           if (data.onUpdateRoomById) {
             const room = data.onUpdateRoomById;
             setRoom(room);
@@ -61,5 +62,5 @@ export const useRoom = (
     };
   }, [authMode, isReady, roomId]);
 
-  return room;
+  return { room, isLoading };
 };

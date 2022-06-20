@@ -1,52 +1,90 @@
 import type { NextPage } from 'next';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLResult } from '@aws-amplify/api-graphql';
+import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { createRoom } from '../graphql/mutations';
 import { useRouter } from 'next/router';
 import { useUser } from '../hooks/useUser';
 import { calcTtl } from '../utils/calcTtl';
 import { generateUniqueRoomId } from '../utils/generateUniqueRoomId';
-import { CreateRoomMutation } from '../API';
+import { CreateRoomMutation, GetRoomQuery } from '../API';
 import { TopPage } from '../components/pages/top';
+import { getRoom } from '../graphql/queries';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { user, onSignIn, onSignOut } = useUser(router, router.pathname);
-  const isLoading = useRef(false);
-  const onCreateRoom = async () => {
-    isLoading.current = true;
-    const result = (await API.graphql(
-      graphqlOperation(createRoom, {
-        input: {
-          id: generateUniqueRoomId(),
-          isOpened: false,
-          ttl: calcTtl(),
-        },
-      })
-    )) as GraphQLResult<CreateRoomMutation>;
-    const resultCreateRoom = result.data?.createRoom;
-    if (resultCreateRoom) {
-      router.push(`/rooms/${resultCreateRoom.id}`);
-    }
-    isLoading.current = false;
-  };
 
-  const onJoinRoom = useCallback(
-    (roomId: string) => {
-      router.push(`/rooms/${roomId}`);
-    },
-    [router]
-  );
+  const [isCreateingRoom, setIsCreatingRoom] = useState(false);
+  const handleOnCreateRoom = useCallback(() => {
+    setIsCreatingRoom(true);
+  }, []);
+
+  const [isSearchingRoom, setIsSearchingRoom] = useState(false);
+  const [isRoomNotFound, setIsRoomNotFound] = useState(false);
+  const [roomId, setRoomId] = useState('');
+  const onChangeRoomId = useCallback((ev) => {
+    setRoomId(ev.value);
+  }, []);
+  const handleOnJoinRoom = useCallback(() => {
+    setIsSearchingRoom(true);
+  }, []);
+
+  const authMode = useMemo(() => {
+    return user
+      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+      : GRAPHQL_AUTH_MODE.AWS_IAM;
+  }, [user]);
+
+  useEffect(() => {
+    if (!isCreateingRoom) return;
+    (async () => {
+      const result = (await API.graphql(
+        graphqlOperation(createRoom, {
+          input: {
+            id: generateUniqueRoomId(),
+            isOpened: false,
+            ttl: calcTtl(),
+          },
+        })
+      )) as GraphQLResult<CreateRoomMutation>;
+      const resultCreateRoom = result.data?.createRoom;
+      setIsCreatingRoom(false);
+      if (resultCreateRoom) {
+        router.push(`/rooms/${resultCreateRoom.id}`);
+      }
+    })();
+  }, [isCreateingRoom, router]);
+
+  useEffect(() => {
+    if (!isSearchingRoom) return;
+    (async () => {
+      const result = (await API.graphql({
+        query: getRoom,
+        variables: { id: roomId },
+        authMode,
+      })) as GraphQLResult<GetRoomQuery>;
+      setIsSearchingRoom(false);
+      if (result.data?.getRoom) {
+        router.push(`/rooms/${result.data.getRoom.id}`);
+      } else {
+        setIsRoomNotFound(true);
+      }
+    })();
+  }, [authMode, isSearchingRoom, roomId, router]);
 
   return (
     <TopPage
       user={user}
       onSignIn={onSignIn}
       onSignOut={onSignOut}
-      isLoading={isLoading.current}
-      onCreateRoom={onCreateRoom}
-      onJoinRoom={onJoinRoom}
+      onCreateRoom={handleOnCreateRoom}
+      onJoinRoom={handleOnJoinRoom}
+      isCreateingRoom={isCreateingRoom}
+      isSearchingRoom={isSearchingRoom}
+      roomId={roomId}
+      onChangeRoomId={onChangeRoomId}
+      isRoomNotFound={isRoomNotFound}
     />
   );
 };

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  ToggleButton,
-  ToggleButtonGroup,
-} from 'ui-neumorphism';
+import { Button } from 'ui-neumorphism';
 
 const pointList = [1, 2, 3, 5, 8, 13, 21, 34];
 
@@ -15,23 +10,20 @@ const Hand: React.VFC<{
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
 }> = ({ selectNum, onClickCard, disabledAll = false }) => {
   return (
-    <ToggleButtonGroup className={'space-x-3 mx-auto'}>
+    <div className="grid grid-cols-8 px-20 sm:grid-cols-4 sm:px-10 gap-4">
       {pointList.map((p) => (
-        <ToggleButton
-          key={p}
-          className={'p-5'}
-          selected={p === selectNum}
-          size="large"
-          disabled={disabledAll}
-          value={p}
-          onClick={onClickCard(p === selectNum ? null : p)}
-        >
-          <Card inset={p === selectNum}>
-            <CardContent>{p}</CardContent>
-          </Card>
-        </ToggleButton>
+        <div key={p} className="w-8">
+          <Button
+            active={p === selectNum}
+            style={{ minWidth: 40, height: 60 }}
+            disabled={disabledAll}
+            onClick={onClickCard(p === selectNum ? null : p)}
+          >
+            <span className="text-xl">{p}</span>
+          </Button>
+        </div>
       ))}
-    </ToggleButtonGroup>
+    </div>
   );
 };
 

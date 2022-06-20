@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import React, { useCallback } from 'react';
 import Header from '../../components/Header';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -17,34 +17,22 @@ const RoomPageContainer: NextPage = () => {
   const { roomId } = router.query;
 
   const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
-  const room = useRoom(user, router.isReady, roomId as string | undefined);
+  const { room, isLoading } = useRoom(
+    user,
+    router.isReady,
+    roomId as string | undefined
+  );
   const participants = useParticipant(user, room);
   const { fieldCards, myCard } = useCards(
     user,
     router.isReady,
     roomId as string | undefined
   );
-  const deleteParticipant = useCallback(async () => {
-    if (!user) return;
-
-    const myParicipant = participants.find(
-      (p) => p.username === user?.username
-    );
-    if (!myParicipant) return;
-
-    await API.graphql(
-      graphqlOperation(deleteParticipant, {
-        input: {
-          id: myParicipant.id,
-        },
-      })
-    );
-  }, [participants, user]);
 
   const handleOnSignOut = useCallback(async () => {
-    await deleteParticipant();
+    // TODO: ログアウト時の参加者削除
     onSignOut();
-  }, [deleteParticipant, onSignOut]);
+  }, [onSignOut]);
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
@@ -97,7 +85,7 @@ const RoomPageContainer: NextPage = () => {
     );
   }, [room]);
 
-  if (!roomId || !room) {
+  if (!isLoading && (!roomId || !room)) {
     return (
       <div>
         <Header
@@ -112,6 +100,7 @@ const RoomPageContainer: NextPage = () => {
 
   return (
     <RoomPage
+      isLoading={isLoading}
       user={user}
       room={room}
       myCard={myCard}

@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "poker38fe384f_identitypool_38fe384f",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "poker38fe384f",
     "userPoolName": "poker38fe384f_userpool_38fe384f",
     "autoVerifiedAttributes": ["email"],

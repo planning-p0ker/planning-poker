@@ -21,10 +21,10 @@ const ParticipantList: React.VFC<{
             const point = card?.point || '🤔';
             return (
               <li key={idx} className="text-lg font-bold flex">
-                <div className="mr-1 flex-shrink w-7 text-xl">
+                <div className="mr-3 flex-shrink w-7 text-xl text-right">
                   {isOpened ? point : emoji}
                 </div>
-                <div className="">{p.displayUserName}</div>
+                <div className="overflow-ellipsis">{p.displayUserName}</div>
               </li>
             );
           })}
