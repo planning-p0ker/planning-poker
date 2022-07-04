@@ -1,4 +1,3 @@
-import { Button, ProgressCircular } from 'ui-neumorphism';
 import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
 import Field from './components/Field';
@@ -51,19 +50,19 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4 pr-3">
-            <Button
+            <button
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
               onClick={onOpen}
             >
               <span className="mr-1">open</span>
-              <ProgressCircular value={rate} size={20} />
-            </Button>
-            <Button
+              {/* <ProgressCircular value={rate} size={20} /> */}
+            </button>
+            <button
               disabled={!user || fieldCards.length === 0}
               onClick={onClear}
             >
               clear
-            </Button>
+            </button>
           </div>
         </div>
         <div className="flex justify-center space-x-5 min-h-[208px] pb-4">

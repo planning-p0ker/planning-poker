@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-import { Button, Divider } from 'ui-neumorphism';
 import UserButton from './components/UserButton';
 
 export type HeaderProps = {
@@ -28,7 +27,7 @@ const Header: React.VFC<HeaderProps> = ({
         </p>
         <div>
           {!displayName ? (
-            <Button onClick={onSignIn}>SING IN</Button>
+            <button onClick={onSignIn}>SING IN</button>
           ) : (
             <UserButton displayName={displayName}>
               <button onClick={onSignOut}>Sing out 🖐️</button>
@@ -36,9 +35,6 @@ const Header: React.VFC<HeaderProps> = ({
           )}
         </div>
       </header>
-      <div className="px-4">
-        <Divider />
-      </div>
     </>
   );
 };

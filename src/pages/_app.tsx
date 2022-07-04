@@ -1,4 +1,3 @@
-import 'ui-neumorphism/dist/index.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Amplify } from 'aws-amplify';
@@ -15,7 +14,7 @@ const updatedAwsConfig = {
 };
 Amplify.configure(updatedAwsConfig);
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return <Component {...pageProps} />;
 }
 

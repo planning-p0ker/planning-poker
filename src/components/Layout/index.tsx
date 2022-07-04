@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { User } from '../../hooks/useUser';
 import Header from '../Header';
@@ -21,6 +22,7 @@ export const Layout: React.VFC<PropsWithChildren<LayoutProps>> = ({
         onSignIn={onSignIn}
         onSignOut={onSignOut}
       />
+      <Divider />
       <main className="max-w-3xl mx-auto">{children}</main>
     </>
   );

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { Card } from '../../../../../API';
 import { User } from '../../../../../hooks/useUser';
-import { Card as CardUI } from 'ui-neumorphism';
 import styles from './Field.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
@@ -29,10 +28,7 @@ const Field: React.VFC<{
   }, [cards, sum]);
 
   return (
-    <CardUI
-      inset={true}
-      className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
-    >
+    <div className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}>
       <div className={styles.point}>
         {hidden ? (
           <span className={styles.i}>?</span>
@@ -44,7 +40,7 @@ const Field: React.VFC<{
           </>
         )}
       </div>
-    </CardUI>
+    </div>
   );
 };
 

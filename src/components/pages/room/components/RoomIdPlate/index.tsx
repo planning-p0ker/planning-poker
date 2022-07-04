@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { AiOutlineCopy } from 'react-icons/ai';
-import { Card, CardContent } from 'ui-neumorphism';
 
 const RoomIdPlate: React.VFC<{
   roomId: string;
@@ -21,13 +20,8 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <Card
-      style={{ maxWidth: 616 }}
-      className="w-full mx-auto"
-      loading={isLoading}
-      inset={true}
-    >
-      <CardContent className={'flex'}>
+    <div>
+      <div className={'flex'}>
         <div className="font-bold text-gray-500">ROOM ID :</div>
         {!isLoading && (
           <>
@@ -47,8 +41,8 @@ const RoomIdPlate: React.VFC<{
             </div>
           </>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
