@@ -7,6 +7,7 @@ import RoomIdPlate from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
+import { Button, CircularProgress } from '@mui/material';
 
 type RoomPageProps = {
   isLoading: boolean;
@@ -50,19 +51,29 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4 pr-3">
-            <button
+            <Button
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
+              variant={rate === 100 ? 'contained' : 'outlined'}
               onClick={onOpen}
+              endIcon={
+                <CircularProgress
+                  size={20}
+                  variant="determinate"
+                  color={rate === 100 ? 'inherit' : 'primary'}
+                  value={rate}
+                />
+              }
             >
-              <span className="mr-1">open</span>
+              OPEN
               {/* <ProgressCircular value={rate} size={20} /> */}
-            </button>
-            <button
+            </Button>
+            <Button
+              color="success"
               disabled={!user || fieldCards.length === 0}
               onClick={onClear}
             >
               clear
-            </button>
+            </Button>
           </div>
         </div>
         <div className="flex justify-center space-x-5 min-h-[208px] pb-4">

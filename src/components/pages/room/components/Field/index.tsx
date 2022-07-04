@@ -4,6 +4,7 @@ import { User } from '../../../../../hooks/useUser';
 import styles from './Field.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
+import { Card as CardUI } from '@mui/material';
 
 const Field: React.VFC<{
   user: User | null;
@@ -28,7 +29,10 @@ const Field: React.VFC<{
   }, [cards, sum]);
 
   return (
-    <div className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}>
+    <CardUI
+      elevation={0}
+      className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
+    >
       <div className={styles.point}>
         {hidden ? (
           <span className={styles.i}>?</span>
@@ -40,7 +44,7 @@ const Field: React.VFC<{
           </>
         )}
       </div>
-    </div>
+    </CardUI>
   );
 };
 

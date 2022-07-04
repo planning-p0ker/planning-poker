@@ -1,3 +1,4 @@
+import { Card as CardUI } from '@mui/material';
 import React from 'react';
 import { Participant, Card } from '../../../../../API';
 
@@ -8,7 +9,10 @@ const ParticipantList: React.VFC<{
   className?: React.HTMLAttributes<HTMLUListElement>['className'];
 }> = ({ participants, fieldsCard, isOpened, className = '' }) => {
   return (
-    <div className={`px-4 w-full rounded flex flex-wrap h-56 ${className}`}>
+    <CardUI
+      elevation={0}
+      className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
+    >
       <ul className={'grid grid-cols-1'}>
         {participants.map((p, idx) => {
           const card = fieldsCard.find((fc) => fc.username === p.username);
@@ -24,7 +28,7 @@ const ParticipantList: React.VFC<{
           );
         })}
       </ul>
-    </div>
+    </CardUI>
   );
 };
 

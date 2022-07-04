@@ -1,3 +1,4 @@
+import { Card } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import { AiOutlineCopy } from 'react-icons/ai';
 
@@ -20,7 +21,7 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <div>
+    <Card className="p-4" elevation={0}>
       <div className={'flex'}>
         <div className="font-bold text-gray-500">ROOM ID :</div>
         {!isLoading && (
@@ -42,7 +43,7 @@ const RoomIdPlate: React.VFC<{
           </>
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 

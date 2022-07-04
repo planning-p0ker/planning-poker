@@ -36,6 +36,7 @@ const RoomPageContainer: NextPage = () => {
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
+      console.log('point', point);
       if (myCard) {
         await API.graphql(
           graphqlOperation(deleteCard, { input: { id: myCard.id } })
