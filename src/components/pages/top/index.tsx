@@ -58,9 +58,9 @@ export const TopPage: React.VFC<TopPageProps> = ({
               </h2>
               <p
                 style={{ marginBottom: '20px' }}
-                className="text-center text-8xl"
+                className="text-center text-5xl"
               >
-                🏗️
+                👩‍🔧🏗️👨‍🏭
               </p>
               <Button
                 variant="outlined"
@@ -72,7 +72,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
               </Button>
             </CardContent>
           </Card>
-          <Card className="w-72" elevation={0}>
+          <Card elevation={0}>
             {isSearchingRoom && <LinearProgress />}
             <CardContent>
               <h2 className="font-bold" style={{ marginBottom: '12px' }}>
@@ -80,9 +80,9 @@ export const TopPage: React.VFC<TopPageProps> = ({
               </h2>
               <p
                 style={{ marginBottom: '12px' }}
-                className="text-center text-8xl"
+                className="text-center text-5xl"
               >
-                🚪
+                🏠🏃‍♀️🏃‍♂️
               </p>
               <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                 <OutlinedInput
