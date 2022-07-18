@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import React, { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { API, graphqlOperation } from 'aws-amplify';

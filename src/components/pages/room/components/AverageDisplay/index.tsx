@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import { Card } from '../../../../../API';
 import { User } from '../../../../../hooks/useUser';
-import styles from './Field.module.css';
+import styles from './AverageDisplay.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
 import { Card as CardUI } from '@mui/material';
 
-const Field: React.VFC<{
+const AverageDisplay: React.VFC<{
   user: User | null;
   cards: Card[];
   hidden: boolean;
@@ -48,4 +48,4 @@ const Field: React.VFC<{
   );
 };
 
-export default Field;
+export default AverageDisplay;

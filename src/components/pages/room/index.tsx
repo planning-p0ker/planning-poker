@@ -1,7 +1,7 @@
 import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
-import Field from './components/Field';
-import Hand from './components/Hand';
+import AverageDisplay from './components/AverageDisplay';
+import PointButtons from './components/PointButtons';
 import ParticipantList from './components/ParticipantList';
 import RoomIdPlate from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
@@ -77,7 +77,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
           </div>
         </div>
         <div className="flex justify-center space-x-5 min-h-[208px] pb-4">
-          <Field
+          <AverageDisplay
             hidden={!room?.isOpened}
             user={user}
             cards={fieldCards}
@@ -91,7 +91,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             fieldsCard={fieldCards}
           />
         </div>
-        <Hand
+        <PointButtons
           selectNum={myCard?.point}
           onClickCard={onClickHandCard}
           disabledAll={isLoading || !user || !!room?.isOpened}

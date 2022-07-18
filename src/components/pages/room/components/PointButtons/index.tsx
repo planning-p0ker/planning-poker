@@ -3,7 +3,7 @@ import React from 'react';
 
 const pointList = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
 
-const Hand: React.VFC<{
+const PointButtons: React.VFC<{
   selectNum?: number | null;
   onClickCard: (num: number | null) => () => void;
   disabledAll?: boolean;
@@ -28,4 +28,4 @@ const Hand: React.VFC<{
   );
 };
 
-export default Hand;
+export default PointButtons;
