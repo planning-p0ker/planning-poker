@@ -1,7 +1,7 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 
-const pointList = [1, 2, 3, 5, 8, 13, 21, 34];
+const pointList = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
 
 const Hand: React.VFC<{
   selectNum?: number | null;
