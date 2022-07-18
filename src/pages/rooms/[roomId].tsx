@@ -1,8 +1,13 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { API, graphqlOperation } from 'aws-amplify';
-import { deleteCard, createCard, updateRoom } from '../../graphql/mutations';
+import {
+  deleteCard,
+  createCard,
+  updateRoom,
+  deleteParticipant,
+} from '../../graphql/mutations';
 import { Card } from '../../API';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
@@ -28,15 +33,38 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
+  const [isSignOut, setIsSignOut] = useState(false);
 
   const handleOnSignOut = useCallback(async () => {
-    // TODO: ログアウト時の参加者削除
+    // カード削除
+    if (myCard) {
+      await API.graphql(
+        graphqlOperation(deleteCard, { input: { id: myCard.id } })
+      );
+    }
+    // 参加者情報削除
+    const myParicipant = participants.find(
+      (p) => p.username === user?.username
+    );
+    if (myParicipant) {
+      await API.graphql(
+        graphqlOperation(deleteParticipant, {
+          input: {
+            id: myParicipant.id,
+          },
+        })
+      );
+    }
+    setIsSignOut(true);
+  }, [myCard, participants, user?.username]);
+
+  useEffect(() => {
+    if (!isSignOut) return;
     onSignOut();
-  }, [onSignOut]);
+  }, [isSignOut, onSignOut]);
 
   const handleOnClickHandCard = useCallback(
     (point: number | null) => async () => {
-      console.log('point', point);
       if (myCard) {
         await API.graphql(
           graphqlOperation(deleteCard, { input: { id: myCard.id } })
