@@ -65,10 +65,8 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
               }
             >
               OPEN
-              {/* <ProgressCircular value={rate} size={20} /> */}
             </Button>
             <Button
-              color="success"
               disabled={!user || fieldCards.length === 0}
               onClick={onClear}
             >
