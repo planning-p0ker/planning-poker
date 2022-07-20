@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
   OnCreateParticipantByRoomIdSubscription,

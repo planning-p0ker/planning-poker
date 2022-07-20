@@ -14,11 +14,7 @@ import {
   deleteParticipant,
   createParticipant,
 } from '../../graphql/mutations';
-import {
-  Card,
-  CreateParticipantInput,
-  CreateParticipantMutation,
-} from '../../API';
+import { Card, CreateParticipantInput } from '../../API';
 import { useRouter } from 'next/router';
 import { useUser } from '../../hooks/useUser';
 import { useCards } from '../../hooks/useCards';
@@ -26,7 +22,6 @@ import { useRoom } from '../../hooks/useRoom';
 import { calcTtl } from '../../utils/calcTtl';
 import { RoomPage } from '../../components/pages/room';
 import { useParticipant } from '../../hooks/useParticipant';
-import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
