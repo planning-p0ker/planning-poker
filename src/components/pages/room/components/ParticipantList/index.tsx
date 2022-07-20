@@ -12,9 +12,10 @@ const ParticipantList: React.VFC<{
     <CardUI
       elevation={0}
       variant="outlined"
-      className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
+      sx={{ minHeight: 216 }}
+      className={`p-4 w-full rounded flex flex-wrap ${className}`}
     >
-      <ul className={'grid grid-cols-1'}>
+      <ul className={'flex flex-col space-y-2'}>
         {participants.map((p, idx) => {
           const card = fieldsCard.find((fc) => fc.username === p.username);
           const emoji = !!card ? '😎' : '🤔';
