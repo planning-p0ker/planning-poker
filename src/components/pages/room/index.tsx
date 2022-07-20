@@ -1,13 +1,17 @@
-import { Button, ProgressCircular } from 'ui-neumorphism';
 import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
-import Field from './components/Field';
-import Hand from './components/Hand';
+import AverageDisplay from './components/AverageDisplay';
+import PointButtons from './components/PointButtons';
 import ParticipantList from './components/ParticipantList';
 import RoomIdPlate from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
+import { Button, CircularProgress } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import InputNameModal, {
+  InputNameModalProps,
+} from './components/InputNameModal';
 
 type RoomPageProps = {
   isLoading: boolean;
@@ -22,6 +26,7 @@ type RoomPageProps = {
   onClear: () => void;
   onClickFieldCard: (card: Card) => void;
   onClickHandCard: (num: number | null) => () => void;
+  modalProps: InputNameModalProps;
 };
 
 export const RoomPage: React.VFC<RoomPageProps> = ({
@@ -31,6 +36,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   myCard,
   fieldCards,
   participants,
+  modalProps,
   onSignIn,
   onSignOut,
   onOpen,
@@ -47,27 +53,41 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
 
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
+      <InputNameModal {...modalProps} />
       <div className="mt-10 flex flex-col space-y-4 px-16">
         <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
           <div className="flex space-x-6 mt-4 pr-3">
             <Button
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
+              variant={
+                rate === 100 && fieldCards.length ? 'contained' : 'outlined'
+              }
               onClick={onOpen}
+              endIcon={
+                <CircularProgress
+                  size={20}
+                  variant="determinate"
+                  color={rate === 100 ? 'inherit' : 'primary'}
+                  value={rate}
+                />
+              }
             >
-              <span className="mr-1">open</span>
-              <ProgressCircular value={rate} size={20} />
+              OPEN
             </Button>
             <Button
+              color="secondary"
+              variant="outlined"
               disabled={!user || fieldCards.length === 0}
               onClick={onClear}
+              endIcon={<ClearIcon />}
             >
               clear
             </Button>
           </div>
         </div>
         <div className="flex justify-center space-x-5 min-h-[208px] pb-4">
-          <Field
+          <AverageDisplay
             hidden={!room?.isOpened}
             user={user}
             cards={fieldCards}
@@ -81,7 +101,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
             fieldsCard={fieldCards}
           />
         </div>
-        <Hand
+        <PointButtons
           selectNum={myCard?.point}
           onClickCard={onClickHandCard}
           disabledAll={isLoading || !user || !!room?.isOpened}

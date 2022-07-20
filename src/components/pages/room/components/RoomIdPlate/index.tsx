@@ -1,6 +1,6 @@
+import { Card } from '@mui/material';
 import React, { useCallback, useState } from 'react';
-import { AiOutlineCopy } from 'react-icons/ai';
-import { Card, CardContent } from 'ui-neumorphism';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const RoomIdPlate: React.VFC<{
   roomId: string;
@@ -21,13 +21,8 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <Card
-      style={{ maxWidth: 616 }}
-      className="w-full mx-auto"
-      loading={isLoading}
-      inset={true}
-    >
-      <CardContent className={'flex'}>
+    <Card className="p-4" elevation={0} variant="outlined">
+      <div className={'flex'}>
         <div className="font-bold text-gray-500">ROOM ID :</div>
         {!isLoading && (
           <>
@@ -36,7 +31,7 @@ const RoomIdPlate: React.VFC<{
               onClick={onClickRoomId}
             >
               <div className="font-bold ml-2">{roomId}</div>
-              <AiOutlineCopy className="ml-2" />
+              <ContentCopyIcon className="ml-2 w-4" />
             </div>
             <div
               className={`transition ml-4 font-bold text-green-500 delay-100 ${
@@ -47,7 +42,7 @@ const RoomIdPlate: React.VFC<{
             </div>
           </>
         )}
-      </CardContent>
+      </div>
     </Card>
   );
 };

@@ -1,16 +1,25 @@
 import {
   Button,
   Card,
-  CardAction,
   CardContent,
+  Divider,
   Fab,
-  H5,
-  Subtitle1,
-  Subtitle2,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputBase,
+  InputLabel,
+  OutlinedInput,
+  Paper,
   TextField,
-} from 'ui-neumorphism';
+} from '@mui/material';
 import { User } from '../../../hooks/useUser';
 import { Layout } from '../../Layout';
+import LinearProgress from '@mui/material/LinearProgress';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 type TopPageProps = {
   user: User | null;
@@ -40,42 +49,78 @@ export const TopPage: React.VFC<TopPageProps> = ({
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mx-4 pt-3">
-        <Subtitle1>Use it to estimate story points online.</Subtitle1>
-        <div className="mt-5 flex space-x-6">
-          {/* CREATE */}
-          <Card loading={isCreateingRoom}>
+        <div className="mt-5 flex mx-auto justify-between md:flex-col md:space-y-4">
+          <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
+            {isCreateingRoom && <LinearProgress />}
             <CardContent>
-              <H5>CREATE YOUR ROOM</H5>
-              <Subtitle2 secondary style={{ marginBottom: '12px' }}>
-                You must be logged in to create a room
-              </Subtitle2>
-              <CardAction className="mt-2">
-                <Button
-                  onClick={onCreateRoom}
-                  className={'w-full'}
-                  disabled={!user || isCreateingRoom || isSearchingRoom}
-                >
-                  🏗️
-                </Button>
-              </CardAction>
+              <h2 className="font-bold" style={{ marginBottom: '12px' }}>
+                CREATE ROOM
+              </h2>
+              <p
+                style={{ marginBottom: '20px' }}
+                className="text-center text-5xl"
+              >
+                👩‍🔧🏗️👨‍🏭
+              </p>
+              <Button
+                variant="outlined"
+                onClick={onCreateRoom}
+                className={'w-full border h-14'}
+                disabled={!user || isCreateingRoom || isSearchingRoom}
+              >
+                CREATE ROOM
+              </Button>
             </CardContent>
           </Card>
-          <Card loading={isSearchingRoom}>
+          <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
+            {isSearchingRoom && <LinearProgress />}
             <CardContent>
-              <H5>JOIN ROOM</H5>
-              <Subtitle2 secondary style={{ marginBottom: '12px' }}>
-                {"Enter your team's  roomID"}
-              </Subtitle2>
+              <h2 className="font-bold" style={{ marginBottom: '12px' }}>
+                JOIN ROOM
+              </h2>
+              <p
+                style={{ marginBottom: '12px' }}
+                className="text-center text-5xl"
+              >
+                🏠🏃‍♀️🏃‍♂️
+              </p>
               <div className="flex">
-                <TextField
-                  id="roomId"
-                  value={roomId}
-                  onChange={onChangeRoomId}
-                  hint={isRoomNotFound ? '😥ROOM NOT FOUND' : undefined}
-                />
-                <Fab disabled={!roomId} onClick={() => onJoinRoom(roomId)}>
-                  🚀
-                </Fab>
+                <FormControl
+                  className="mx-auto"
+                  sx={{ m: 1, width: '25ch' }}
+                  variant="standard"
+                >
+                  <OutlinedInput
+                    placeholder="ROOM ID"
+                    error={isRoomNotFound}
+                    onChange={onChangeRoomId}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <Divider
+                          sx={{ height: 28, m: 0.5 }}
+                          orientation="vertical"
+                        />
+                        <IconButton
+                          disabled={!roomId}
+                          onClick={() => onJoinRoom(roomId)}
+                        >
+                          <ArrowForwardIcon
+                            color={
+                              isRoomNotFound
+                                ? 'error'
+                                : roomId
+                                ? 'primary'
+                                : 'disabled'
+                            }
+                          />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  {isRoomNotFound && (
+                    <FormHelperText error>NOT FOUND</FormHelperText>
+                  )}
+                </FormControl>
               </div>
             </CardContent>
           </Card>

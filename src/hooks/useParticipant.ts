@@ -1,20 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
-  CreateParticipantInput,
-  CreateParticipantMutation,
-  DeleteParticipantInput,
-  ListParticipantsQuery,
-  OnCreateCardByRoomIdSubscriptionVariables,
   OnCreateParticipantByRoomIdSubscription,
   OnDeleteParticipantByRoomIdSubscription,
   Participant,
   Room,
 } from '../API';
-import { createParticipant, deleteParticipant } from '../graphql/mutations';
+import { deleteParticipant } from '../graphql/mutations';
 import { User } from './useUser';
-import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import { listParticipants } from '../graphql/queries';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
   onCreateParticipantByRoomId,
   onDeleteParticipantByRoomId,
@@ -106,13 +100,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
     );
   }, [myParicipant]);
 
-  /**
-   * ユーザー離脱時に参加者データを削除
-   * - [x] タブを閉じる
-   * - [x] 別サイトに行く
-   * - [x] TOPページに行く
-   * - [ ] ログアウトする
-   */
   useEffect(() => {
     router.events.on('routeChangeStart', onBeforeUnload);
     window.addEventListener('beforeunload', onBeforeUnload);
@@ -122,44 +109,6 @@ export const useParticipant = (user: User | null, room: Room | null) => {
       window.removeEventListener('beforeunload', onBeforeUnload);
     };
   }, [onBeforeUnload, router.events]);
-
-  useEffect(() => {
-    if (!room?.id) {
-      return;
-    }
-    (async () => {
-      const result = (await API.graphql({
-        query: listParticipants,
-        authMode,
-        variables: { filter: { roomParticipantsId: { eq: room.id } } },
-      })) as GraphQLResult<ListParticipantsQuery>;
-      const items = result.data?.listParticipants?.items;
-      if (items) {
-        // roomの参加者をセット
-        setParicipants(items);
-
-        // user
-        if (user) {
-          const myP = items.find((i) => i.username === user.username);
-          if (myP) {
-            setMyParicipant(myP);
-          } else {
-            const { data } = (await API.graphql(
-              graphqlOperation(createParticipant, {
-                input: {
-                  roomParticipantsId: room.id,
-                  username: user.username,
-                  displayUserName: user.displayName,
-                } as CreateParticipantInput,
-              })
-            )) as GraphQLResult<CreateParticipantMutation>;
-            if (data?.createParticipant)
-              setMyParicipant(data.createParticipant);
-          }
-        }
-      }
-    })();
-  }, [authMode, room?.id, user]);
 
   return paricipants;
 };

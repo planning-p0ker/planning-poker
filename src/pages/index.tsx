@@ -24,7 +24,7 @@ const Home: NextPage = () => {
   const [isRoomNotFound, setIsRoomNotFound] = useState(false);
   const [roomId, setRoomId] = useState('');
   const onChangeRoomId = useCallback((ev) => {
-    setRoomId(ev.value);
+    setRoomId(ev.target.value);
   }, []);
   const handleOnJoinRoom = useCallback(() => {
     setIsSearchingRoom(true);
@@ -65,6 +65,7 @@ const Home: NextPage = () => {
         authMode,
       })) as GraphQLResult<GetRoomQuery>;
       setIsSearchingRoom(false);
+      console.log(roomId, result.data?.getRoom);
       if (result.data?.getRoom) {
         router.push(`/rooms/${result.data.getRoom.id}`);
       } else {
