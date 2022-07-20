@@ -11,6 +11,7 @@ const ParticipantList: React.VFC<{
   return (
     <CardUI
       elevation={0}
+      variant="outlined"
       className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
     >
       <ul className={'grid grid-cols-1'}>

@@ -21,7 +21,7 @@ const RoomIdPlate: React.VFC<{
   }, [clearCopied, roomId]);
 
   return (
-    <Card className="p-4" elevation={0}>
+    <Card className="p-4" elevation={0} variant="outlined">
       <div className={'flex'}>
         <div className="font-bold text-gray-500">ROOM ID :</div>
         {!isLoading && (

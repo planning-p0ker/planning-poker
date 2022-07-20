@@ -50,7 +50,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mx-4 pt-3">
         <div className="mt-5 flex mx-auto justify-between md:flex-col md:space-y-4">
-          <Card className="w-80 md:w-full" elevation={0}>
+          <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
             {isCreateingRoom && <LinearProgress />}
             <CardContent>
               <h2 className="font-bold" style={{ marginBottom: '12px' }}>
@@ -72,7 +72,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
               </Button>
             </CardContent>
           </Card>
-          <Card className="w-80 md:w-full" elevation={0}>
+          <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
             {isSearchingRoom && <LinearProgress />}
             <CardContent>
               <h2 className="font-bold" style={{ marginBottom: '12px' }}>

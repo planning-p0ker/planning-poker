@@ -31,6 +31,7 @@ const AverageDisplay: React.VFC<{
   return (
     <CardUI
       elevation={0}
+      variant="outlined"
       className={`p-4 w-full rounded flex flex-wrap h-56 ${className}`}
     >
       <div className={styles.point}>

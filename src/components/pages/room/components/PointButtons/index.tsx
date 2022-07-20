@@ -9,11 +9,7 @@ const PointButtons: React.VFC<{
   disabledAll?: boolean;
 }> = ({ selectNum, onClickCard, disabledAll = false }) => {
   return (
-    <ToggleButtonGroup
-      color="primary"
-      value={selectNum}
-      className="mx-auto bg-white"
-    >
+    <ToggleButtonGroup color="primary" value={selectNum} className="mx-auto">
       {pointList.map((p) => (
         <ToggleButton
           value={p}

@@ -8,6 +8,7 @@ import { Layout } from '../../Layout';
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 import { Button, CircularProgress } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
 type RoomPageProps = {
   isLoading: boolean;
@@ -53,7 +54,9 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
           <div className="flex space-x-6 mt-4 pr-3">
             <Button
               disabled={!user || fieldCards.length === 0 || room?.isOpened}
-              variant={rate === 100 ? 'contained' : 'outlined'}
+              variant={
+                rate === 100 && fieldCards.length ? 'contained' : 'outlined'
+              }
               onClick={onOpen}
               endIcon={
                 <CircularProgress
@@ -67,8 +70,11 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
               OPEN
             </Button>
             <Button
+              color="secondary"
+              variant="outlined"
               disabled={!user || fieldCards.length === 0}
               onClick={onClear}
+              endIcon={<ClearIcon />}
             >
               clear
             </Button>
