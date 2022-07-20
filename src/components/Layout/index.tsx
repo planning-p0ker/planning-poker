@@ -26,7 +26,7 @@ export const Layout: React.VFC<PropsWithChildren<LayoutProps>> = ({
       <Divider />
       <main className="max-w-3xl mx-auto pt-10">{children}</main>
       <Link
-        sx={{ marginTop: 160 }}
+        sx={{ marginTop: 20 }}
         className="flex space-x-1 justify-center"
         href="https://github.com/planning-p0ker/planning-poker"
         target="_blank"
