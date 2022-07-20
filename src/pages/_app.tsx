@@ -21,7 +21,8 @@ const testTheme = createTheme({
       main: '#080AEF',
     },
     secondary: {
-      main: '#F56407',
+      main: '#8A07BD',
+      // main: '#F56407',
     },
     background: {
       default: '#0C0C0A',

@@ -5,10 +5,13 @@ import PointButtons from './components/PointButtons';
 import ParticipantList from './components/ParticipantList';
 import RoomIdPlate from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { Button, CircularProgress } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import InputNameModal, {
+  InputNameModalProps,
+} from './components/InputNameModal';
 
 type RoomPageProps = {
   isLoading: boolean;
@@ -23,6 +26,7 @@ type RoomPageProps = {
   onClear: () => void;
   onClickFieldCard: (card: Card) => void;
   onClickHandCard: (num: number | null) => () => void;
+  modalProps: InputNameModalProps;
 };
 
 export const RoomPage: React.VFC<RoomPageProps> = ({
@@ -32,6 +36,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   myCard,
   fieldCards,
   participants,
+  modalProps,
   onSignIn,
   onSignOut,
   onOpen,
@@ -48,6 +53,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
 
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
+      <InputNameModal {...modalProps} />
       <div className="mt-10 flex flex-col space-y-4 px-16">
         <RoomIdPlate isLoading={isLoading} roomId={room?.id || ''} />
         <div className="flex justify-end align-middle">
