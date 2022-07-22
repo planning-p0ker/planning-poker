@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from '../API';
@@ -13,17 +13,12 @@ type UpdateRoomSubscriptionEvent = {
 };
 
 export const useRoom = (
-  user: User | null,
+  authMode: GRAPHQL_AUTH_MODE,
   isReady: boolean,
   roomId?: string
 ) => {
   const [room, setRoom] = useState<Room | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const authMode = useMemo(() => {
-    return user
-      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-      : GRAPHQL_AUTH_MODE.AWS_IAM;
-  }, [user]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;

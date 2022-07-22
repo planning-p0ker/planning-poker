@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import {
   OnCreateParticipantByRoomIdSubscription,
@@ -6,7 +6,6 @@ import {
   Participant,
   Room,
 } from '../API';
-import { User } from './useUser';
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
   onCreateParticipantByRoomId,
@@ -20,14 +19,11 @@ type DeleteParticipantSubscriptionEvent = {
   value: { data: OnDeleteParticipantByRoomIdSubscription };
 };
 
-export const useParticipant = (user: User | null, room: Room | null) => {
+export const useParticipant = (
+  authMode: GRAPHQL_AUTH_MODE,
+  room: Room | null
+) => {
   const [paricipants, setParicipants] = useState<Participant[]>([]);
-
-  const authMode = useMemo(() => {
-    return user
-      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-      : GRAPHQL_AUTH_MODE.AWS_IAM;
-  }, [user]);
 
   // Subscription
   useEffect(() => {

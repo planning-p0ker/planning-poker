@@ -23,15 +23,18 @@ const RoomPageContainer: NextPage = () => {
   const router = useRouter();
   const { roomId } = router.query;
 
-  const { user, onSignIn, onSignOut } = useUser(router, `/rooms/${roomId}`);
+  const { user, authMode, onSignIn, onSignOut } = useUser(
+    router,
+    `/rooms/${roomId}`
+  );
   const { room, isLoading, handleOnOpen } = useRoom(
-    user,
+    authMode,
     router.isReady,
     roomId as string | undefined
   );
-  const participants = useParticipant(user, room);
+  const participants = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
-    useCards(user, router.isReady, roomId as string | undefined);
+    useCards(user, authMode, router.isReady, roomId as string | undefined);
   const { handleOnSignOut } = useLeaveRoom(
     router,
     onSignOut,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';
@@ -26,17 +26,12 @@ type DeleteCardSubscriptionEvent = {
 
 export const useCards = (
   user: User | null,
+  authMode: GRAPHQL_AUTH_MODE,
   isReady: boolean,
   roomId?: string
 ) => {
   const [fieldCards, setFieldCards] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
-
-  const authMode = useMemo(() => {
-    return user
-      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-      : GRAPHQL_AUTH_MODE.AWS_IAM;
-  }, [user]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
