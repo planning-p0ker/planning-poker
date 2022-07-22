@@ -24,8 +24,7 @@ type RoomPageProps = {
   onSignOut: () => void;
   onOpen: () => void;
   onClear: () => void;
-  onClickFieldCard: (card: Card) => void;
-  onClickHandCard: (num: number | null) => () => void;
+  onClickPointButton: (num: number | null) => () => void;
   modalProps: InputNameModalProps;
 };
 
@@ -41,8 +40,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
   onSignOut,
   onOpen,
   onClear,
-  onClickFieldCard,
-  onClickHandCard,
+  onClickPointButton,
 }) => {
   const rate = useMemo(() => {
     return new BigNumber(fieldCards.length)
@@ -89,9 +87,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         <div className="flex justify-center space-x-5 min-h-[208px] pb-4">
           <AverageDisplay
             hidden={!room?.isOpened}
-            user={user}
             cards={fieldCards}
-            onClickMyCard={onClickFieldCard}
             className="flex-shrink max-w-[200px] min-w-[140px]"
           />
           <ParticipantList
@@ -103,7 +99,7 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
         </div>
         <PointButtons
           selectNum={myCard?.point}
-          onClickCard={onClickHandCard}
+          onClickPointButton={onClickPointButton}
           disabledAll={isLoading || !user || !!room?.isOpened}
         />
       </div>

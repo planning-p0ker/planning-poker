@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
-import { API } from 'aws-amplify';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from '../API';
 import { getRoom } from '../graphql/queries';
 import { onUpdateRoomById } from '../graphql/subscriptions';
 import { User } from './useUser';
+import { updateRoom } from '../graphql/mutations';
+import { calcTtl } from '../utils/calcTtl';
 
 type UpdateRoomSubscriptionEvent = {
   value: { data: OnUpdateRoomByIdSubscription };
@@ -62,5 +64,13 @@ export const useRoom = (
     };
   }, [authMode, isReady, roomId]);
 
-  return { room, isLoading };
+  const handleOnOpen = useCallback(async () => {
+    await API.graphql(
+      graphqlOperation(updateRoom, {
+        input: { id: roomId, isOpened: true, ttl: calcTtl() },
+      })
+    );
+  }, [roomId]);
+
+  return { room, isLoading, handleOnOpen };
 };

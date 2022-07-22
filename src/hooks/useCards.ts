@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { API } from 'aws-amplify';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';
 import {
@@ -14,6 +14,8 @@ import {
   OnDeleteCardByRoomIdSubscription,
 } from '../API';
 import { User } from './useUser';
+import { createCard, deleteCard, updateRoom } from '../graphql/mutations';
+import { calcTtl } from '../utils/calcTtl';
 
 type CreateCardSubscriptionEvent = {
   value: { data: OnCreateCardByRoomIdSubscription };
@@ -108,5 +110,49 @@ export const useCards = (
     setMyCard(null);
   }, [fieldCards, user]);
 
-  return { fieldCards, myCard };
+  const handleOnClickPointButton = useCallback(
+    (point: number | null) => async () => {
+      if (myCard) {
+        await API.graphql(
+          graphqlOperation(deleteCard, { input: { id: myCard.id } })
+        );
+      }
+      if (user && point) {
+        await API.graphql(
+          graphqlOperation(createCard, {
+            input: {
+              point,
+              username: user.username,
+              displayUserName: user.displayName,
+              roomId,
+              ttl: calcTtl(),
+            },
+          })
+        );
+      }
+    },
+    [myCard, roomId, user]
+  );
+
+  const handleOnClear = useCallback(async () => {
+    Promise.all(
+      fieldCards.map(async (card) => {
+        return await API.graphql(
+          graphqlOperation(deleteCard, { input: { id: card.id } })
+        );
+      })
+    );
+    await API.graphql(
+      graphqlOperation(updateRoom, {
+        input: { id: roomId, isOpened: false, ttl: calcTtl() },
+      })
+    );
+  }, [fieldCards, roomId]);
+
+  return {
+    fieldCards,
+    myCard,
+    handleOnClear,
+    handleOnClickPointButton,
+  };
 };
