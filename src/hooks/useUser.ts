@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { NextRouter } from 'next/router';

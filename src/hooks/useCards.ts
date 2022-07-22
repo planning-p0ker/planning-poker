@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { API } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';

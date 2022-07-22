@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Card, Participant, Room } from '../../../API';
 import { User } from '../../../hooks/useUser';
 import AverageDisplay from './components/AverageDisplay';
@@ -5,7 +6,6 @@ import PointButtons from './components/PointButtons';
 import ParticipantList from './components/ParticipantList';
 import RoomIdPlate from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
-import { useCallback, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { Button, CircularProgress } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';

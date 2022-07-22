@@ -3,23 +3,16 @@ import {
   Card,
   CardContent,
   Divider,
-  Fab,
   FormControl,
   FormHelperText,
   IconButton,
-  Input,
   InputAdornment,
-  InputBase,
-  InputLabel,
   OutlinedInput,
-  Paper,
-  TextField,
 } from '@mui/material';
 import { User } from '../../../hooks/useUser';
 import { Layout } from '../../Layout';
 import LinearProgress from '@mui/material/LinearProgress';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 type TopPageProps = {
   user: User | null;
