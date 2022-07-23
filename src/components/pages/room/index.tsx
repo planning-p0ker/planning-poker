@@ -64,7 +64,12 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
               onClick={onOpen}
               endIcon={
                 fieldCards.length === 0 ? (
-                  <CircularProgress size={20} color={'inherit'} />
+                  <CircularProgress
+                    variant="determinate"
+                    size={20}
+                    color={'inherit'}
+                    value={100}
+                  />
                 ) : (
                   <CircularProgress
                     size={20}
