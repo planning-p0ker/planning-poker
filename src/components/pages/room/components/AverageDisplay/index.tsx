@@ -1,18 +1,15 @@
 import React, { useMemo } from 'react';
 import { Card } from '../../../../../API';
-import { User } from '../../../../../hooks/useUser';
 import styles from './AverageDisplay.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
 import { Card as CardUI } from '@mui/material';
 
 const AverageDisplay: React.VFC<{
-  user: User | null;
   cards: Card[];
   hidden: boolean;
-  onClickMyCard: (card: Card) => void;
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
-}> = ({ onClickMyCard, user, cards, hidden, className = '' }) => {
+}> = ({ cards, hidden, className = '' }) => {
   const sum = useMemo(() => {
     return cards.reduce((prev, current) => prev + current.point, 0);
   }, [cards]);

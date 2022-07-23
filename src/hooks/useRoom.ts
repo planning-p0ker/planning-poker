@@ -1,27 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
-import { API } from 'aws-amplify';
+import { useCallback, useEffect, useState } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from '../API';
 import { getRoom } from '../graphql/queries';
 import { onUpdateRoomById } from '../graphql/subscriptions';
 import { User } from './useUser';
+import { updateRoom } from '../graphql/mutations';
+import { calcTtl } from '../utils/calcTtl';
 
 type UpdateRoomSubscriptionEvent = {
   value: { data: OnUpdateRoomByIdSubscription };
 };
 
 export const useRoom = (
-  user: User | null,
+  authMode: GRAPHQL_AUTH_MODE,
   isReady: boolean,
   roomId?: string
 ) => {
   const [room, setRoom] = useState<Room | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const authMode = useMemo(() => {
-    return user
-      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-      : GRAPHQL_AUTH_MODE.AWS_IAM;
-  }, [user]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
@@ -62,5 +59,13 @@ export const useRoom = (
     };
   }, [authMode, isReady, roomId]);
 
-  return { room, isLoading };
+  const handleOnOpen = useCallback(async () => {
+    await API.graphql(
+      graphqlOperation(updateRoom, {
+        input: { id: roomId, isOpened: true, ttl: calcTtl() },
+      })
+    );
+  }, [roomId]);
+
+  return { room, isLoading, handleOnOpen };
 };

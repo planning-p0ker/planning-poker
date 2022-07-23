@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { NextRouter } from 'next/router';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 
 export type User = {
   username: string;
@@ -10,6 +11,12 @@ export type User = {
 
 export const useUser = (router: NextRouter, pathname: string) => {
   const [user, setUser] = useState<User | null>(null);
+
+  const authMode = useMemo(() => {
+    return user
+      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+      : GRAPHQL_AUTH_MODE.AWS_IAM;
+  }, [user]);
 
   const onSignIn = useCallback(() => {
     Auth.federatedSignIn({
@@ -79,5 +86,5 @@ export const useUser = (router: NextRouter, pathname: string) => {
     });
   }, [pathname, router]);
 
-  return { user, onSignIn, onSignOut };
+  return { user, authMode, onSignIn, onSignOut };
 };

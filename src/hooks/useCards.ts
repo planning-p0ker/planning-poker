@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { API } from 'aws-amplify';
+import { useCallback, useEffect, useState } from 'react';
+import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { listCards } from '../graphql/queries';
 import {
@@ -14,6 +14,8 @@ import {
   OnDeleteCardByRoomIdSubscription,
 } from '../API';
 import { User } from './useUser';
+import { createCard, deleteCard, updateRoom } from '../graphql/mutations';
+import { calcTtl } from '../utils/calcTtl';
 
 type CreateCardSubscriptionEvent = {
   value: { data: OnCreateCardByRoomIdSubscription };
@@ -24,18 +26,14 @@ type DeleteCardSubscriptionEvent = {
 
 export const useCards = (
   user: User | null,
+  authMode: GRAPHQL_AUTH_MODE,
   isReady: boolean,
   roomId?: string
 ) => {
   const [fieldCards, setFieldCards] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
-  const authMode = useMemo(() => {
-    return user
-      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-      : GRAPHQL_AUTH_MODE.AWS_IAM;
-  }, [user]);
-
+  // 初期表示時にカード一覧取得
   useEffect(() => {
     if (!roomId || !isReady) return;
     (async () => {
@@ -49,6 +47,7 @@ export const useCards = (
     })();
   }, [authMode, isReady, roomId]);
 
+  // Subscription
   useEffect(() => {
     if (!roomId || !isReady) return;
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
@@ -108,5 +107,49 @@ export const useCards = (
     setMyCard(null);
   }, [fieldCards, user]);
 
-  return { fieldCards, myCard };
+  const handleOnClickPointButton = useCallback(
+    (point: number | null) => async () => {
+      if (myCard) {
+        await API.graphql(
+          graphqlOperation(deleteCard, { input: { id: myCard.id } })
+        );
+      }
+      if (user && point) {
+        await API.graphql(
+          graphqlOperation(createCard, {
+            input: {
+              point,
+              username: user.username,
+              displayUserName: user.displayName,
+              roomId,
+              ttl: calcTtl(),
+            },
+          })
+        );
+      }
+    },
+    [myCard, roomId, user]
+  );
+
+  const handleOnClear = useCallback(async () => {
+    Promise.all(
+      fieldCards.map(async (card) => {
+        return await API.graphql(
+          graphqlOperation(deleteCard, { input: { id: card.id } })
+        );
+      })
+    );
+    await API.graphql(
+      graphqlOperation(updateRoom, {
+        input: { id: roomId, isOpened: false, ttl: calcTtl() },
+      })
+    );
+  }, [fieldCards, roomId]);
+
+  return {
+    fieldCards,
+    myCard,
+    handleOnClear,
+    handleOnClickPointButton,
+  };
 };

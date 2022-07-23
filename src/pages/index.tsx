@@ -65,7 +65,6 @@ const Home: NextPage = () => {
         authMode,
       })) as GraphQLResult<GetRoomQuery>;
       setIsSearchingRoom(false);
-      console.log(roomId, result.data?.getRoom);
       if (result.data?.getRoom) {
         router.push(`/rooms/${result.data.getRoom.id}`);
       } else {
