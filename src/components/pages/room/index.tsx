@@ -63,20 +63,24 @@ export const RoomPage: React.VFC<RoomPageProps> = ({
               }
               onClick={onOpen}
               endIcon={
-                <CircularProgress
-                  size={20}
-                  variant="determinate"
-                  color={rate === 100 ? 'inherit' : 'primary'}
-                  value={rate}
-                />
+                fieldCards.length === 0 ? (
+                  <CircularProgress size={20} color={'inherit'} />
+                ) : (
+                  <CircularProgress
+                    size={20}
+                    variant="determinate"
+                    color={rate === 100 ? 'inherit' : 'primary'}
+                    value={rate}
+                  />
+                )
               }
             >
               OPEN
             </Button>
             <Button
               color="secondary"
-              variant="outlined"
-              disabled={!user || fieldCards.length === 0}
+              variant={!room?.isOpened || !user ? 'outlined' : 'contained'}
+              disabled={!user}
               onClick={onClear}
               endIcon={<ClearIcon />}
             >
