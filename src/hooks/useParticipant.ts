@@ -25,7 +25,7 @@ export const useParticipant = (
   authMode: GRAPHQL_AUTH_MODE,
   room: Room | null
 ) => {
-  const [paricipants, setParicipants] = useState<Participant[]>([]);
+  const [participants, setParicipants] = useState<Participant[]>([]);
 
   // 初期表示時に参加者一覧取得
   useEffect(() => {
@@ -96,5 +96,5 @@ export const useParticipant = (
     };
   }, [authMode, room]);
 
-  return paricipants;
+  return { participants, setParicipants };
 };

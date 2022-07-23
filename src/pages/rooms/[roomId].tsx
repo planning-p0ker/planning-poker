@@ -32,7 +32,7 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
-  const participants = useParticipant(authMode, room);
+  const { participants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
     useCards(user, authMode, router.isReady, roomId as string | undefined);
   const { handleOnSignOut } = useLeaveRoom(
