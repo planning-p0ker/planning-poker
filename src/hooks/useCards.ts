@@ -33,6 +33,7 @@ export const useCards = (
   const [fieldCards, setFieldCards] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
+  // 初期表示時にカード一覧取得
   useEffect(() => {
     if (!roomId || !isReady) return;
     (async () => {
@@ -46,6 +47,7 @@ export const useCards = (
     })();
   }, [authMode, isReady, roomId]);
 
+  // Subscription
   useEffect(() => {
     if (!roomId || !isReady) return;
     // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）

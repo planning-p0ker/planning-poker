@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import {
+  ListParticipantsQuery,
   OnCreateParticipantByRoomIdSubscription,
   OnDeleteParticipantByRoomIdSubscription,
   Participant,
   Room,
 } from '../API';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
+import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
   onCreateParticipantByRoomId,
   onDeleteParticipantByRoomId,
 } from '../graphql/subscriptions';
+import { listParticipants } from '../graphql/queries';
 
 type CreateParticipantSubscriptionEvent = {
   value: { data: OnCreateParticipantByRoomIdSubscription };
@@ -25,11 +27,24 @@ export const useParticipant = (
 ) => {
   const [paricipants, setParicipants] = useState<Participant[]>([]);
 
+  // 初期表示時に参加者一覧取得
+  useEffect(() => {
+    if (!room) return;
+    (async () => {
+      const result = (await API.graphql({
+        query: listParticipants,
+        authMode,
+        variables: { filter: { roomParticipantsId: { eq: room.id } } },
+      })) as GraphQLResult<ListParticipantsQuery>;
+      const items = result.data?.listParticipants?.items;
+      console.log('ITEMS', items);
+      if (items) setParicipants(items);
+    })();
+  }, [authMode, room]);
+
   // Subscription
   useEffect(() => {
-    if (!room?.id) {
-      return;
-    }
+    if (!room) return;
 
     const createListener: any = API.graphql({
       query: onCreateParticipantByRoomId,
