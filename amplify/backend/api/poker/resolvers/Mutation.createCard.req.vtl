@@ -1,0 +1,2 @@
+#set( $ttl = $util.time.nowEpochSeconds() + 60 * 30)
+$util.qr($context.args.input.put("ttl", $util.defaultIfNull($ctx.args.input.ttl, $ttl)))
