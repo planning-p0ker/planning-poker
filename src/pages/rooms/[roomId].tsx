@@ -44,27 +44,21 @@ const RoomPageContainer: NextPage = () => {
     participants
   );
 
+  // カードオープン時にポイント順に並び替え
   const [shouldSortCards, setShouldSortCards] = useState(false);
   useEffect(() => {
     if (room?.isOpened) {
-      console.log('set should');
       setShouldSortCards(true);
     }
   }, [room?.isOpened]);
-
   useEffect(() => {
     if (shouldSortCards) {
-      console.log('START SORT');
       setShouldSortCards(false);
       setParicipants(sortParticipants(participants, fieldCards));
     }
   }, [fieldCards, participants, setParicipants, shouldSortCards]);
 
-  useEffect(() => {
-    console.log('CHANGE participants');
-    console.log(participants.map((p) => p.displayUserName).join('\n'));
-  }, [participants]);
-
+  // 名前入力モーダル表示
   const [openModal, setOpenModal] = useState(true);
   useLayoutEffect(() => {
     (async () => {
@@ -77,11 +71,13 @@ const RoomPageContainer: NextPage = () => {
   }, []);
 
   const [inputName, setInputName] = useState(user?.displayName || '');
+
   useEffect(() => {
     if (user?.displayName) {
       setInputName(user.displayName);
     }
   }, [user?.displayName]);
+
   const handleOnChangeInputName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputName(event.target.value);
@@ -106,6 +102,7 @@ const RoomPageContainer: NextPage = () => {
     setOpenModal(false);
   }, [inputName, room, user]);
 
+  // 不正なroomIdの場合のレイアウト
   if (!isLoading && (!roomId || !room)) {
     return (
       <RoomNotFound user={user} onSignIn={onSignIn} onSignOut={onSignOut} />
