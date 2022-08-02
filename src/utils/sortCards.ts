@@ -9,7 +9,7 @@ export const sortParticipants = (
     const bCard = cards.find((c) => c.username === b.username);
 
     if (aCard && bCard) {
-      return aCard.point - bCard.point;
+      return bCard.point - aCard.point;
     }
 
     if (aCard && !bCard) {
