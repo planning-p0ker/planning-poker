@@ -37,7 +37,10 @@ export const useParticipant = (
         variables: { filter: { roomParticipantsId: { eq: room.id } } },
       })) as GraphQLResult<ListParticipantsQuery>;
       const items = result.data?.listParticipants?.items;
-      if (items) setParicipants(items);
+      if (items) {
+        console.log('setParicipants(items);');
+        setParicipants(items);
+      }
     })();
   }, [authMode, room]);
 
