@@ -32,7 +32,7 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
-  const { participants } = useParticipant(authMode, room);
+  const { participants, setParicipants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
     useCards(user, authMode, router.isReady, roomId as string | undefined);
   const { handleOnSignOut } = useLeaveRoom(
@@ -42,6 +42,48 @@ const RoomPageContainer: NextPage = () => {
     myCard,
     participants
   );
+
+  const [shouldSortCards, setShouldSortCards] = useState(false);
+  useEffect(() => {
+    if (room?.isOpened) {
+      console.log('set should');
+      setShouldSortCards(true);
+    }
+  }, [room?.isOpened]);
+
+  useEffect(() => {
+    if (shouldSortCards) {
+      console.log('START SORT');
+      setShouldSortCards(false);
+      setParicipants((prev) => {
+        const sorted = prev.sort((a, b) => {
+          const aCard = fieldCards.find((c) => c.username === a.username);
+          const bCard = fieldCards.find((c) => c.username === b.username);
+
+          if (aCard && bCard) {
+            return aCard.point - bCard.point;
+          }
+
+          if (aCard && !bCard) {
+            return -1;
+          }
+
+          if (!aCard && bCard) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+        return [...sorted];
+      });
+    }
+  }, [fieldCards, setParicipants, shouldSortCards]);
+
+  useEffect(() => {
+    console.log('CHANGE participants');
+    console.log(participants.map((p) => p.displayUserName).join('\n'));
+  }, [participants]);
 
   const [openModal, setOpenModal] = useState(true);
   useLayoutEffect(() => {
