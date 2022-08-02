@@ -17,7 +17,7 @@ type Card
   displayUserName: String!
   point: Int!
   roomId: String!
-  ttl: AWSTimestamp!
+  ttl: AWSTimestamp
 }
 
 type Room

@@ -18,6 +18,7 @@ import {
 } from '../../hooks';
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
+import { sortParticipants } from '../../utils/sortCards';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
-  const { participants } = useParticipant(authMode, room);
+  const { participants, setParicipants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
     useCards(user, authMode, router.isReady, roomId as string | undefined);
   const { handleOnSignOut } = useLeaveRoom(
@@ -43,6 +44,21 @@ const RoomPageContainer: NextPage = () => {
     participants
   );
 
+  // カードオープン時にポイント順に並び替え
+  const [shouldSortCards, setShouldSortCards] = useState(false);
+  useEffect(() => {
+    if (room?.isOpened) {
+      setShouldSortCards(true);
+    }
+  }, [room?.isOpened]);
+  useEffect(() => {
+    if (shouldSortCards) {
+      setShouldSortCards(false);
+      setParicipants(sortParticipants(participants, fieldCards));
+    }
+  }, [fieldCards, participants, setParicipants, shouldSortCards]);
+
+  // 名前入力モーダル表示
   const [openModal, setOpenModal] = useState(true);
   useLayoutEffect(() => {
     (async () => {
@@ -55,11 +71,13 @@ const RoomPageContainer: NextPage = () => {
   }, []);
 
   const [inputName, setInputName] = useState(user?.displayName || '');
+
   useEffect(() => {
     if (user?.displayName) {
       setInputName(user.displayName);
     }
   }, [user?.displayName]);
+
   const handleOnChangeInputName = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputName(event.target.value);
@@ -84,6 +102,7 @@ const RoomPageContainer: NextPage = () => {
     setOpenModal(false);
   }, [inputName, room, user]);
 
+  // 不正なroomIdの場合のレイアウト
   if (!isLoading && (!roomId || !room)) {
     return (
       <RoomNotFound user={user} onSignIn={onSignIn} onSignOut={onSignOut} />
