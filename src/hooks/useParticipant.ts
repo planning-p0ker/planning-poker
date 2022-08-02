@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import {
+  ListCardsQuery,
   ListParticipantsQuery,
   OnCreateParticipantByRoomIdSubscription,
   OnDeleteParticipantByRoomIdSubscription,
@@ -12,7 +13,8 @@ import {
   onCreateParticipantByRoomId,
   onDeleteParticipantByRoomId,
 } from '../graphql/subscriptions';
-import { listParticipants } from '../graphql/queries';
+import { listCards, listParticipants } from '../graphql/queries';
+import { sortParticipants } from '../utils/sortCards';
 
 type CreateParticipantSubscriptionEvent = {
   value: { data: OnCreateParticipantByRoomIdSubscription };
@@ -38,8 +40,17 @@ export const useParticipant = (
       })) as GraphQLResult<ListParticipantsQuery>;
       const items = result.data?.listParticipants?.items;
       if (items) {
-        console.log('setParicipants(items);');
-        setParicipants(items);
+        if (room.isOpened) {
+          const listCardsData = (await API.graphql({
+            query: listCards,
+            authMode,
+            variables: { filter: { roomId: { eq: room.id } } },
+          })) as GraphQLResult<ListCardsQuery>;
+          const cards = listCardsData.data?.listCards?.items;
+          setParicipants(!!cards ? sortParticipants(items, cards) : items);
+        } else {
+          setParicipants(items);
+        }
       }
     })();
   }, [authMode, room]);

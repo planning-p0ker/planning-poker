@@ -18,6 +18,7 @@ import {
 } from '../../hooks';
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
+import { sortParticipants } from '../../utils/sortCards';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
@@ -55,30 +56,9 @@ const RoomPageContainer: NextPage = () => {
     if (shouldSortCards) {
       console.log('START SORT');
       setShouldSortCards(false);
-      setParicipants((prev) => {
-        const sorted = prev.sort((a, b) => {
-          const aCard = fieldCards.find((c) => c.username === a.username);
-          const bCard = fieldCards.find((c) => c.username === b.username);
-
-          if (aCard && bCard) {
-            return aCard.point - bCard.point;
-          }
-
-          if (aCard && !bCard) {
-            return -1;
-          }
-
-          if (!aCard && bCard) {
-            return 1;
-          }
-
-          return 0;
-        });
-
-        return [...sorted];
-      });
+      setParicipants(sortParticipants(participants, fieldCards));
     }
-  }, [fieldCards, setParicipants, shouldSortCards]);
+  }, [fieldCards, participants, setParicipants, shouldSortCards]);
 
   useEffect(() => {
     console.log('CHANGE participants');
