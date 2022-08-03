@@ -44,7 +44,7 @@ const Home: NextPage = () => {
           input: {
             id: generateUniqueRoomId(),
             isOpened: false,
-            ttl: calcTtl(),
+            // ttl: calcTtl(),
           },
         })
       )) as GraphQLResult<CreateRoomMutation>;

@@ -2,6 +2,10 @@
 #set( $args = $util.defaultIfNull($ctx.stash.transformedArgs, $ctx.args) )
 ## Set the default values to put request **
 #set( $mergedValues = $util.defaultIfNull($ctx.stash.defaultValues, {}) )
+
+#set( $deleteTime = $util.time.nowEpochSeconds() + 60 * 30)
+$util.qr($context.args.input.put("ttl", $util.defaultIfNull($ctx.args.input.ttl, $ttl))
+
 ## copy the values from input **
 $util.qr($mergedValues.putAll($util.defaultIfNull($args.input, {})))
 ## set the typename **
