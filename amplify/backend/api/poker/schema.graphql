@@ -36,7 +36,7 @@ type Room
   ) {
   id: ID!
   isOpened: Boolean!
-  ttl: AWSTimestamp!
+  ttl: AWSTimestamp
   participants: [Participant] @hasMany
 }
 
