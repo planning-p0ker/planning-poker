@@ -9,8 +9,8 @@ $util.qr($mergedValues.putAll($util.defaultIfNull($args.input, {})))
 ## set the typename **
 $util.qr($mergedValues.put("__typename", "Room"))
 
-## set ttl
-#set( $ttl = $util.time.nowEpochSeconds() + 60 * 30)
+## set ttl (90days)
+#set( $ttl = $util.time.nowEpochSeconds() + 3600 * 24 * 90) 
 $util.qr($mergedValues.put("ttl", $ttl))
 
 #set( $PutObject = {
