@@ -62,7 +62,11 @@ export const useRoom = (
   const handleOnOpen = useCallback(async () => {
     await API.graphql(
       graphqlOperation(updateRoom, {
-        input: { id: roomId, isOpened: true, ttl: calcTtl() },
+        input: {
+          id: roomId,
+          isOpened: true,
+          //  ttl: calcTtl()
+        },
       })
     );
   }, [roomId]);
