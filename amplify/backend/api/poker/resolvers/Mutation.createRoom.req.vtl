@@ -1,5 +1,3 @@
-#set( $ttl = $util.time.nowEpochSeconds() + 60 * 30)
-
 ## [Start] Create Request template.(Test) **
 #set( $args = $util.defaultIfNull($ctx.stash.transformedArgs, $ctx.args) )
 
@@ -10,6 +8,11 @@
 $util.qr($mergedValues.putAll($util.defaultIfNull($args.input, {})))
 ## set the typename **
 $util.qr($mergedValues.put("__typename", "Room"))
+
+## set ttl
+#set( $ttl = $util.time.nowEpochSeconds() + 60 * 30)
+$util.qr($mergedValues.put("ttl", $ttl))
+
 #set( $PutObject = {
   "version": "2018-05-29",
   "operation": "PutItem",
