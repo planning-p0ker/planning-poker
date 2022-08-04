@@ -4,9 +4,7 @@ import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from '../API';
 import { getRoom } from '../graphql/queries';
 import { onUpdateRoomById } from '../graphql/subscriptions';
-import { User } from './useUser';
 import { updateRoom } from '../graphql/mutations';
-import { calcTtl } from '../utils/calcTtl';
 
 type UpdateRoomSubscriptionEvent = {
   value: { data: OnUpdateRoomByIdSubscription };
@@ -65,7 +63,6 @@ export const useRoom = (
         input: {
           id: roomId,
           isOpened: true,
-          //  ttl: calcTtl()
         },
       })
     );
