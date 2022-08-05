@@ -2,12 +2,19 @@ import { Card as CardUI } from '@mui/material';
 import React, { useMemo } from 'react';
 import { Participant, Card } from '../../../../../API';
 
-const ParticipantList: React.VFC<{
+type ParticipantListProps = {
   participants: Participant[];
   fieldsCard: Card[];
   isOpened: boolean;
   className?: React.HTMLAttributes<HTMLUListElement>['className'];
-}> = ({ participants, fieldsCard, isOpened, className = '' }) => {
+};
+
+export const ParticipantList: React.VFC<ParticipantListProps> = ({
+  participants,
+  fieldsCard,
+  isOpened,
+  className = '',
+}) => {
   const isAllSamePoint = useMemo(() => {
     if (fieldsCard.length < 2) return false;
     return fieldsCard.every((c) => c.point === fieldsCard[0].point);
@@ -44,5 +51,3 @@ const ParticipantList: React.VFC<{
     </CardUI>
   );
 };
-
-export default ParticipantList;

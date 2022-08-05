@@ -5,7 +5,7 @@ import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
 import { Card as CardUI } from '@mui/material';
 
-const AverageDisplay: React.VFC<{
+export const AverageDisplay: React.VFC<{
   cards: Card[];
   hidden: boolean;
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
@@ -46,5 +46,3 @@ const AverageDisplay: React.VFC<{
     </CardUI>
   );
 };
-
-export default AverageDisplay;

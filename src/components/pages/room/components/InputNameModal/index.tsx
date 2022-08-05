@@ -22,7 +22,7 @@ const style: SxProps = {
   borderRadius: 2,
 };
 
-const InputNameModal: React.VFC<InputNameModalProps> = ({
+export const InputNameModal: React.VFC<InputNameModalProps> = ({
   open,
   value,
   onChange,
@@ -51,5 +51,3 @@ const InputNameModal: React.VFC<InputNameModalProps> = ({
     </Modal>
   );
 };
-
-export default InputNameModal;
