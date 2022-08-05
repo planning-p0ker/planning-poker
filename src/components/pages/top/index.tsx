@@ -13,6 +13,7 @@ import { User } from '../../../hooks/useUser';
 import { Layout } from '../../Layout';
 import LinearProgress from '@mui/material/LinearProgress';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { BlokyText } from './components/BlockyText';
 
 type TopPageProps = {
   user: User | null;
@@ -42,7 +43,11 @@ export const TopPage: React.VFC<TopPageProps> = ({
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mx-4 pt-3">
-        <div className="mt-5 flex mx-auto justify-between md:flex-col md:space-y-4">
+        <BlokyText />
+        <div className="mt-2 text-center">
+          ESTIMATE YOUR STORY POINTS ONLINE!
+        </div>
+        <div className="mt-10 flex mx-auto justify-between md:flex-col md:space-y-4">
           <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
             {isCreateingRoom && <LinearProgress />}
             <CardContent>
