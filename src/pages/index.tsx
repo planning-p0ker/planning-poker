@@ -5,7 +5,6 @@ import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import { createRoom } from '../graphql/mutations';
 import { useRouter } from 'next/router';
 import { useUser } from '../hooks/useUser';
-import { calcTtl } from '../utils/calcTtl';
 import { generateUniqueRoomId } from '../utils/generateUniqueRoomId';
 import { CreateRoomMutation, GetRoomQuery } from '../API';
 import { TopPage } from '../components/pages/top';
@@ -44,7 +43,6 @@ const Home: NextPage = () => {
           input: {
             id: generateUniqueRoomId(),
             isOpened: false,
-            ttl: calcTtl(),
           },
         })
       )) as GraphQLResult<CreateRoomMutation>;

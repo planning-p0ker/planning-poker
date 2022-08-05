@@ -2,10 +2,15 @@ import { Card } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-const RoomIdPlate: React.VFC<{
+type RoomIdPlateProps = {
   roomId: string;
   isLoading: boolean;
-}> = ({ roomId, isLoading }) => {
+};
+
+export const RoomIdPlate: React.VFC<RoomIdPlateProps> = ({
+  roomId,
+  isLoading,
+}) => {
   const [copied, setCopied] = useState(false);
   const clearCopied = useCallback(() => {
     setTimeout(() => {
@@ -46,5 +51,3 @@ const RoomIdPlate: React.VFC<{
     </Card>
   );
 };
-
-export default RoomIdPlate;

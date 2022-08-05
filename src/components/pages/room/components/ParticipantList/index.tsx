@@ -1,13 +1,26 @@
 import { Card as CardUI } from '@mui/material';
 import React, { useMemo } from 'react';
 import { Participant, Card } from '../../../../../API';
+import { Flipper, Flipped } from 'react-flip-toolkit';
 
-const ParticipantList: React.VFC<{
+type ParticipantListProps = {
   participants: Participant[];
   fieldsCard: Card[];
   isOpened: boolean;
   className?: React.HTMLAttributes<HTMLUListElement>['className'];
-}> = ({ participants, fieldsCard, isOpened, className = '' }) => {
+};
+
+export const ParticipantList: React.VFC<ParticipantListProps> = ({
+  participants,
+  fieldsCard,
+  isOpened,
+  className = '',
+}) => {
+  const flipKey = useMemo(
+    () => participants.map((p) => p.id).join(''),
+    [participants]
+  );
+
   const isAllSamePoint = useMemo(() => {
     if (fieldsCard.length < 2) return false;
     return fieldsCard.every((c) => c.point === fieldsCard[0].point);
@@ -20,29 +33,31 @@ const ParticipantList: React.VFC<{
       sx={{ minHeight: 216 }}
       className={`p-4 w-full rounded flex flex-wrap ${className}`}
     >
-      <ul className={'flex flex-col space-y-2'}>
-        {participants.map((p, idx) => {
-          const card = fieldsCard.find((fc) => fc.username === p.username);
-          const emoji = !!card ? '😎' : '🤔';
-          const point = card?.point || '🤔';
-          return (
-            <li key={idx} className="text-lg font-bold flex">
-              <div className="mr-3 flex-shrink w-7 text-xl text-right">
-                {isOpened ? (
-                  <span className={isAllSamePoint ? 'text-green-600' : ''}>
-                    {point}
-                  </span>
-                ) : (
-                  emoji
-                )}
-              </div>
-              <div className="overflow-ellipsis">{p.displayUserName}</div>
-            </li>
-          );
-        })}
-      </ul>
+      <Flipper flipKey={flipKey}>
+        <ul className={'flex flex-col space-y-2'}>
+          {participants.map((p) => {
+            const card = fieldsCard.find((fc) => fc.username === p.username);
+            const emoji = !!card ? '😎' : '🤔';
+            const point = card?.point || '🤔';
+            return (
+              <Flipped key={p.id} flipId={p.id}>
+                <li className="text-lg font-bold flex">
+                  <div className="mr-3 flex-shrink w-7 text-xl text-right">
+                    {isOpened ? (
+                      <span className={isAllSamePoint ? 'text-green-600' : ''}>
+                        {point}
+                      </span>
+                    ) : (
+                      emoji
+                    )}
+                  </div>
+                  <div className="overflow-ellipsis">{p.displayUserName}</div>
+                </li>
+              </Flipped>
+            );
+          })}
+        </ul>
+      </Flipper>
     </CardUI>
   );
 };
-
-export default ParticipantList;
