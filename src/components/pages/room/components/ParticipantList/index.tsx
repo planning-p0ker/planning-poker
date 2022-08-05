@@ -16,6 +16,11 @@ export const ParticipantList: React.VFC<ParticipantListProps> = ({
   isOpened,
   className = '',
 }) => {
+  const flipKey = useMemo(
+    () => participants.map((p) => p.id).join(''),
+    [participants]
+  );
+
   const isAllSamePoint = useMemo(() => {
     if (fieldsCard.length < 2) return false;
     return fieldsCard.every((c) => c.point === fieldsCard[0].point);
@@ -28,14 +33,14 @@ export const ParticipantList: React.VFC<ParticipantListProps> = ({
       sx={{ minHeight: 216 }}
       className={`p-4 w-full rounded flex flex-wrap ${className}`}
     >
-      <Flipper flipKey="participant-list">
+      <Flipper flipKey={flipKey}>
         <ul className={'flex flex-col space-y-2'}>
-          {participants.map((p, idx) => {
+          {participants.map((p) => {
             const card = fieldsCard.find((fc) => fc.username === p.username);
             const emoji = !!card ? '😎' : '🤔';
             const point = card?.point || '🤔';
             return (
-              <Flipped key={idx} flipId={idx}>
+              <Flipped key={p.id} flipId={p.id}>
                 <li className="text-lg font-bold flex">
                   <div className="mr-3 flex-shrink w-7 text-xl text-right">
                     {isOpened ? (
