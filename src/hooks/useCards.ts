@@ -15,7 +15,6 @@ import {
 } from '../API';
 import { User } from './useUser';
 import { createCard, deleteCard, updateRoom } from '../graphql/mutations';
-import { calcTtl } from '../utils/calcTtl';
 
 type CreateCardSubscriptionEvent = {
   value: { data: OnCreateCardByRoomIdSubscription };
@@ -122,7 +121,6 @@ export const useCards = (
               username: user.username,
               displayUserName: user.displayName,
               roomId,
-              ttl: calcTtl(),
             },
           })
         );
@@ -141,7 +139,7 @@ export const useCards = (
     );
     await API.graphql(
       graphqlOperation(updateRoom, {
-        input: { id: roomId, isOpened: false, ttl: calcTtl() },
+        input: { id: roomId, isOpened: false },
       })
     );
   }, [fieldCards, roomId]);
