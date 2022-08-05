@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Card } from '../../../../../API';
+import { Card } from '../../../../../graphql/API';
 import styles from './AverageDisplay.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';

@@ -6,7 +6,7 @@ import { createRoom } from '../graphql/mutations';
 import { useRouter } from 'next/router';
 import { useUser } from '../hooks/useUser';
 import { generateUniqueRoomId } from '../utils/generateUniqueRoomId';
-import { CreateRoomMutation, GetRoomQuery } from '../API';
+import { CreateRoomMutation, GetRoomQuery } from '../graphql/API';
 import { TopPage } from '../components/pages/top';
 import { getRoom } from '../graphql/queries';
 

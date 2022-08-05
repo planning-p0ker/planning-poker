@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { NextRouter } from 'next/router';
-import { Card, Participant } from '../API';
+import { Card, Participant } from '../graphql/API';
 import { User } from './useUser';
 import { API, graphqlOperation } from 'aws-amplify';
 import { deleteCard, deleteParticipant } from '../graphql/mutations';

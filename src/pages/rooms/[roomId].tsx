@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { createParticipant } from '../../graphql/mutations';
-import { CreateParticipantInput } from '../../API';
+import { CreateParticipantInput } from '../../graphql/API';
 import { useRouter } from 'next/router';
 import {
   useUser,
