@@ -15,14 +15,13 @@ const updatedAwsConfig = {
 };
 Amplify.configure(updatedAwsConfig);
 
-const testTheme = createTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: '#080AEF',
     },
     secondary: {
       main: '#8A07BD',
-      // main: '#F56407',
     },
     background: {
       default: '#0C0C0A',
@@ -37,7 +36,7 @@ const testTheme = createTheme({
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
-    <ThemeProvider theme={testTheme}>
+    <ThemeProvider theme={theme}>
       <Component {...pageProps} />
     </ThemeProvider>
   );
