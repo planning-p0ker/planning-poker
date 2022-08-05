@@ -12,7 +12,7 @@ import {
   OnCreateCardByRoomIdSubscriptionVariables,
   OnCreateCardByRoomIdSubscription,
   OnDeleteCardByRoomIdSubscription,
-} from '../API';
+} from '../graphql/API';
 import { User } from './useUser';
 import { createCard, deleteCard, updateRoom } from '../graphql/mutations';
 

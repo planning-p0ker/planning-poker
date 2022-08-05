@@ -7,7 +7,7 @@ import {
   OnDeleteParticipantByRoomIdSubscription,
   Participant,
   Room,
-} from '../API';
+} from '../graphql/API';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
   onCreateParticipantByRoomId,

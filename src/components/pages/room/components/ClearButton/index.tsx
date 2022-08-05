@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Card, Room } from '../../../../../API';
+import { Card, Room } from '../../../../../graphql/API';
 import type { User } from '../../../../../hooks/useUser';
 
 type ClearButtonProps = {

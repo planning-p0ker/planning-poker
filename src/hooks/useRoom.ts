@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import { GetRoomQuery, OnUpdateRoomByIdSubscription, Room } from '../API';
+import {
+  GetRoomQuery,
+  OnUpdateRoomByIdSubscription,
+  Room,
+} from '../graphql/API';
 import { getRoom } from '../graphql/queries';
 import { onUpdateRoomById } from '../graphql/subscriptions';
 import { updateRoom } from '../graphql/mutations';

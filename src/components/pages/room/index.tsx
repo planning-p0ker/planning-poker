@@ -1,4 +1,4 @@
-import { Card, Participant, Room } from '../../../API';
+import { Card, Participant, Room } from '../../../graphql/API';
 import { User } from '../../../hooks/useUser';
 import { AverageDisplay } from './components/AverageDisplay';
 import PointButtons from './components/PointButtons';

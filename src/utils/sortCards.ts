@@ -1,4 +1,4 @@
-import { Card, Participant } from '../API';
+import { Card, Participant } from '../graphql/API';
 
 export const sortParticipants = (
   participants: Participant[],
