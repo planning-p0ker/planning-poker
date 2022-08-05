@@ -4395,6 +4395,13 @@ flatted@^3.1.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.4.tgz#28d9969ea90661b5134259f312ab6aa7929ac5e2"
   integrity sha512-8/sOawo8tJ4QOBX8YlQBMxL8+RLZfxMQOif9o0KUKTNTjMYElWPE0r/m5VNFxTRd0NSw8qSy8dajrwX4RYI1Hw==
 
+flip-toolkit@7.0.14:
+  version "7.0.14"
+  resolved "https://registry.yarnpkg.com/flip-toolkit/-/flip-toolkit-7.0.14.tgz#7767de06f1df004e0ca2ba18367841c74fb2ab73"
+  integrity sha512-mV3fwJuFxXU0tSiUL79NEfykwjEABV7I4gdx7S83GrQ0eJC/TIS1R8TW0u2qdDAtd5yhTcrm9IVfqyjJdGqrqQ==
+  dependencies:
+    rematrix "0.2.2"
+
 follow-redirects@^1.14.0:
   version "1.14.6"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.6.tgz#8cfb281bbc035b3c067d6cd975b0f6ade6e855cd"
@@ -5797,7 +5804,7 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.5.7, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5929,6 +5936,14 @@ react-dom@17.0.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-flip-toolkit@^7.0.14:
+  version "7.0.14"
+  resolved "https://registry.yarnpkg.com/react-flip-toolkit/-/react-flip-toolkit-7.0.14.tgz#aa72bdcbe9fd5901fd559226e69647d6e2988017"
+  integrity sha512-4ezk9g9yPMDbePCTW81ZIG1dMXa3qCIlYhGnWjJb0fIJJOazSOwV2TXp0lB/kn4R8QK5N3AdwYKPwFQQY8TW3A==
+  dependencies:
+    flip-toolkit "7.0.14"
+    prop-types "^15.5.7"
 
 react-generate-context@^1.0.0:
   version "1.0.1"
@@ -6066,6 +6081,11 @@ regexpp@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.2.0.tgz#0425a2768d8f23bad70ca4b90461fa2f1213e1b2"
   integrity sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==
+
+rematrix@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/rematrix/-/rematrix-0.2.2.tgz#c96a050260782db9908904885991256e23beda5d"
+  integrity sha512-agFFS3RzrLXJl5LY5xg/xYyXvUuVAnkhgKO7RaO9J1Ssth6yvbO+PIiV67V59MB5NCdAK2flvGvNT4mdKVniFA==
 
 require-directory@^2.1.1:
   version "2.1.1"
