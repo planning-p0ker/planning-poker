@@ -2,6 +2,7 @@ import { Divider, Link } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { User } from '../../hooks/useUser';
 import Header from '../Header';
+import Head from 'next/head';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 type LayoutProps = {

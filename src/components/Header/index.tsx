@@ -1,6 +1,8 @@
+import { Button } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import UserButton from './components/UserButton';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export type HeaderProps = {
   onSignIn: () => void;
@@ -27,7 +29,13 @@ const Header: React.VFC<HeaderProps> = ({
         </p>
         <div>
           {!displayName ? (
-            <button onClick={onSignIn}>SING IN</button>
+            <Button
+              variant="outlined"
+              onClick={onSignIn}
+              startIcon={<GoogleIcon />}
+            >
+              SING IN WITH GOOGLE
+            </Button>
           ) : (
             <UserButton displayName={displayName}>
               <button onClick={onSignOut}>Sing out 🖐️</button>
