@@ -44,9 +44,8 @@ export const TopPage: React.VFC<TopPageProps> = ({
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mx-4 pt-3">
         <BlokyText />
-        <div className="mt-2 text-center">
-          ESTIMATE YOUR STORY POINTS ONLINE!
-        </div>
+        {/* TODO: ここにREADMEのリンク */}
+        <div className="mt-2 text-center"></div>
         <div className="mt-10 flex mx-auto justify-between md:flex-col md:space-y-4">
           <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
             {isCreateingRoom && <LinearProgress />}
