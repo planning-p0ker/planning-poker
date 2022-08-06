@@ -56,6 +56,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-
-# ローカルのメモ帳 コミットしない
-memo.md
