@@ -5,7 +5,7 @@ export const BlokyText = () => {
       style={{
         fontSize: 10,
         lineHeight: 1,
-        fontFamily: 'monospace,-webkit-pictograph',
+        fontFamily: 'Courier New,-webkit-pictograph',
       }}
     >
       <div className="text-right sm:text-center">
