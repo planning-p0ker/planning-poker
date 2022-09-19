@@ -69,6 +69,15 @@ const RoomPageContainer: NextPage = () => {
       }
     })();
   }, []);
+  // 既に参加済みの場合は名前入力をスキップ
+  useLayoutEffect(() => {
+    if (user) {
+      const isAllreadyJoin = participants.some(
+        (p) => p.username === user?.username
+      );
+      setOpenModal(!isAllreadyJoin);
+    }
+  }, [participants, user]);
 
   const [inputName, setInputName] = useState(user?.displayName || '');
 
