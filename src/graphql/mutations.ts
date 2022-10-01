@@ -67,6 +67,7 @@ export const createRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          ttl
           createdAt
           updatedAt
           roomParticipantsId
@@ -92,6 +93,7 @@ export const updateRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          ttl
           createdAt
           updatedAt
           roomParticipantsId
@@ -117,6 +119,7 @@ export const deleteRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          ttl
           createdAt
           updatedAt
           roomParticipantsId
@@ -137,6 +140,7 @@ export const createParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      ttl
       createdAt
       updatedAt
       roomParticipantsId
@@ -152,6 +156,7 @@ export const updateParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      ttl
       createdAt
       updatedAt
       roomParticipantsId
@@ -167,6 +172,7 @@ export const deleteParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      ttl
       createdAt
       updatedAt
       roomParticipantsId

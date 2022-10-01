@@ -55,6 +55,7 @@ export const onUpdateRoomById = /* GraphQL */ `
           id
           username
           displayUserName
+          ttl
           createdAt
           updatedAt
           roomParticipantsId
@@ -72,6 +73,7 @@ export const onCreateParticipantByRoomId = /* GraphQL */ `
       id
       username
       displayUserName
+      ttl
       createdAt
       updatedAt
       roomParticipantsId
@@ -84,6 +86,7 @@ export const onDeleteParticipantByRoomId = /* GraphQL */ `
       id
       username
       displayUserName
+      ttl
       createdAt
       updatedAt
       roomParticipantsId
