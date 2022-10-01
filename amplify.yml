@@ -1,6 +1,9 @@
 version: 1
 backend:
   phases:
+    preBuild:
+      commands:
+        - yarn install --ignore-engines
     build:
       commands:
         - '# Execute Amplify CLI with the helper script'
