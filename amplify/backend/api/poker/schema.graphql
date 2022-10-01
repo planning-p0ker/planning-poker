@@ -17,7 +17,7 @@ type Card
   displayUserName: String!
   point: Int!
   roomId: String!
-  ttl: AWSTimestamp
+  ttl: AWSTimestamp @ttl
 }
 
 type Room
@@ -36,7 +36,7 @@ type Room
   ) {
   id: ID!
   isOpened: Boolean!
-  ttl: AWSTimestamp
+  ttl: AWSTimestamp @ttl
   participants: [Participant] @hasMany
 }
 

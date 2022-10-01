@@ -3,7 +3,8 @@ backend:
   phases:
     build:
       commands:
-        - '# Execute Amplify CLI with the helper script'
+        - npm install -g npm@latest
+        - npm install graphql-ttl-transformer
         - amplifyPush --simple
 frontend:
   phases:
