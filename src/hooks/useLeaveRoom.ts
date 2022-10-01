@@ -6,10 +6,6 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { deleteCard, deleteParticipant, updateParticipant } from '../graphql/mutations';
 import dayjs from 'dayjs';
 
-const calcTtl = () => {
-  return dayjs().add(1, "hour").unix();
-}
-
 export const useLeaveRoom = (
   router: NextRouter,
   onSignOut: () => void,
@@ -89,16 +85,13 @@ export const useLeaveRoom = (
     const me = participants.find(p => p.username === user.username);
     if (!me) return;
 
-
-    const result = await API.graphql(
-      graphqlOperation(updateParticipant, { input: { id: me.id, ttl: calcTtl() } })
+    await API.graphql(
+      graphqlOperation(updateParticipant, { input: { id: me.id, ttl: dayjs().add(1, "hour").unix() } })
     );
-
-    console.log("update user TTL", result);
   }, [participants, user]);
 
   useEffect(() => {
-    const update = setInterval(updateUserTTL, 1000 * 60); // FIXME: 一旦1m あとで50mに修正する
+    const update = setInterval(updateUserTTL, 1000 * 60 * 50); // 50mに一度TTLを更新する
     return () => clearInterval(update);
   }, [updateUserTTL])
 
