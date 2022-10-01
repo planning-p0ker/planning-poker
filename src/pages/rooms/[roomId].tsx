@@ -19,6 +19,7 @@ import {
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
 import { sortParticipants } from '../../utils/sortCards';
+import dayjs from 'dayjs';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
@@ -94,6 +95,7 @@ const RoomPageContainer: NextPage = () => {
     []
   );
 
+  // 名前入力モーダルのENTERボタン押下時のコールバック関数
   const handleOnClickEnter = useCallback(async () => {
     if (!room?.id) return;
     if (!user) return;
@@ -104,6 +106,7 @@ const RoomPageContainer: NextPage = () => {
           roomParticipantsId: room.id,
           username: user.username,
           displayUserName: inputName,
+          ttl: dayjs().add(1, 'hour').unix(),
         } as CreateParticipantInput,
       })
     );
