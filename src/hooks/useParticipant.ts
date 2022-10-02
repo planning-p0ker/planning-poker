@@ -7,6 +7,7 @@ import {
   OnDeleteParticipantByRoomIdSubscription,
   Participant,
   Room,
+  Card,
 } from '../graphql/API';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
@@ -39,7 +40,7 @@ export const useParticipant = (
         authMode,
         variables: { filter: { roomParticipantsId: { eq: room.id } } },
       })) as GraphQLResult<ListParticipantsQuery>;
-      const items = result.data?.listParticipants?.items;
+      const items = result.data?.listParticipants?.items as Participant[];
       if (items) {
         if (room.isOpened) {
           const listCardsData = (await API.graphql({
@@ -47,7 +48,7 @@ export const useParticipant = (
             authMode,
             variables: { filter: { roomId: { eq: room.id } } },
           })) as GraphQLResult<ListCardsQuery>;
-          const cards = listCardsData.data?.listCards?.items;
+          const cards = listCardsData.data?.listCards?.items as Card[];
           setParicipants(!!cards ? sortParticipants(items, cards) : items);
         } else {
           setParicipants(items);

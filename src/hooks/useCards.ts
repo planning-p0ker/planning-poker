@@ -41,7 +41,7 @@ export const useCards = (
         authMode,
         variables: { filter: { roomId: { eq: roomId } } },
       })) as GraphQLResult<ListCardsQuery>;
-      const items = result.data?.listCards?.items;
+      const items = result.data?.listCards?.items as Card[];
       if (items) setFieldCards(items);
     })();
   }, [authMode, isReady, roomId]);
