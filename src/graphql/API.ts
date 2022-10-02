@@ -8,7 +8,7 @@ export type CreateCardInput = {
   displayUserName: string,
   point: number,
   roomId: string,
-  ttl: number,
+  ttl?: number | null,
 };
 
 export type ModelCardConditionInput = {
@@ -81,7 +81,7 @@ export type Card = {
   displayUserName: string,
   point: number,
   roomId: string,
-  ttl: number,
+  ttl?: number | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -102,7 +102,7 @@ export type DeleteCardInput = {
 export type CreateRoomInput = {
   id?: string | null,
   isOpened: boolean,
-  ttl: number,
+  ttl?: number | null,
 };
 
 export type ModelRoomConditionInput = {
@@ -124,7 +124,7 @@ export type Room = {
   __typename: "Room",
   id: string,
   isOpened: boolean,
-  ttl: number,
+  ttl?: number | null,
   participants?: ModelParticipantConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -132,7 +132,7 @@ export type Room = {
 
 export type ModelParticipantConnection = {
   __typename: "ModelParticipantConnection",
-  items:  Array<Participant >,
+  items:  Array<Participant | null >,
   nextToken?: string | null,
 };
 
@@ -141,6 +141,7 @@ export type Participant = {
   id: string,
   username: string,
   displayUserName: string,
+  ttl?: number | null,
   createdAt: string,
   updatedAt: string,
   roomParticipantsId?: string | null,
@@ -160,12 +161,14 @@ export type CreateParticipantInput = {
   id?: string | null,
   username: string,
   displayUserName: string,
+  ttl?: number | null,
   roomParticipantsId?: string | null,
 };
 
 export type ModelParticipantConditionInput = {
   username?: ModelStringInput | null,
   displayUserName?: ModelStringInput | null,
+  ttl?: ModelIntInput | null,
   and?: Array< ModelParticipantConditionInput | null > | null,
   or?: Array< ModelParticipantConditionInput | null > | null,
   not?: ModelParticipantConditionInput | null,
@@ -192,6 +195,7 @@ export type UpdateParticipantInput = {
   id: string,
   username?: string | null,
   displayUserName?: string | null,
+  ttl?: number | null,
   roomParticipantsId?: string | null,
 };
 
@@ -213,7 +217,7 @@ export type ModelCardFilterInput = {
 
 export type ModelCardConnection = {
   __typename: "ModelCardConnection",
-  items:  Array<Card >,
+  items:  Array<Card | null >,
   nextToken?: string | null,
 };
 
@@ -228,7 +232,7 @@ export type ModelRoomFilterInput = {
 
 export type ModelRoomConnection = {
   __typename: "ModelRoomConnection",
-  items:  Array<Room >,
+  items:  Array<Room | null >,
   nextToken?: string | null,
 };
 
@@ -236,6 +240,7 @@ export type ModelParticipantFilterInput = {
   id?: ModelIDInput | null,
   username?: ModelStringInput | null,
   displayUserName?: ModelStringInput | null,
+  ttl?: ModelIntInput | null,
   and?: Array< ModelParticipantFilterInput | null > | null,
   or?: Array< ModelParticipantFilterInput | null > | null,
   not?: ModelParticipantFilterInput | null,
@@ -255,7 +260,7 @@ export type CreateCardMutation = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -274,7 +279,7 @@ export type UpdateCardMutation = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -293,7 +298,7 @@ export type DeleteCardMutation = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -309,7 +314,7 @@ export type CreateRoomMutation = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
-    ttl: number,
+    ttl?: number | null,
     participants?:  {
       __typename: "ModelParticipantConnection",
       items:  Array< {
@@ -317,10 +322,11 @@ export type CreateRoomMutation = {
         id: string,
         username: string,
         displayUserName: string,
+        ttl?: number | null,
         createdAt: string,
         updatedAt: string,
         roomParticipantsId?: string | null,
-      } >,
+      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -338,7 +344,7 @@ export type UpdateRoomMutation = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
-    ttl: number,
+    ttl?: number | null,
     participants?:  {
       __typename: "ModelParticipantConnection",
       items:  Array< {
@@ -346,10 +352,11 @@ export type UpdateRoomMutation = {
         id: string,
         username: string,
         displayUserName: string,
+        ttl?: number | null,
         createdAt: string,
         updatedAt: string,
         roomParticipantsId?: string | null,
-      } >,
+      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -367,7 +374,7 @@ export type DeleteRoomMutation = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
-    ttl: number,
+    ttl?: number | null,
     participants?:  {
       __typename: "ModelParticipantConnection",
       items:  Array< {
@@ -375,10 +382,11 @@ export type DeleteRoomMutation = {
         id: string,
         username: string,
         displayUserName: string,
+        ttl?: number | null,
         createdAt: string,
         updatedAt: string,
         roomParticipantsId?: string | null,
-      } >,
+      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -397,6 +405,7 @@ export type CreateParticipantMutation = {
     id: string,
     username: string,
     displayUserName: string,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
     roomParticipantsId?: string | null,
@@ -414,6 +423,7 @@ export type UpdateParticipantMutation = {
     id: string,
     username: string,
     displayUserName: string,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
     roomParticipantsId?: string | null,
@@ -431,6 +441,7 @@ export type DeleteParticipantMutation = {
     id: string,
     username: string,
     displayUserName: string,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
     roomParticipantsId?: string | null,
@@ -449,7 +460,7 @@ export type GetCardQuery = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -471,10 +482,10 @@ export type ListCardsQuery = {
       displayUserName: string,
       point: number,
       roomId: string,
-      ttl: number,
+      ttl?: number | null,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
   } | null,
 };
@@ -488,7 +499,7 @@ export type GetRoomQuery = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
-    ttl: number,
+    ttl?: number | null,
     participants?:  {
       __typename: "ModelParticipantConnection",
       items:  Array< {
@@ -496,10 +507,11 @@ export type GetRoomQuery = {
         id: string,
         username: string,
         displayUserName: string,
+        ttl?: number | null,
         createdAt: string,
         updatedAt: string,
         roomParticipantsId?: string | null,
-      } >,
+      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -520,14 +532,14 @@ export type ListRoomsQuery = {
       __typename: "Room",
       id: string,
       isOpened: boolean,
-      ttl: number,
+      ttl?: number | null,
       participants?:  {
         __typename: "ModelParticipantConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
   } | null,
 };
@@ -542,6 +554,7 @@ export type GetParticipantQuery = {
     id: string,
     username: string,
     displayUserName: string,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
     roomParticipantsId?: string | null,
@@ -562,10 +575,11 @@ export type ListParticipantsQuery = {
       id: string,
       username: string,
       displayUserName: string,
+      ttl?: number | null,
       createdAt: string,
       updatedAt: string,
       roomParticipantsId?: string | null,
-    } >,
+    } | null >,
     nextToken?: string | null,
   } | null,
 };
@@ -582,7 +596,7 @@ export type OnCreateCardByRoomIdSubscription = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -600,7 +614,7 @@ export type OnUpdateCardByRoomIdSubscription = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -618,7 +632,7 @@ export type OnDeleteCardByRoomIdSubscription = {
     displayUserName: string,
     point: number,
     roomId: string,
-    ttl: number,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -633,7 +647,7 @@ export type OnUpdateRoomByIdSubscription = {
     __typename: "Room",
     id: string,
     isOpened: boolean,
-    ttl: number,
+    ttl?: number | null,
     participants?:  {
       __typename: "ModelParticipantConnection",
       items:  Array< {
@@ -641,10 +655,11 @@ export type OnUpdateRoomByIdSubscription = {
         id: string,
         username: string,
         displayUserName: string,
+        ttl?: number | null,
         createdAt: string,
         updatedAt: string,
         roomParticipantsId?: string | null,
-      } >,
+      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -662,6 +677,7 @@ export type OnCreateParticipantByRoomIdSubscription = {
     id: string,
     username: string,
     displayUserName: string,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
     roomParticipantsId?: string | null,
@@ -678,6 +694,7 @@ export type OnDeleteParticipantByRoomIdSubscription = {
     id: string,
     username: string,
     displayUserName: string,
+    ttl?: number | null,
     createdAt: string,
     updatedAt: string,
     roomParticipantsId?: string | null,
