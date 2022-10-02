@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import {
   ListCardsQuery,
   ListParticipantsQuery,
@@ -15,6 +15,7 @@ import {
 } from '../graphql/subscriptions';
 import { listCards, listParticipants } from '../graphql/queries';
 import { sortParticipants } from '../utils/sortCards';
+import { updateRoom } from '../graphql/mutations';
 
 type CreateParticipantSubscriptionEvent = {
   value: { data: OnCreateParticipantByRoomIdSubscription };
@@ -108,6 +109,16 @@ export const useParticipant = (
       }
     };
   }, [authMode, room]);
+
+  useEffect(() => {
+    if (!room || !room.isOpened || participants.length) return;
+
+    API.graphql(
+      graphqlOperation(updateRoom, {
+        input: { id: room?.id, isOpened: false },
+      })
+    );
+  }, [participants.length, room])
 
   return { participants, setParicipants };
 };
