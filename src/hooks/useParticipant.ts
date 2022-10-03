@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import {
   ListCardsQuery,
   ListParticipantsQuery,
@@ -7,6 +7,7 @@ import {
   OnDeleteParticipantByRoomIdSubscription,
   Participant,
   Room,
+  Card,
 } from '../graphql/API';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
@@ -15,6 +16,7 @@ import {
 } from '../graphql/subscriptions';
 import { listCards, listParticipants } from '../graphql/queries';
 import { sortParticipants } from '../utils/sortCards';
+import { updateRoom } from '../graphql/mutations';
 
 type CreateParticipantSubscriptionEvent = {
   value: { data: OnCreateParticipantByRoomIdSubscription };
@@ -38,7 +40,7 @@ export const useParticipant = (
         authMode,
         variables: { filter: { roomParticipantsId: { eq: room.id } } },
       })) as GraphQLResult<ListParticipantsQuery>;
-      const items = result.data?.listParticipants?.items;
+      const items = result.data?.listParticipants?.items as Participant[];
       if (items) {
         if (room.isOpened) {
           const listCardsData = (await API.graphql({
@@ -46,7 +48,7 @@ export const useParticipant = (
             authMode,
             variables: { filter: { roomId: { eq: room.id } } },
           })) as GraphQLResult<ListCardsQuery>;
-          const cards = listCardsData.data?.listCards?.items;
+          const cards = listCardsData.data?.listCards?.items as Card[];
           setParicipants(!!cards ? sortParticipants(items, cards) : items);
         } else {
           setParicipants(items);
@@ -108,6 +110,16 @@ export const useParticipant = (
       }
     };
   }, [authMode, room]);
+
+  useEffect(() => {
+    if (!room || !room.isOpened || participants.length) return;
+
+    API.graphql(
+      graphqlOperation(updateRoom, {
+        input: { id: room?.id, isOpened: false },
+      })
+    );
+  }, [participants.length, room])
 
   return { participants, setParicipants };
 };
