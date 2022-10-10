@@ -15,7 +15,7 @@ import {
   onDeleteParticipantByRoomId,
 } from '../graphql/subscriptions';
 import { listCards, listParticipants } from '../graphql/queries';
-import { sortParticipants } from '../utils/sortCards';
+import { sortParticipants } from '../utils/card';
 import { updateRoom } from '../graphql/mutations';
 
 type CreateParticipantSubscriptionEvent = {
