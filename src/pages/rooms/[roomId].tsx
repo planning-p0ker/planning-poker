@@ -18,7 +18,7 @@ import {
 } from '../../hooks';
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
-import { sortParticipants } from '../../utils/sortCards';
+import { sortParticipants } from '../../utils/card';
 import dayjs from 'dayjs';
 
 const RoomPageContainer: NextPage = () => {
