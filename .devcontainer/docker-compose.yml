@@ -10,8 +10,8 @@ services:
     volumes:
       - ../:/workspaces
       - yarn-cache:/usr/local/share/.cache/yarn/v6
-      - ${HOME}${USERPROFILE}/.ssh:/root/.ssh:ro
-      - ${HOME}${USERPROFILE}/.aws:/root/.aws
-      - ${HOME}${USERPROFILE}/.git:/root/.git
+      - ${HOME}${USERPROFILE}/.ssh:/home/node/.ssh:ro
+      - ${HOME}${USERPROFILE}/.aws:/home/node/.aws
+      - ${HOME}${USERPROFILE}/.git:/home/node/.git
     # プロセスが終了してコンテナが終了してしまわないように
     command: /bin/sh -c "while sleep 1000; do :; done"
