@@ -15,6 +15,7 @@ const PointButtons: React.VFC<{
           key={p}
           disabled={disabledAll}
           onClick={onClickPointButton(p === selectNum ? null : p)}
+          size="large"
         >
           <span className="text-xl font-bold">{p}</span>
         </ToggleButton>
