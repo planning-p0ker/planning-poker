@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   const [isSearchingRoom, setIsSearchingRoom] = useState(false);
   const [isRoomNotFound, setIsRoomNotFound] = useState(false);
   const [roomId, setRoomId] = useState('');
-  const onChangeRoomId = useCallback((ev) => {
+  const onChangeRoomId = useCallback((ev: React.ChangeEvent<HTMLInputElement>) => {
     setRoomId(ev.target.value);
   }, []);
   const handleOnJoinRoom = useCallback(() => {
