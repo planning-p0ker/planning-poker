@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-const UserButton: React.FC<React.PropsWithChildren<{ displayName: string }>> = ({
+const UserButton: React.FC<{ displayName: string, children: React.ReactNode }> = ({
   displayName,
   children,
 }) => {
