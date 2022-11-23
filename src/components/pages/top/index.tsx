@@ -24,7 +24,7 @@ type TopPageProps = {
   isSearchingRoom: boolean;
   onJoinRoom: (roomId: string) => void;
   roomId: string;
-  onChangeRoomId: (ev: any) => void;
+  onChangeRoomId: (roomId: string) => void;
   isRoomNotFound: boolean;
 };
 
@@ -90,7 +90,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
                   <OutlinedInput
                     placeholder="ROOM ID"
                     error={isRoomNotFound}
-                    onChange={onChangeRoomId}
+                    onChange={e => onChangeRoomId(e.target.value)}
                     endAdornment={
                       <InputAdornment position="end">
                         <Divider
