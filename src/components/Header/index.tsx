@@ -34,11 +34,11 @@ const Header: React.VFC<HeaderProps> = ({
               onClick={onSignIn}
               startIcon={<GoogleIcon />}
             >
-              SING IN WITH GOOGLE
+              SIGN IN WITH GOOGLE
             </Button>
           ) : (
             <UserButton displayName={displayName}>
-              <button onClick={onSignOut}>Sing out 🖐️</button>
+              <button onClick={onSignOut}>Sign out 🖐️</button>
             </UserButton>
           )}
         </div>
