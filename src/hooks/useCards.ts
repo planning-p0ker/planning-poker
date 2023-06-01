@@ -12,8 +12,8 @@ import {
   OnCreateCardByRoomIdSubscriptionVariables,
   OnCreateCardByRoomIdSubscription,
   OnDeleteCardByRoomIdSubscription,
-  UpdateCardInput,
   Participant,
+  UpdateParticipantInput,
 } from '../graphql/API';
 import { User } from './useUser';
 import {
@@ -138,9 +138,12 @@ export const useCards = (
         );
 
         if (myParticipant) {
-          const updateParticipantInput: UpdateCardInput = {
-            ...myParticipant,
-            point,
+          const updateParticipantInput: UpdateParticipantInput = {
+            id: myParticipant.id,
+            username: myParticipant.username,
+            displayUserName: myParticipant.displayUserName,
+            roomParticipantsId: myParticipant.roomParticipantsId,
+            point: point,
           };
           await API.graphql(
             graphqlOperation(updateParticipant, {
@@ -150,7 +153,7 @@ export const useCards = (
         }
       }
     },
-    [myCard, roomId, user]
+    [myCard, participants, roomId, user]
   );
 
   const handleOnClear = useCallback(async () => {
