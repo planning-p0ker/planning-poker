@@ -12,9 +12,16 @@ import {
   OnCreateCardByRoomIdSubscriptionVariables,
   OnCreateCardByRoomIdSubscription,
   OnDeleteCardByRoomIdSubscription,
+  UpdateCardInput,
+  Participant,
 } from '../graphql/API';
 import { User } from './useUser';
-import { createCard, deleteCard, updateRoom } from '../graphql/mutations';
+import {
+  createCard,
+  deleteCard,
+  updateRoom,
+  updateParticipant,
+} from '../graphql/mutations';
 
 type CreateCardSubscriptionEvent = {
   value: { data: OnCreateCardByRoomIdSubscription };
@@ -25,6 +32,7 @@ type DeleteCardSubscriptionEvent = {
 
 export const useCards = (
   user: User | null,
+  participants: Participant[],
   authMode: GRAPHQL_AUTH_MODE,
   isReady: boolean,
   roomId?: string
@@ -113,7 +121,11 @@ export const useCards = (
           graphqlOperation(deleteCard, { input: { id: myCard.id } })
         );
       }
+
       if (user && point) {
+        const myParticipant = participants.find(
+          (p) => p.username === user.username
+        );
         await API.graphql(
           graphqlOperation(createCard, {
             input: {
@@ -124,6 +136,18 @@ export const useCards = (
             },
           })
         );
+
+        if (myParticipant) {
+          const updateParticipantInput: UpdateCardInput = {
+            ...myParticipant,
+            point,
+          };
+          await API.graphql(
+            graphqlOperation(updateParticipant, {
+              input: updateParticipantInput,
+            })
+          );
+        }
       }
     },
     [myCard, roomId, user]
