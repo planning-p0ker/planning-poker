@@ -142,7 +142,6 @@ export const useCards = (
             id: myParticipant.id,
             username: myParticipant.username,
             displayUserName: myParticipant.displayUserName,
-            ttl: 1785637950,
             point: point,
             roomParticipantsId: myParticipant.roomParticipantsId,
           };
