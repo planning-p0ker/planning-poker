@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { NextRouter } from 'next/router';
-import { Card, Participant } from '../graphql/API';
+import { Card, Participant, UpdateParticipantInput } from '../graphql/API';
 import { User } from './useUser';
 import { API, graphqlOperation } from 'aws-amplify';
-import { deleteCard, deleteParticipant, updateParticipant } from '../graphql/mutations';
+import {
+  deleteCard,
+  deleteParticipant,
+  updateParticipant,
+} from '../graphql/mutations';
 import dayjs from 'dayjs';
 
 export const useLeaveRoom = (
@@ -77,23 +81,29 @@ export const useLeaveRoom = (
     };
   }, [onBeforeUnload, router.events]);
 
-
   // userのttlを更新
   const updateUserTTL = useCallback(async () => {
     if (!user) return;
 
-    const me = participants.find(p => p.username === user.username);
+    const me = participants.find((p) => p.username === user.username);
     if (!me) return;
 
+    const updateParticipantInput: UpdateParticipantInput = {
+      ...me,
+      id: me.id,
+      ttl: dayjs().add(1, 'hour').unix(),
+    };
     await API.graphql(
-      graphqlOperation(updateParticipant, { input: { id: me.id, ttl: dayjs().add(1, "hour").unix() } })
+      graphqlOperation(updateParticipant, {
+        input: updateParticipantInput,
+      })
     );
   }, [participants, user]);
 
   useEffect(() => {
     const update = setInterval(updateUserTTL, 1000 * 60 * 50); // 50mに一度TTLを更新する
     return () => clearInterval(update);
-  }, [updateUserTTL])
+  }, [updateUserTTL]);
 
   return { handleOnSignOut };
 };

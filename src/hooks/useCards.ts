@@ -12,9 +12,16 @@ import {
   OnCreateCardByRoomIdSubscriptionVariables,
   OnCreateCardByRoomIdSubscription,
   OnDeleteCardByRoomIdSubscription,
+  Participant,
+  UpdateParticipantInput,
 } from '../graphql/API';
 import { User } from './useUser';
-import { createCard, deleteCard, updateRoom } from '../graphql/mutations';
+import {
+  createCard,
+  deleteCard,
+  updateRoom,
+  updateParticipant,
+} from '../graphql/mutations';
 
 type CreateCardSubscriptionEvent = {
   value: { data: OnCreateCardByRoomIdSubscription };
@@ -25,6 +32,7 @@ type DeleteCardSubscriptionEvent = {
 
 export const useCards = (
   user: User | null,
+  participants: Participant[],
   authMode: GRAPHQL_AUTH_MODE,
   isReady: boolean,
   roomId?: string
@@ -112,8 +120,7 @@ export const useCards = (
         await API.graphql(
           graphqlOperation(deleteCard, { input: { id: myCard.id } })
         );
-      }
-      if (user && point) {
+      } else if (user && point) {
         await API.graphql(
           graphqlOperation(createCard, {
             input: {
@@ -125,8 +132,29 @@ export const useCards = (
           })
         );
       }
+
+      if (user) {
+        const myParticipant = participants.find(
+          (p) => p.username === user.username
+        );
+
+        if (myParticipant) {
+          const updateParticipantInput: UpdateParticipantInput = {
+            id: myParticipant.id,
+            username: myParticipant.username,
+            displayUserName: myParticipant.displayUserName,
+            point: point,
+            roomParticipantsId: myParticipant.roomParticipantsId,
+          };
+          await API.graphql(
+            graphqlOperation(updateParticipant, {
+              input: updateParticipantInput,
+            })
+          );
+        }
+      }
     },
-    [myCard, roomId, user]
+    [myCard, participants, roomId, user]
   );
 
   const handleOnClear = useCallback(async () => {

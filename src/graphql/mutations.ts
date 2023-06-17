@@ -67,6 +67,7 @@ export const createRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          point
           ttl
           createdAt
           updatedAt
@@ -93,6 +94,7 @@ export const updateRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          point
           ttl
           createdAt
           updatedAt
@@ -119,6 +121,7 @@ export const deleteRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          point
           ttl
           createdAt
           updatedAt
@@ -140,6 +143,7 @@ export const createParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      point
       ttl
       createdAt
       updatedAt
@@ -156,6 +160,7 @@ export const updateParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      point
       ttl
       createdAt
       updatedAt
@@ -172,6 +177,7 @@ export const deleteParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      point
       ttl
       createdAt
       updatedAt

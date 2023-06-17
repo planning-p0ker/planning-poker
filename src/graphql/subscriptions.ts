@@ -55,6 +55,7 @@ export const onUpdateRoomById = /* GraphQL */ `
           id
           username
           displayUserName
+          point
           ttl
           createdAt
           updatedAt
@@ -73,6 +74,7 @@ export const onCreateParticipantByRoomId = /* GraphQL */ `
       id
       username
       displayUserName
+      point
       ttl
       createdAt
       updatedAt
@@ -86,6 +88,7 @@ export const onDeleteParticipantByRoomId = /* GraphQL */ `
       id
       username
       displayUserName
+      point
       ttl
       createdAt
       updatedAt

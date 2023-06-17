@@ -57,6 +57,7 @@ type Participant
   id: ID!
   username: String!
   displayUserName: String!
+  point: Int
   ttl: AWSTimestamp @ttl
 }
 

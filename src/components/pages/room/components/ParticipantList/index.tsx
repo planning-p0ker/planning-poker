@@ -45,7 +45,7 @@ const ParticipantRow: React.FC<{
   );
 };
 
-export const ParticipantList: React.VFC<ParticipantListProps> = ({
+export const ParticipantList: React.FC<ParticipantListProps> = ({
   participants,
   fieldsCard,
   isOpened,

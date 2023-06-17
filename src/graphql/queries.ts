@@ -48,6 +48,7 @@ export const getRoom = /* GraphQL */ `
           id
           username
           displayUserName
+          point
           ttl
           createdAt
           updatedAt
@@ -87,6 +88,7 @@ export const getParticipant = /* GraphQL */ `
       id
       username
       displayUserName
+      point
       ttl
       createdAt
       updatedAt
@@ -105,6 +107,7 @@ export const listParticipants = /* GraphQL */ `
         id
         username
         displayUserName
+        point
         ttl
         createdAt
         updatedAt

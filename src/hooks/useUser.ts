@@ -62,7 +62,7 @@ export const useUser = (router: NextRouter, pathname: string) => {
                 });
               }
             })
-            .catch(() => { }); // noop
+            .catch(() => {}); // noop
           break;
         case 'signOut':
           setUser(null);
