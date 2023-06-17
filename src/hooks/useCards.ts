@@ -120,12 +120,7 @@ export const useCards = (
         await API.graphql(
           graphqlOperation(deleteCard, { input: { id: myCard.id } })
         );
-      }
-
-      if (user && point) {
-        const myParticipant = participants.find(
-          (p) => p.username === user.username
-        );
+      } else if (user && point) {
         await API.graphql(
           graphqlOperation(createCard, {
             input: {
@@ -135,6 +130,12 @@ export const useCards = (
               roomId,
             },
           })
+        );
+      }
+
+      if (user) {
+        const myParticipant = participants.find(
+          (p) => p.username === user.username
         );
 
         if (myParticipant) {
