@@ -117,7 +117,9 @@ export const useParticipant = (
           if (data.onUpdateParticipantByRoomId) {
             const updateCard = data.onUpdateParticipantByRoomId;
             setParicipants((prev) =>
-              prev.filter((e) => e.id !== updateCard.id)
+              prev.map((paricipant) =>
+                paricipant.id === updateCard.id ? updateCard : paricipant
+              )
             );
           }
         },
