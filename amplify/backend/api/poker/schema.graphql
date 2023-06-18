@@ -89,4 +89,8 @@ type Subscription {
     @aws_subscribe(mutations: ["deleteParticipant"])
     @aws_iam
     @aws_cognito_user_pools
+  onUpdateParticipantByRoomId(roomParticipantsId: String): Participant
+    @aws_subscribe(mutations: ["updateParticipant"])
+    @aws_iam
+    @aws_cognito_user_pools
 }

@@ -119,7 +119,7 @@ export const useParticipant = (
         input: { id: room?.id, isOpened: false },
       })
     );
-  }, [participants.length, room])
+  }, [participants.length, room]);
 
   return { participants, setParicipants };
 };
