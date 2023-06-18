@@ -717,3 +717,21 @@ export type OnDeleteParticipantByRoomIdSubscription = {
     roomParticipantsId?: string | null,
   } | null,
 };
+
+export type OnUpdateParticipantByRoomIdSubscriptionVariables = {
+  roomParticipantsId?: string | null,
+};
+
+export type OnUpdateParticipantByRoomIdSubscription = {
+  onUpdateParticipantByRoomId?:  {
+    __typename: "Participant",
+    id: string,
+    username: string,
+    displayUserName: string,
+    point?: number | null,
+    ttl?: number | null,
+    createdAt: string,
+    updatedAt: string,
+    roomParticipantsId?: string | null,
+  } | null,
+};

@@ -96,3 +96,17 @@ export const onDeleteParticipantByRoomId = /* GraphQL */ `
     }
   }
 `;
+export const onUpdateParticipantByRoomId = /* GraphQL */ `
+  subscription OnUpdateParticipantByRoomId($roomParticipantsId: String) {
+    onUpdateParticipantByRoomId(roomParticipantsId: $roomParticipantsId) {
+      id
+      username
+      displayUserName
+      point
+      ttl
+      createdAt
+      updatedAt
+      roomParticipantsId
+    }
+  }
+`;
