@@ -1,8 +1,9 @@
 import { Button, CircularProgress } from '@mui/material';
-import { Card, Participant, Room } from '../../../../../graphql/API';
+import { Participant, Room } from '../../../../../graphql/API';
 import type { User } from '../../../../../hooks/useUser';
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
+import { Card } from '../../../../../hooks/useCards';
 
 type OpenButtonProps = {
   room: Room | null;

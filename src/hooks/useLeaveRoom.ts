@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { NextRouter } from 'next/router';
-import { Card, Participant, UpdateParticipantInput } from '../graphql/API';
+import { Participant, UpdateParticipantInput } from '../graphql/API';
 import { User } from './useUser';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
@@ -9,6 +9,7 @@ import {
   updateParticipant,
 } from '../graphql/mutations';
 import dayjs from 'dayjs';
+import { Card } from './useCards';
 
 export const useLeaveRoom = (
   router: NextRouter,

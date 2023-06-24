@@ -2,7 +2,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import { pointList } from '../../../../../constants';
 
-const PointButtons: React.VFC<{
+const PointButtons: React.FC<{
   selectNum?: number | null;
   onClickPointButton: (num: number | null) => () => void;
   disabledAll?: boolean;

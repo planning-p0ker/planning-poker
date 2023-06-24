@@ -7,7 +7,7 @@ type RoomIdPlateProps = {
   isLoading: boolean;
 };
 
-export const RoomIdPlate: React.VFC<RoomIdPlateProps> = ({
+export const RoomIdPlate: React.FC<RoomIdPlateProps> = ({
   roomId,
   isLoading,
 }) => {

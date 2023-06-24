@@ -1,4 +1,4 @@
-import { Card, Participant, Room } from '../../../graphql/API';
+import { Participant, Room } from '../../../graphql/API';
 import { User } from '../../../hooks/useUser';
 import { AverageDisplay } from './components/AverageDisplay';
 import PointButtons from './components/PointButtons';
@@ -11,6 +11,7 @@ import {
 } from './components/InputNameModal';
 import { ClearButton } from './components/ClearButton';
 import { OpenButton } from './components/OpenButton';
+import { Card } from '../../../hooks/useCards';
 
 type RoomPageProps = {
   isLoading: boolean;

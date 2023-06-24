@@ -1,5 +1,6 @@
 import { pointList } from '../constants';
-import { Card, Participant } from '../graphql/API';
+import { Participant } from '../graphql/API';
+import { Card } from '../hooks/useCards';
 
 export const sortParticipants = (
   participants: Participant[],

@@ -1,8 +1,9 @@
 import { Card as CardUI } from '@mui/material';
 import React, { useMemo } from 'react';
-import { Participant, Card } from '../../../../../graphql/API';
+import { Participant } from '../../../../../graphql/API';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { checkNeedsDiscussion } from '../../../../../utils/card';
+import { Card } from '../../../../../hooks/useCards';
 
 type ParticipantListProps = {
   participants: Participant[];

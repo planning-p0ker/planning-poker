@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { Card } from '../../../../../graphql/API';
 import styles from './AverageDisplay.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
 import { Card as CardUI } from '@mui/material';
+import { Card } from '../../../../../hooks/useCards';
 
 export const AverageDisplay: React.VFC<{
   cards: Card[];

@@ -149,6 +149,5 @@ export const useParticipant = (
     );
   }, [participants.length, room]);
 
-  console.log(participants);
   return { participants, setParicipants };
 };
