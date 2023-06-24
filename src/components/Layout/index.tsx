@@ -11,7 +11,7 @@ type LayoutProps = {
   onSignOut: () => void;
 };
 
-export const Layout: React.VFC<PropsWithChildren<LayoutProps>> = ({
+export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   user,
   children,
   onSignIn,

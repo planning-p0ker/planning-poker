@@ -78,6 +78,7 @@ export const useCards = (
   );
 
   const handleOnClear = useCallback(async () => {
+    // TODO: 一括で削除するようにする
     await Promise.all(
       participants.map(async (participant) => {
         const updateParticipantInput: UpdateParticipantInput = {
