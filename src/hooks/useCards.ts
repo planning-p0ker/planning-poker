@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { Participant, UpdateParticipantInput } from '../graphql/API';
+import {
+  Participant,
+  UpdateParticipantInput,
+  UpdateRoomInput,
+} from '../graphql/API';
 import { User } from './useUser';
 import { updateRoom, updateParticipant } from '../graphql/mutations';
 
@@ -71,7 +75,7 @@ export const useCards = (
   );
 
   const handleOnClear = useCallback(async () => {
-    Promise.all(
+    await Promise.all(
       participants.map(async (participant) => {
         const updateParticipantInput: UpdateParticipantInput = {
           id: participant.id,
@@ -80,16 +84,20 @@ export const useCards = (
           point: null,
           roomParticipantsId: participant.roomParticipantsId,
         };
-        return await API.graphql(
+        return API.graphql(
           graphqlOperation(updateParticipant, {
             input: updateParticipantInput,
           })
         );
       })
     );
+    const updateRoomInput: UpdateRoomInput = {
+      id: roomId!,
+      isOpened: false,
+    };
     await API.graphql(
       graphqlOperation(updateRoom, {
-        input: { id: roomId, isOpened: false },
+        input: updateRoomInput,
       })
     );
   }, [participants, roomId]);

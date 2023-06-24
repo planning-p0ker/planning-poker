@@ -65,13 +65,12 @@ export const useRoom = (
     await API.graphql(
       graphqlOperation(updateRoom, {
         input: {
-          ...room,
           id: roomId,
           isOpened: true,
         },
       })
     );
-  }, [room, roomId]);
+  }, [roomId]);
 
   return { room, isLoading, handleOnOpen };
 };
