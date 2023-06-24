@@ -39,13 +39,16 @@ export const useCards = (
   useEffect(() => {
     if (!user) return;
     const me = fieldCards.find((c) => c.username === user.username);
-    if (!me) return;
-    setMyCard({
-      id: me.id,
-      username: me.username,
-      displayUserName: me.displayUserName,
-      point: me.point,
-    });
+    if (me) {
+      setMyCard({
+        id: me.id,
+        username: me.username,
+        displayUserName: me.displayUserName,
+        point: me.point,
+      });
+    } else {
+      setMyCard(null);
+    }
   }, [fieldCards, user]);
 
   const handleOnClickPointButton = useCallback(
