@@ -28,7 +28,7 @@ type RoomPageProps = {
   modalProps: InputNameModalProps;
 };
 
-export const RoomPage: React.VFC<RoomPageProps> = ({
+export const RoomPage: React.FC<RoomPageProps> = ({
   isLoading,
   user,
   room,
