@@ -1,138 +1,58 @@
 import { useCallback, useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import { listCards } from '../graphql/queries';
 import {
-  onCreateCardByRoomId,
-  onDeleteCardByRoomId,
-} from '../graphql/subscriptions';
-import {
-  Card,
-  ListCardsQuery,
-  OnCreateCardByRoomIdSubscriptionVariables,
-  OnCreateCardByRoomIdSubscription,
-  OnDeleteCardByRoomIdSubscription,
   Participant,
   UpdateParticipantInput,
+  UpdateRoomInput,
 } from '../graphql/API';
 import { User } from './useUser';
-import {
-  createCard,
-  deleteCard,
-  updateRoom,
-  updateParticipant,
-} from '../graphql/mutations';
+import { updateRoom, updateParticipant } from '../graphql/mutations';
 
-type CreateCardSubscriptionEvent = {
-  value: { data: OnCreateCardByRoomIdSubscription };
-};
-type DeleteCardSubscriptionEvent = {
-  value: { data: OnDeleteCardByRoomIdSubscription };
+export type Card = {
+  id: string;
+  username: string;
+  displayUserName: string;
+  point: number;
 };
 
 export const useCards = (
   user: User | null,
   participants: Participant[],
-  authMode: GRAPHQL_AUTH_MODE,
-  isReady: boolean,
   roomId?: string
 ) => {
   const [fieldCards, setFieldCards] = useState<Card[]>([]);
   const [myCard, setMyCard] = useState<Card | null>(null);
 
-  // 初期表示時にカード一覧取得
   useEffect(() => {
-    if (!roomId || !isReady) return;
-    (async () => {
-      const result = (await API.graphql({
-        query: listCards,
-        authMode,
-        variables: { filter: { roomId: { eq: roomId } } },
-      })) as GraphQLResult<ListCardsQuery>;
-      const items = result.data?.listCards?.items as Card[];
-      if (items) setFieldCards(items);
-    })();
-  }, [authMode, isReady, roomId]);
+    setFieldCards(
+      participants
+        .filter((p) => !!p.point)
+        .map((p) => ({
+          id: p.id,
+          username: p.username,
+          displayUserName: p.displayUserName,
+          point: p.point!,
+        }))
+    );
+  }, [participants]);
 
-  // Subscription
   useEffect(() => {
-    if (!roomId || !isReady) return;
-    // NOTE: 現状updateCardは利用していない（カードを更新する際はdeleteCard&createCardでやっている）
-    const createCardListener: any = API.graphql({
-      query: onCreateCardByRoomId,
-      authMode,
-      variables: { roomId } as OnCreateCardByRoomIdSubscriptionVariables,
-    });
-    if ('subscribe' in createCardListener) {
-      createCardListener.subscribe({
-        next: ({ value: { data } }: CreateCardSubscriptionEvent) => {
-          if (data.onCreateCardByRoomId) {
-            const newItem = data.onCreateCardByRoomId;
-            setFieldCards((prev) => [...prev, newItem]);
-          }
-        },
+    if (!user) return;
+    const me = fieldCards.find((c) => c.username === user.username);
+    if (me) {
+      setMyCard({
+        id: me.id,
+        username: me.username,
+        displayUserName: me.displayUserName,
+        point: me.point,
       });
+    } else {
+      setMyCard(null);
     }
-
-    const deleteCardListener: any = API.graphql({
-      query: onDeleteCardByRoomId,
-      authMode,
-      variables: { roomId },
-    });
-    if ('subscribe' in deleteCardListener) {
-      deleteCardListener.subscribe({
-        next: ({ value: { data } }: DeleteCardSubscriptionEvent) => {
-          if (data.onDeleteCardByRoomId) {
-            const deletedCard = data.onDeleteCardByRoomId;
-            setFieldCards((prev) =>
-              prev.filter((e) => e.id !== deletedCard.id)
-            );
-          }
-        },
-      });
-    }
-
-    return () => {
-      if ('unsubscribe' in createCardListener) {
-        createCardListener.unsubscribe();
-      }
-      if ('unsubscribe' in deleteCardListener) {
-        deleteCardListener.unsubscribe();
-      }
-    };
-  }, [authMode, isReady, roomId]);
-
-  useEffect(() => {
-    if (user) {
-      const card = fieldCards.find((c) => c.username === user.username);
-      if (card) {
-        setMyCard(card);
-        return;
-      }
-    }
-
-    setMyCard(null);
   }, [fieldCards, user]);
 
   const handleOnClickPointButton = useCallback(
     (point: number | null) => async () => {
-      if (myCard) {
-        await API.graphql(
-          graphqlOperation(deleteCard, { input: { id: myCard.id } })
-        );
-      } else if (user && point) {
-        await API.graphql(
-          graphqlOperation(createCard, {
-            input: {
-              point,
-              username: user.username,
-              displayUserName: user.displayName,
-              roomId,
-            },
-          })
-        );
-      }
-
       if (user) {
         const myParticipant = participants.find(
           (p) => p.username === user.username
@@ -154,23 +74,37 @@ export const useCards = (
         }
       }
     },
-    [myCard, participants, roomId, user]
+    [participants, user]
   );
 
   const handleOnClear = useCallback(async () => {
-    Promise.all(
-      fieldCards.map(async (card) => {
-        return await API.graphql(
-          graphqlOperation(deleteCard, { input: { id: card.id } })
+    // TODO: 一括で削除するようにする
+    await Promise.all(
+      participants.map(async (participant) => {
+        const updateParticipantInput: UpdateParticipantInput = {
+          id: participant.id,
+          username: participant.username,
+          displayUserName: participant.displayUserName,
+          point: null,
+          roomParticipantsId: participant.roomParticipantsId,
+        };
+        return API.graphql(
+          graphqlOperation(updateParticipant, {
+            input: updateParticipantInput,
+          })
         );
       })
     );
+    const updateRoomInput: UpdateRoomInput = {
+      id: roomId!,
+      isOpened: false,
+    };
     await API.graphql(
       graphqlOperation(updateRoom, {
-        input: { id: roomId, isOpened: false },
+        input: updateRoomInput,
       })
     );
-  }, [fieldCards, roomId]);
+  }, [participants, roomId]);
 
   return {
     fieldCards,

@@ -5,6 +5,7 @@ import {
   ListParticipantsQuery,
   OnCreateParticipantByRoomIdSubscription,
   OnDeleteParticipantByRoomIdSubscription,
+  OnUpdateParticipantByRoomIdSubscription,
   Participant,
   Room,
   Card,
@@ -13,6 +14,7 @@ import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
   onCreateParticipantByRoomId,
   onDeleteParticipantByRoomId,
+  onUpdateParticipantByRoomId,
 } from '../graphql/subscriptions';
 import { listCards, listParticipants } from '../graphql/queries';
 import { sortParticipants } from '../utils/card';
@@ -23,6 +25,9 @@ type CreateParticipantSubscriptionEvent = {
 };
 type DeleteParticipantSubscriptionEvent = {
   value: { data: OnDeleteParticipantByRoomIdSubscription };
+};
+type UpdateParticipantSubscriptionEvent = {
+  value: { data: OnUpdateParticipantByRoomIdSubscription };
 };
 
 export const useParticipant = (
@@ -101,12 +106,35 @@ export const useParticipant = (
       });
     }
 
+    const updateListener: any = API.graphql({
+      query: onUpdateParticipantByRoomId,
+      authMode,
+      variables: { roomParticipantsId: room.id },
+    });
+    if ('subscribe' in updateListener) {
+      updateListener.subscribe({
+        next: ({ value: { data } }: UpdateParticipantSubscriptionEvent) => {
+          if (data.onUpdateParticipantByRoomId) {
+            const updateCard = data.onUpdateParticipantByRoomId;
+            setParicipants((prev) =>
+              prev.map((paricipant) =>
+                paricipant.id === updateCard.id ? updateCard : paricipant
+              )
+            );
+          }
+        },
+      });
+    }
+
     return () => {
       if ('unsubscribe' in createListener) {
         createListener.unsubscribe();
       }
       if ('unsubscribe' in deleteListener) {
         deleteListener.unsubscribe();
+      }
+      if ('unsubscribe' in updateListener) {
+        updateListener.unsubscribe();
       }
     };
   }, [authMode, room]);
@@ -119,7 +147,7 @@ export const useParticipant = (
         input: { id: room?.id, isOpened: false },
       })
     );
-  }, [participants.length, room])
+  }, [participants.length, room]);
 
   return { participants, setParicipants };
 };

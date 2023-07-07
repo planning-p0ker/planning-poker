@@ -20,7 +20,7 @@
     "aws-amplify": "^4.3.6",
     "bignumber.js": "^9.0.2",
     "dayjs": "^1.11.2",
-    "graphql-ttl-transformer": "^2.0.0",
+    "graphql-ttl-transformer": "^2.0.1",
     "next": "12.1.6",
     "react": "18.2.0",
     "react-countup": "^6.2.0",
