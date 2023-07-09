@@ -98,8 +98,7 @@ const RoomPageContainer: NextPage = () => {
 
   // 名前入力モーダルのENTERボタン押下時のコールバック関数
   const handleOnClickEnter = useCallback(async () => {
-    if (!room?.id) return;
-    if (!user) return;
+    if (!room?.id || !user) return;
 
     await API.graphql(
       graphqlOperation(createParticipant, {

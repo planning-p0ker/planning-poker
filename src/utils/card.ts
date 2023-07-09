@@ -19,7 +19,9 @@ export const sortParticipants = (participants: Participant[]) => {
     return 0;
   });
 
-  return [...sorted];
+  const result = [...sorted];
+  console.log('SORT RESULT: ', result);
+  return result;
 };
 
 export const checkNeedsDiscussion = (cards: Card[]) => {
