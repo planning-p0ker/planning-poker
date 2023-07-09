@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
-  ListCardsQuery,
   ListParticipantsQuery,
   OnCreateParticipantByRoomIdSubscription,
   OnDeleteParticipantByRoomIdSubscription,
   OnUpdateParticipantByRoomIdSubscription,
   Participant,
   Room,
-  Card,
 } from '../graphql/API';
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
 import {
@@ -16,7 +14,7 @@ import {
   onDeleteParticipantByRoomId,
   onUpdateParticipantByRoomId,
 } from '../graphql/subscriptions';
-import { listCards, listParticipants } from '../graphql/queries';
+import { listParticipants } from '../graphql/queries';
 import { sortParticipants } from '../utils/card';
 import { updateRoom } from '../graphql/mutations';
 
@@ -48,15 +46,13 @@ export const useParticipant = (
       const items = result.data?.listParticipants?.items as Participant[];
       if (items) {
         if (room.isOpened) {
-          const listCardsData = (await API.graphql({
-            query: listCards,
-            authMode,
-            variables: { filter: { roomId: { eq: room.id } } },
-          })) as GraphQLResult<ListCardsQuery>;
-          const cards = listCardsData.data?.listCards?.items as Card[];
-          setParicipants(!!cards ? sortParticipants(items, cards) : items);
+          const one = sortParticipants(items);
+          console.log('1 : ', one);
+          setParicipants(one);
         } else {
-          setParicipants(items);
+          const two = items;
+          console.log('2 : ', two);
+          setParicipants(two);
         }
       }
     })();

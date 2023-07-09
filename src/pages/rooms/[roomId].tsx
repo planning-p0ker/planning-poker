@@ -36,12 +36,11 @@ const RoomPageContainer: NextPage = () => {
   );
   const { participants, setParicipants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
-    useCards(user, participants, room?.id,);
+    useCards(user, participants, room?.id);
   const { handleOnSignOut } = useLeaveRoom(
     router,
     onSignOut,
     user,
-    myCard,
     participants
   );
 
@@ -55,7 +54,9 @@ const RoomPageContainer: NextPage = () => {
   useEffect(() => {
     if (shouldSortCards) {
       setShouldSortCards(false);
-      setParicipants(sortParticipants(participants, fieldCards));
+      const three = sortParticipants(participants);
+      console.log('3 : ', three);
+      setParicipants(three);
     }
   }, [fieldCards, participants, setParicipants, shouldSortCards]);
 
