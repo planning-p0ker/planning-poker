@@ -36,12 +36,11 @@ const RoomPageContainer: NextPage = () => {
   );
   const { participants, setParicipants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
-    useCards(user, participants, room?.id,);
+    useCards(user, participants, room?.id);
   const { handleOnSignOut } = useLeaveRoom(
     router,
     onSignOut,
     user,
-    myCard,
     participants
   );
 
@@ -55,7 +54,7 @@ const RoomPageContainer: NextPage = () => {
   useEffect(() => {
     if (shouldSortCards) {
       setShouldSortCards(false);
-      setParicipants(sortParticipants(participants, fieldCards));
+      setParicipants(sortParticipants(participants));
     }
   }, [fieldCards, participants, setParicipants, shouldSortCards]);
 
@@ -97,8 +96,7 @@ const RoomPageContainer: NextPage = () => {
 
   // 名前入力モーダルのENTERボタン押下時のコールバック関数
   const handleOnClickEnter = useCallback(async () => {
-    if (!room?.id) return;
-    if (!user) return;
+    if (!room?.id || !user) return;
 
     await API.graphql(
       graphqlOperation(createParticipant, {
