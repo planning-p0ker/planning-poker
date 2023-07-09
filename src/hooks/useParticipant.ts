@@ -46,13 +46,9 @@ export const useParticipant = (
       const items = result.data?.listParticipants?.items as Participant[];
       if (items) {
         if (room.isOpened) {
-          const one = sortParticipants(items);
-          console.log('1 : ', one);
-          setParicipants(one);
+          setParicipants(sortParticipants(items));
         } else {
-          const two = items;
-          console.log('2 : ', two);
-          setParicipants(two);
+          setParicipants(items);
         }
       }
     })();

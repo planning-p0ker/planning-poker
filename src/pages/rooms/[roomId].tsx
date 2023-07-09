@@ -54,9 +54,7 @@ const RoomPageContainer: NextPage = () => {
   useEffect(() => {
     if (shouldSortCards) {
       setShouldSortCards(false);
-      const three = sortParticipants(participants);
-      console.log('3 : ', three);
-      setParicipants(three);
+      setParicipants(sortParticipants(participants));
     }
   }, [fieldCards, participants, setParicipants, shouldSortCards]);
 

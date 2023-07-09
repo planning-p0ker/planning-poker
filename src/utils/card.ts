@@ -5,7 +5,7 @@ import { Card } from '../hooks/useCards';
 export const sortParticipants = (participants: Participant[]) => {
   const sorted = participants.sort((a, b) => {
     if (a.point && b.point) {
-      return a.point - b.point;
+      return b.point - a.point;
     }
 
     if (a.point && !b.point) {
@@ -19,9 +19,7 @@ export const sortParticipants = (participants: Participant[]) => {
     return 0;
   });
 
-  const result = [...sorted];
-  console.log('SORT RESULT: ', result);
-  return result;
+  return [...sorted];
 };
 
 export const checkNeedsDiscussion = (cards: Card[]) => {
