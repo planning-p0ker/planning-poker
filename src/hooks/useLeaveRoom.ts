@@ -3,19 +3,13 @@ import { NextRouter } from 'next/router';
 import { Participant, UpdateParticipantInput } from '../graphql/API';
 import { User } from './useUser';
 import { API, graphqlOperation } from 'aws-amplify';
-import {
-  deleteCard,
-  deleteParticipant,
-  updateParticipant,
-} from '../graphql/mutations';
+import { deleteParticipant, updateParticipant } from '../graphql/mutations';
 import dayjs from 'dayjs';
-import { Card } from './useCards';
 
 export const useLeaveRoom = (
   router: NextRouter,
   onSignOut: () => void,
   user: User | null,
-  myCard: Card | null,
   participants: Participant[]
 ) => {
   // サインアウト前に行う処理
@@ -25,12 +19,6 @@ export const useLeaveRoom = (
     [participants, user?.username]
   );
   const handleOnSignOut = useCallback(async () => {
-    if (myCard) {
-      await API.graphql(
-        graphqlOperation(deleteCard, { input: { id: myCard.id } })
-      );
-    }
-
     if (myParicipant) {
       await API.graphql(
         graphqlOperation(deleteParticipant, {
@@ -41,7 +29,7 @@ export const useLeaveRoom = (
       );
     }
     setIsSignOut(true);
-  }, [myCard, myParicipant]);
+  }, [myParicipant]);
 
   useEffect(() => {
     if (!isSignOut) return;
@@ -50,18 +38,6 @@ export const useLeaveRoom = (
 
   // ROOMから移動する前に行う処理
   const onBeforeUnload = useCallback(async () => {
-    if (!user) return;
-    // カード削除
-    if (myCard) {
-      await API.graphql(
-        graphqlOperation(deleteCard, {
-          input: {
-            id: myCard.id,
-          },
-        })
-      );
-    }
-
     if (!myParicipant) return;
     await API.graphql(
       graphqlOperation(deleteParticipant, {
@@ -70,7 +46,7 @@ export const useLeaveRoom = (
         },
       })
     );
-  }, [myCard, myParicipant, user]);
+  }, [myParicipant]);
 
   useEffect(() => {
     router.events.on('routeChangeStart', onBeforeUnload);
