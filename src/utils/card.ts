@@ -2,23 +2,17 @@ import { pointList } from '../constants';
 import { Participant } from '../graphql/API';
 import { Card } from '../hooks/useCards';
 
-export const sortParticipants = (
-  participants: Participant[],
-  cards: Card[]
-) => {
+export const sortParticipants = (participants: Participant[]) => {
   const sorted = participants.sort((a, b) => {
-    const aCard = cards.find((c) => c.username === a.username);
-    const bCard = cards.find((c) => c.username === b.username);
-
-    if (aCard && bCard) {
-      return bCard.point - aCard.point;
+    if (a.point && b.point) {
+      return a.point - b.point;
     }
 
-    if (aCard && !bCard) {
+    if (a.point && !b.point) {
       return -1;
     }
 
-    if (!aCard && bCard) {
+    if (!a.point && b.point) {
       return 1;
     }
 
