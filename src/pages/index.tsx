@@ -78,7 +78,7 @@ const Home: NextPage = () => {
       onSignOut={onSignOut}
       onCreateRoom={handleOnCreateRoom}
       onJoinRoom={handleOnJoinRoom}
-      isCreateingRoom={isCreateingRoom}
+      isCreatingRoom={isCreateingRoom}
       isSearchingRoom={isSearchingRoom}
       roomId={roomId}
       onChangeRoomId={onChangeRoomId}

@@ -20,7 +20,7 @@ type TopPageProps = {
   onSignIn: () => void;
   onSignOut: () => void;
   onCreateRoom: () => void;
-  isCreateingRoom: boolean;
+  isCreatingRoom: boolean;
   isSearchingRoom: boolean;
   onJoinRoom: (roomId: string) => void;
   roomId: string;
@@ -34,7 +34,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
   onSignOut,
   onCreateRoom,
   onJoinRoom,
-  isCreateingRoom,
+  isCreatingRoom,
   roomId,
   onChangeRoomId,
   isSearchingRoom,
@@ -48,7 +48,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
         <div className="mt-2 text-center"></div>
         <div className="mt-10 flex mx-auto justify-between md:flex-col md:space-y-4">
           <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
-            {isCreateingRoom && <LinearProgress />}
+            {isCreatingRoom && <LinearProgress />}
             <CardContent>
               <h2 className="font-bold" style={{ marginBottom: '12px' }}>
                 CREATE ROOM
@@ -63,7 +63,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
                 variant="outlined"
                 onClick={onCreateRoom}
                 className={'w-full border h-14'}
-                disabled={!user || isCreateingRoom || isSearchingRoom}
+                disabled={!user || isCreatingRoom || isSearchingRoom}
               >
                 CREATE ROOM
               </Button>
@@ -106,8 +106,8 @@ export const TopPage: React.VFC<TopPageProps> = ({
                               isRoomNotFound
                                 ? 'error'
                                 : roomId
-                                ? 'primary'
-                                : 'disabled'
+                                  ? 'primary'
+                                  : 'disabled'
                             }
                           />
                         </IconButton>

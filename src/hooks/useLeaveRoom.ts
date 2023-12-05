@@ -14,22 +14,22 @@ export const useLeaveRoom = (
 ) => {
   // サインアウト前に行う処理
   const [isSignOut, setIsSignOut] = useState(false);
-  const myParicipant = useMemo(
+  const myParticipant = useMemo(
     () => participants.find((p) => p.username === user?.username),
     [participants, user?.username]
   );
   const handleOnSignOut = useCallback(async () => {
-    if (myParicipant) {
+    if (myParticipant) {
       await API.graphql(
         graphqlOperation(deleteParticipant, {
           input: {
-            id: myParicipant.id,
+            id: myParticipant.id,
           },
         })
       );
     }
     setIsSignOut(true);
-  }, [myParicipant]);
+  }, [myParticipant]);
 
   useEffect(() => {
     if (!isSignOut) return;
@@ -38,15 +38,15 @@ export const useLeaveRoom = (
 
   // ROOMから移動する前に行う処理
   const onBeforeUnload = useCallback(async () => {
-    if (!myParicipant) return;
+    if (!myParticipant) return;
     await API.graphql(
       graphqlOperation(deleteParticipant, {
         input: {
-          id: myParicipant.id,
+          id: myParticipant.id,
         },
       })
     );
-  }, [myParicipant]);
+  }, [myParticipant]);
 
   useEffect(() => {
     router.events.on('routeChangeStart', onBeforeUnload);
