@@ -3,14 +3,12 @@ backend:
   phases:
     build:
       commands:
-        # - npm install -g npm@latest
         - npm install graphql-ttl-transformer
         - amplifyPush --simple
 frontend:
   phases:
     preBuild:
       commands:
-        # - yarn install
         - yarn install --ignore-engines
     build:
       commands:
