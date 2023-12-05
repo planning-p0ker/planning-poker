@@ -34,7 +34,7 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
-  const { participants, setParicipants } = useParticipant(authMode, room);
+  const { participants, setParticipants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
     useCards(user, participants, room?.id);
   const { handleOnSignOut } = useLeaveRoom(
@@ -54,9 +54,9 @@ const RoomPageContainer: NextPage = () => {
   useEffect(() => {
     if (shouldSortCards) {
       setShouldSortCards(false);
-      setParicipants(sortParticipants(participants));
+      setParticipants(sortParticipants(participants));
     }
-  }, [fieldCards, participants, setParicipants, shouldSortCards]);
+  }, [fieldCards, participants, setParticipants, shouldSortCards]);
 
   // 名前入力モーダル表示
   const [openModal, setOpenModal] = useState(true);
@@ -72,10 +72,10 @@ const RoomPageContainer: NextPage = () => {
   // 既に参加済みの場合は名前入力をスキップ
   useLayoutEffect(() => {
     if (user) {
-      const isAllreadyJoin = participants.some(
+      const isAllReadyJoin = participants.some(
         (p) => p.username === user?.username
       );
-      setOpenModal(!isAllreadyJoin);
+      setOpenModal(!isAllReadyJoin);
     }
   }, [participants, user]);
 

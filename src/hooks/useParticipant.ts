@@ -32,7 +32,7 @@ export const useParticipant = (
   authMode: GRAPHQL_AUTH_MODE,
   room: Room | null
 ) => {
-  const [participants, setParicipants] = useState<Participant[]>([]);
+  const [participants, setParticipants] = useState<Participant[]>([]);
 
   // 初期表示時に参加者一覧取得
   useEffect(() => {
@@ -46,9 +46,9 @@ export const useParticipant = (
       const items = result.data?.listParticipants?.items as Participant[];
       if (items) {
         if (room.isOpened) {
-          setParicipants(sortParticipants(items));
+          setParticipants(sortParticipants(items));
         } else {
-          setParicipants(items);
+          setParticipants(items);
         }
       }
     })();
@@ -68,7 +68,7 @@ export const useParticipant = (
         next: ({ value: { data } }: CreateParticipantSubscriptionEvent) => {
           if (data.onCreateParticipantByRoomId) {
             const newItem = data.onCreateParticipantByRoomId;
-            setParicipants((prev) => {
+            setParticipants((prev) => {
               if (prev.some((p) => p.username === newItem.username)) {
                 return prev;
               }
@@ -90,7 +90,7 @@ export const useParticipant = (
         next: ({ value: { data } }: DeleteParticipantSubscriptionEvent) => {
           if (data.onDeleteParticipantByRoomId) {
             const deletedCard = data.onDeleteParticipantByRoomId;
-            setParicipants((prev) =>
+            setParticipants((prev) =>
               prev.filter((e) => e.id !== deletedCard.id)
             );
           }
@@ -108,9 +108,9 @@ export const useParticipant = (
         next: ({ value: { data } }: UpdateParticipantSubscriptionEvent) => {
           if (data.onUpdateParticipantByRoomId) {
             const updateCard = data.onUpdateParticipantByRoomId;
-            setParicipants((prev) =>
-              prev.map((paricipant) =>
-                paricipant.id === updateCard.id ? updateCard : paricipant
+            setParticipants((prev) =>
+              prev.map((participant) =>
+                participant.id === updateCard.id ? updateCard : participant
               )
             );
           }
@@ -141,5 +141,5 @@ export const useParticipant = (
     );
   }, [participants.length, room]);
 
-  return { participants, setParicipants };
+  return { participants, setParticipants };
 };
