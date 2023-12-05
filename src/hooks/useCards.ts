@@ -7,6 +7,7 @@ import {
 } from '../graphql/API';
 import { User } from './useUser';
 import { updateRoom, updateParticipant } from '../graphql/mutations';
+import dayjs from 'dayjs';
 
 export type Card = {
   id: string;
@@ -65,6 +66,7 @@ export const useCards = (
             displayUserName: myParticipant.displayUserName,
             point: point,
             roomParticipantsId: myParticipant.roomParticipantsId,
+            ttl: dayjs().add(1, "hour").unix(),
           };
           await API.graphql(
             graphqlOperation(updateParticipant, {
