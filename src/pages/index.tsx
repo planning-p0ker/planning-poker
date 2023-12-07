@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { user, onSignIn, onSignOut } = useUser(router, router.pathname);
 
-  const [isCreateingRoom, setIsCreatingRoom] = useState(false);
+  const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const handleOnCreateRoom = useCallback(() => {
     setIsCreatingRoom(true);
   }, []);
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!isCreateingRoom) return;
+    if (!isCreatingRoom) return;
     (async () => {
       const result = (await API.graphql(
         graphqlOperation(createRoom, {
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
         router.push(`/rooms/${resultCreateRoom.id}`);
       }
     })();
-  }, [isCreateingRoom, router]);
+  }, [isCreatingRoom, router]);
 
   useEffect(() => {
     if (!isSearchingRoom) return;
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
       onSignOut={onSignOut}
       onCreateRoom={handleOnCreateRoom}
       onJoinRoom={handleOnJoinRoom}
-      isCreatingRoom={isCreateingRoom}
+      isCreatingRoom={isCreatingRoom}
       isSearchingRoom={isSearchingRoom}
       roomId={roomId}
       onChangeRoomId={onChangeRoomId}

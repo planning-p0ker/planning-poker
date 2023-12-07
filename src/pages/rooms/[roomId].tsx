@@ -9,17 +9,15 @@ import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { createParticipant } from '../../graphql/mutations';
 import { CreateParticipantInput } from '../../graphql/API';
 import { useRouter } from 'next/router';
-import {
-  useUser,
-  useCards,
-  useRoom,
-  useParticipant,
-  useLeaveRoom,
-} from '../../hooks';
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
 import { sortParticipants } from '../../utils/card';
 import dayjs from 'dayjs';
+import { useUser } from '../../hooks/useUser';
+import { useRoom } from '../../hooks/useRoom';
+import { useParticipant } from '../../hooks/useParticipant';
+import { useCards } from '../../hooks/useCards';
+import { useLeaveRoom } from '../../hooks/useLeaveRoom';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
