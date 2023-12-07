@@ -13,7 +13,7 @@ import { User } from '../../../hooks/useUser';
 import { Layout } from '../../Layout';
 import LinearProgress from '@mui/material/LinearProgress';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { BlokyText } from './components/BlockyText';
+import { BlockyText } from './components/BlockyText';
 
 type TopPageProps = {
   user: User | null;
@@ -43,7 +43,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
   return (
     <Layout user={user} onSignIn={onSignIn} onSignOut={onSignOut}>
       <div className="mx-4 pt-3">
-        <BlokyText />
+        <BlockyText />
         {/* TODO: ここにREADMEのリンク */}
         <div className="mt-2 text-center"></div>
         <div className="mt-10 flex mx-auto justify-between md:flex-col md:space-y-4">
