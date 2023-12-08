@@ -5,9 +5,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react';
-import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { createParticipant } from '../../graphql/mutations';
-import { CreateParticipantInput } from '../../graphql/API';
 import { useRouter } from 'next/router';
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
@@ -18,6 +16,10 @@ import { useRoom } from '../../hooks/useRoom';
 import { useParticipant } from '../../hooks/useParticipant';
 import { useCards } from '../../hooks/useCards';
 import { useLeaveRoom } from '../../hooks/useLeaveRoom';
+import { fetchUserAttributes } from 'aws-amplify/auth';
+import { generateClient } from 'aws-amplify/api';
+
+const client = generateClient();
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
@@ -25,21 +27,23 @@ const RoomPageContainer: NextPage = () => {
 
   const { user, authMode, onSignIn, onSignOut } = useUser(
     router,
-    `/rooms/${roomId}`
+    `/rooms/${roomId}`,
   );
   const { room, isLoading, handleOnOpen } = useRoom(
+    client,
     authMode,
     router.isReady,
-    roomId as string | undefined
+    roomId as string | undefined,
   );
-  const { participants, setParticipants } = useParticipant(authMode, room);
+  const { participants, setParticipants } = useParticipant(client, authMode, room, );
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
-    useCards(user, participants, room?.id);
+    useCards(client, user, participants, room?.id, );
   const { handleOnSignOut } = useLeaveRoom(
+    client,
     router,
     onSignOut,
     user,
-    participants
+    participants,
   );
 
   // カードオープン時にポイント順に並び替え
@@ -61,7 +65,7 @@ const RoomPageContainer: NextPage = () => {
   useLayoutEffect(() => {
     (async () => {
       try {
-        await Auth.currentAuthenticatedUser();
+        await fetchUserAttributes();
       } catch {
         setOpenModal(false);
       }
@@ -95,20 +99,18 @@ const RoomPageContainer: NextPage = () => {
   // 名前入力モーダルのENTERボタン押下時のコールバック関数
   const handleOnClickEnter = useCallback(async () => {
     if (!room?.id || !user) return;
-
-    await API.graphql(
-      graphqlOperation(createParticipant, {
+    await client.graphql({
+      query: createParticipant,
+      variables: {
         input: {
           roomParticipantsId: room.id,
           username: user.username,
           displayUserName: inputName,
           ttl: dayjs().add(1, 'hour').unix(),
-        } as CreateParticipantInput,
-      })
-    );
-
+        },
+      }});
     setOpenModal(false);
-  }, [inputName, room, user]);
+  }, [inputName, room?.id, user]);
 
   // 不正なroomIdの場合のレイアウト
   if (!isLoading && (!roomId || !room)) {
@@ -116,6 +118,8 @@ const RoomPageContainer: NextPage = () => {
       <RoomNotFound user={user} onSignIn={onSignIn} onSignOut={onSignOut} />
     );
   }
+
+  console.log("test");
 
   return (
     <RoomPage

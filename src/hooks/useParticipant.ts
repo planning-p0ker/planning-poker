@@ -1,35 +1,18 @@
 import { useEffect, useState } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
+import { Participant, Room } from '../graphql/API';
 import {
-  ListParticipantsQuery,
-  OnCreateParticipantByRoomIdSubscription,
-  OnDeleteParticipantByRoomIdSubscription,
-  OnUpdateParticipantByRoomIdSubscription,
-  Participant,
-  Room,
-} from '../graphql/API';
-import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import {
-  onCreateParticipantByRoomId,
-  onDeleteParticipantByRoomId,
-  onUpdateParticipantByRoomId,
+  onCreateParticipant,
+  onDeleteParticipant,
+  onUpdateParticipant,
 } from '../graphql/subscriptions';
 import { listParticipants } from '../graphql/queries';
 import { sortParticipants } from '../utils/card';
 import { updateRoom } from '../graphql/mutations';
-
-type CreateParticipantSubscriptionEvent = {
-  value: { data: OnCreateParticipantByRoomIdSubscription };
-};
-type DeleteParticipantSubscriptionEvent = {
-  value: { data: OnDeleteParticipantByRoomIdSubscription };
-};
-type UpdateParticipantSubscriptionEvent = {
-  value: { data: OnUpdateParticipantByRoomIdSubscription };
-};
+import { APIClient, AuthMode } from '../types';
 
 export const useParticipant = (
-  authMode: GRAPHQL_AUTH_MODE,
+  client: APIClient,
+  authMode: AuthMode,
   room: Room | null
 ) => {
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -38,12 +21,12 @@ export const useParticipant = (
   useEffect(() => {
     if (!room) return;
     (async () => {
-      const result = (await API.graphql({
+      const result = await client.graphql({
         query: listParticipants,
-        authMode,
+        authMode: authMode,
         variables: { filter: { roomParticipantsId: { eq: room.id } } },
-      })) as GraphQLResult<ListParticipantsQuery>;
-      const items = result.data?.listParticipants?.items as Participant[];
+      });
+      const items = result.data?.listParticipants?.items;
       if (items) {
         if (room.isOpened) {
           setParticipants(sortParticipants(items));
@@ -52,94 +35,86 @@ export const useParticipant = (
         }
       }
     })();
-  }, [authMode, room]);
+  }, [authMode, client, room]);
 
   // Subscription
   useEffect(() => {
     if (!room) return;
-
-    const createListener: any = API.graphql({
-      query: onCreateParticipantByRoomId,
-      authMode,
-      variables: { roomParticipantsId: room.id },
-    });
-    if ('subscribe' in createListener) {
-      createListener.subscribe({
-        next: ({ value: { data } }: CreateParticipantSubscriptionEvent) => {
-          if (data.onCreateParticipantByRoomId) {
-            const newItem = data.onCreateParticipantByRoomId;
+    const variables = {
+      filter: {
+        roomParticipantsId: {
+          eq: room.id,
+        },
+      },
+    };
+    const createSub = client
+      .graphql({
+        query: onCreateParticipant,
+        authMode,
+        variables,
+      })
+      .subscribe({
+        next: ({ data }) => {
+          if (data.onCreateParticipant) {
+            const newItem = data.onCreateParticipant;
             setParticipants((prev) => {
               if (prev.some((p) => p.username === newItem.username)) {
                 return prev;
               }
-
               return [...prev, newItem];
             });
           }
         },
       });
-    }
 
-    const deleteListener: any = API.graphql({
-      query: onDeleteParticipantByRoomId,
-      authMode,
-      variables: { roomParticipantsId: room.id },
-    });
-    if ('subscribe' in deleteListener) {
-      deleteListener.subscribe({
-        next: ({ value: { data } }: DeleteParticipantSubscriptionEvent) => {
-          if (data.onDeleteParticipantByRoomId) {
-            const deletedCard = data.onDeleteParticipantByRoomId;
-            setParticipants((prev) =>
-              prev.filter((e) => e.id !== deletedCard.id)
-            );
-          }
+    const deleteSub = client
+      .graphql({
+        query: onDeleteParticipant,
+        authMode,
+        variables,
+      })
+      .subscribe({
+        next: ({ data }) => {
+          const deletedCard = data.onDeleteParticipant;
+          setParticipants((prev) =>
+            prev.filter((e) => e.id !== deletedCard.id)
+          );
         },
       });
-    }
 
-    const updateListener: any = API.graphql({
-      query: onUpdateParticipantByRoomId,
-      authMode,
-      variables: { roomParticipantsId: room.id },
-    });
-    if ('subscribe' in updateListener) {
-      updateListener.subscribe({
-        next: ({ value: { data } }: UpdateParticipantSubscriptionEvent) => {
-          if (data.onUpdateParticipantByRoomId) {
-            const updateCard = data.onUpdateParticipantByRoomId;
-            setParticipants((prev) =>
-              prev.map((participant) =>
-                participant.id === updateCard.id ? updateCard : participant
-              )
-            );
-          }
+    const updateSub = client
+      .graphql({
+        query: onUpdateParticipant,
+        authMode,
+        variables,
+      })
+      .subscribe({
+        next: ({ data }) => {
+          const updateCard = data.onUpdateParticipant;
+          setParticipants((prev) =>
+            prev.map((participant) =>
+              participant.id === updateCard.id ? updateCard : participant
+            )
+          );
         },
       });
-    }
 
     return () => {
-      if ('unsubscribe' in createListener) {
-        createListener.unsubscribe();
-      }
-      if ('unsubscribe' in deleteListener) {
-        deleteListener.unsubscribe();
-      }
-      if ('unsubscribe' in updateListener) {
-        updateListener.unsubscribe();
-      }
+      createSub.unsubscribe();
+      deleteSub.unsubscribe();
+      updateSub.unsubscribe();
     };
-  }, [authMode, room]);
+  }, [authMode, client, room]);
 
   useEffect(() => {
     if (!room || !room.isOpened || participants.length) return;
-
-    API.graphql(
-      graphqlOperation(updateRoom, {
+    client.graphql({
+      query: updateRoom,
+      variables: {
         input: { id: room?.id, isOpened: false },
-      })
-    );
-  }, [participants.length, room]);
+      },
+    });
+  }, [client, participants.length, room]);
 
   return { participants, setParticipants };
 };

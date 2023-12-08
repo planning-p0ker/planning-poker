@@ -33,9 +33,17 @@ export const onCreateParticipantByRoomId = /* GraphQL */ `subscription OnCreateP
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -50,9 +58,17 @@ export const onDeleteParticipantByRoomId = /* GraphQL */ `subscription OnDeleteP
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -67,9 +83,17 @@ export const onUpdateParticipantByRoomId = /* GraphQL */ `subscription OnUpdateP
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -140,9 +164,17 @@ export const onCreateParticipant = /* GraphQL */ `subscription OnCreateParticipa
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -159,9 +191,17 @@ export const onUpdateParticipant = /* GraphQL */ `subscription OnUpdateParticipa
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -178,9 +218,17 @@ export const onDeleteParticipant = /* GraphQL */ `subscription OnDeleteParticipa
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }

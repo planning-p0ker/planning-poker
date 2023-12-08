@@ -49,9 +49,17 @@ export const getParticipant = /* GraphQL */ `query GetParticipant($id: ID!) {
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -71,9 +79,9 @@ export const listParticipants = /* GraphQL */ `query ListParticipants(
       displayUserName
       point
       ttl
+      roomParticipantsId
       createdAt
       updatedAt
-      roomParticipantsId
       __typename
     }
     nextToken

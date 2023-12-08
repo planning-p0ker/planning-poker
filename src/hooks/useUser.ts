@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { NextRouter } from 'next/router';
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
+import { AuthMode } from '../types';
+import {
+  signInWithRedirect,
+  signOut,
+  fetchUserAttributes,
+} from 'aws-amplify/auth';
+import { Hub } from 'aws-amplify/utils';
 
 export type User = {
   username: string;
@@ -12,79 +16,61 @@ export type User = {
 export const useUser = (router: NextRouter, pathname: string) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const authMode = useMemo(() => {
-    return user
-      ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-      : GRAPHQL_AUTH_MODE.AWS_IAM;
+  const authMode: AuthMode = useMemo(() => {
+    return user ? 'userPool' : 'iam';
   }, [user]);
 
   const onSignIn = useCallback(() => {
-    Auth.federatedSignIn({
-      provider: CognitoHostedUIIdentityProvider.Google,
+    signInWithRedirect({
+      provider: 'Google',
       customState: pathname,
     });
   }, [pathname]);
 
-  const onSignOut = useCallback(() => {
-    Auth.signOut();
-  }, []);
-
   const getUser = async () => {
     try {
-      const userData = await Auth.currentAuthenticatedUser();
-      Amplify.configure({
-        aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-      });
-
-      return userData;
+      const attr = await fetchUserAttributes();
+      return attr;
     } catch (e) {
-      Amplify.configure({
-        aws_appsync_authenticationType: 'AWS_IAM',
-      });
       return;
     }
   };
 
   useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data } }) => {
-      switch (event) {
-        case 'signIn':
-        case 'cognitoHostedUI':
+    Hub.listen('auth', ({ payload }) => {
+      console.log('HUB', payload);
+      switch (payload.event) {
+        case 'signInWithRedirect':
           getUser()
-            .then((userData) => {
-              if (userData) {
+            .then((attr) => {
+              if (attr) {
                 setUser({
-                  username: userData.username,
-                  displayName:
-                    userData.attributes.name ||
-                    userData.attributes.email ||
-                    'guest',
+                  username: attr.username || attr.sub || 'guest',
+                  displayName: attr.name || attr.email || 'guest',
                 });
               }
             })
             .catch(() => {}); // noop
           break;
-        case 'signOut':
+        case 'signedOut':
           setUser(null);
           router.push(pathname);
           break;
         case 'customOAuthState':
-          router.push(data);
-        case 'signIn_failure':
-        case 'cognitoHostedUI_failure':
+          router.push(payload.data);
           break;
       }
     });
 
-    getUser().then((userData) => {
-      if (!!userData) {
+    getUser().then((attr) => {
+      if (!!attr && attr.sub) {
         setUser({
-          username: userData.username,
-          displayName: userData.attributes.name,
+          username: attr.sub,
+          displayName: attr.name ?? 'guest',
         });
       }
     });
   }, [pathname, router]);
 
-  return { user, authMode, onSignIn, onSignOut };
+  return { user, authMode, onSignIn, onSignOut: signOut };
 };

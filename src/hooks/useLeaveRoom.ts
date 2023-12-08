@@ -2,10 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { NextRouter } from 'next/router';
 import { Participant } from '../graphql/API';
 import { User } from './useUser';
-import { API, graphqlOperation } from 'aws-amplify';
 import { deleteParticipant } from '../graphql/mutations';
+import { APIClient } from '../types';
 
 export const useLeaveRoom = (
+  client: APIClient,
   router: NextRouter,
   onSignOut: () => void,
   user: User | null,
@@ -19,16 +20,17 @@ export const useLeaveRoom = (
   );
   const handleOnSignOut = useCallback(async () => {
     if (myParticipant) {
-      await API.graphql(
-        graphqlOperation(deleteParticipant, {
+      await client.graphql({
+        query: deleteParticipant,
+        variables: {
           input: {
             id: myParticipant.id,
           },
-        })
-      );
+        },
+      });
     }
     setIsSignOut(true);
-  }, [myParticipant]);
+  }, [client, myParticipant]);
 
   useEffect(() => {
     if (!isSignOut) return;
@@ -38,14 +40,15 @@ export const useLeaveRoom = (
   // ROOMから移動する前に行う処理
   const onBeforeUnload = useCallback(async () => {
     if (!myParticipant) return;
-    await API.graphql(
-      graphqlOperation(deleteParticipant, {
+    await client.graphql({
+      query: deleteParticipant,
+      variables: {
         input: {
           id: myParticipant.id,
         },
-      })
-    );
-  }, [myParticipant]);
+      },
+    });
+  }, [client, myParticipant]);
 
   useEffect(() => {
     router.events.on('routeChangeStart', onBeforeUnload);
