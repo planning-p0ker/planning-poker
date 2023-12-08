@@ -14,7 +14,7 @@ type Room
   ) {
   id: ID!
   isOpened: Boolean!
-  ttl: AWSTimestamp @ttl
+  ttl: AWSTimestamp
   participants: [Participant] @hasMany(indexName: "byRoom", fields: ["id"])
 }
 
@@ -36,7 +36,7 @@ type Participant
   username: String!
   displayUserName: String!
   point: Int
-  ttl: AWSTimestamp @ttl
+  ttl: AWSTimestamp
   roomParticipantsId: ID! @index(name: "byRoom")
   room: Room @belongsTo(fields: ["roomParticipantsId"])
 }

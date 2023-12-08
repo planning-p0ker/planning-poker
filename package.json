@@ -12,7 +12,6 @@
     "@types/react": "17.0.40"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^2.1.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
@@ -20,7 +19,6 @@
     "aws-amplify": "^6.0.6",
     "bignumber.js": "^9.0.2",
     "dayjs": "^1.11.2",
-    "graphql-ttl-transformer": "^2.0.1",
     "next": "12.1.6",
     "react": "18.2.0",
     "react-countup": "^6.2.0",
