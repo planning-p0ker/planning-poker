@@ -1,5 +1,5 @@
 type Room
-  @model(subscriptions: { level: public })
+  @model
   @aws_iam
   @aws_cognito_user_pools
   @auth(
@@ -19,7 +19,7 @@ type Room
 }
 
 type Participant
-  @model(subscriptions: { level: public })
+  @model
   @aws_iam
   @aws_cognito_user_pools
   @auth(
