@@ -27,23 +27,27 @@ const RoomPageContainer: NextPage = () => {
 
   const { user, authMode, onSignIn, onSignOut } = useUser(
     router,
-    `/rooms/${roomId}`,
+    `/rooms/${roomId}`
   );
   const { room, isLoading, handleOnOpen } = useRoom(
     client,
     authMode,
     router.isReady,
-    roomId as string | undefined,
+    roomId as string | undefined
   );
-  const { participants, setParticipants } = useParticipant(client, authMode, room, );
+  const { participants, setParticipants } = useParticipant(
+    client,
+    authMode,
+    room
+  );
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
-    useCards(client, user, participants, room?.id, );
+    useCards(client, user, participants, room?.id);
   const { handleOnSignOut } = useLeaveRoom(
     client,
     router,
     onSignOut,
     user,
-    participants,
+    participants
   );
 
   // カードオープン時にポイント順に並び替え
@@ -108,7 +112,8 @@ const RoomPageContainer: NextPage = () => {
           displayUserName: inputName,
           ttl: dayjs().add(1, 'hour').unix(),
         },
-      }});
+      },
+    });
     setOpenModal(false);
   }, [inputName, room?.id, user]);
 
@@ -118,8 +123,6 @@ const RoomPageContainer: NextPage = () => {
       <RoomNotFound user={user} onSignIn={onSignIn} onSignOut={onSignOut} />
     );
   }
-
-  console.log("test");
 
   return (
     <RoomPage

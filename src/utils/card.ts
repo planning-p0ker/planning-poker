@@ -23,7 +23,7 @@ export const sortParticipants = (participants: Participant[]) => {
 };
 
 export const checkNeedsDiscussion = (cards: Card[]) => {
-  const fieldPoints = cards.map((c) => c.point);
+  const fieldPoints = cards.filter((c) => !!c.point).map((c) => c.point);
   const maxPoint = Math.max(...fieldPoints);
   const minPoint = Math.min(...fieldPoints);
   const maxIndex = pointList.findIndex((p) => p === maxPoint);

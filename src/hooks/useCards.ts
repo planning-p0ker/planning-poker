@@ -28,7 +28,7 @@ export const useCards = (
   useEffect(() => {
     setFieldCards(
       participants
-        .filter((p) => !!p.point)
+        .filter((p) => !!p.point || p.point === 0)
         .map((p) => ({
           id: p.id,
           username: p.username,

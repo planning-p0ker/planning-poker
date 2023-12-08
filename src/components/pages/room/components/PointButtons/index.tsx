@@ -17,7 +17,11 @@ const PointButtons: React.FC<{
           onClick={onClickPointButton(p === selectNum ? null : p)}
           size="large"
         >
-          <span className="text-xl font-bold">{p}</span>
+          {p === 0 ? (
+            <span className="text-xl font-bold text-gray-400">?</span>
+          ) : (
+            <span className="text-xl font-bold">{p}</span>
+          )}
         </ToggleButton>
       ))}
     </ToggleButtonGroup>

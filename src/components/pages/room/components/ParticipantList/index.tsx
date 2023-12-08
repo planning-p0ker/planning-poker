@@ -19,7 +19,7 @@ const ParticipantRow: React.FC<{
   nameSuffix?: 'max' | 'min';
 }> = ({ card, isOpened, participant, nameSuffix }) => {
   const emoji = !!card ? '😎' : '🤔';
-  const point = card?.point || '🤔';
+  const point = card?.point === 0 ? '?' : card?.point || '🤔';
   const suffix =
     isOpened && nameSuffix === 'max' ? (
       <>
