@@ -81,9 +81,17 @@ export const createParticipant = /* GraphQL */ `mutation CreateParticipant(
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -101,9 +109,17 @@ export const updateParticipant = /* GraphQL */ `mutation UpdateParticipant(
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }
@@ -121,9 +137,17 @@ export const deleteParticipant = /* GraphQL */ `mutation DeleteParticipant(
     displayUserName
     point
     ttl
+    roomParticipantsId
+    room {
+      id
+      isOpened
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
-    roomParticipantsId
     __typename
   }
 }

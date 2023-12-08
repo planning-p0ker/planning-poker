@@ -14,8 +14,8 @@ type Room
   ) {
   id: ID!
   isOpened: Boolean!
-  ttl: AWSTimestamp @ttl
-  participants: [Participant] @hasMany
+  ttl: AWSTimestamp
+  participants: [Participant] @hasMany(indexName: "byRoom", fields: ["id"])
 }
 
 type Participant
@@ -36,7 +36,9 @@ type Participant
   username: String!
   displayUserName: String!
   point: Int
-  ttl: AWSTimestamp @ttl
+  ttl: AWSTimestamp
+  roomParticipantsId: ID! @index(name: "byRoom")
+  room: Room @belongsTo(fields: ["roomParticipantsId"])
 }
 
 type Subscription {

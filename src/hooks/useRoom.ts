@@ -1,76 +1,71 @@
 import { useCallback, useEffect, useState } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import {
-  GetRoomQuery,
-  OnUpdateRoomByIdSubscription,
-  Room,
-} from '../graphql/API';
+import { Room } from '../graphql/API';
 import { getRoom } from '../graphql/queries';
-import { onUpdateRoomById } from '../graphql/subscriptions';
+import { onUpdateRoom } from '../graphql/subscriptions';
 import { updateRoom } from '../graphql/mutations';
-
-type UpdateRoomSubscriptionEvent = {
-  value: { data: OnUpdateRoomByIdSubscription };
-};
+import { APIClient, AuthMode } from '../types';
 
 export const useRoom = (
-  authMode: GRAPHQL_AUTH_MODE,
+  client: APIClient,
+  authMode: AuthMode,
   isReady: boolean,
   roomId?: string
 ) => {
-  const [room, setRoom] = useState<Omit<Room, "ttl" | "participants"> | null>(null);
+  const [room, setRoom] = useState<Omit<Room, 'ttl' | 'participants'> | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
     (async () => {
-      const result = (await API.graphql({
+      const result = await client.graphql({
         query: getRoom,
         variables: { id: roomId },
         authMode,
-      })) as GraphQLResult<GetRoomQuery>;
+      });
       setRoom(result.data?.getRoom || null);
       setIsLoading(false);
     })();
-  }, [authMode, isReady, roomId]);
+  }, [authMode, client, isReady, roomId]);
 
   useEffect(() => {
     if (!roomId || !isReady) return;
-    const updateRoomListener = API.graphql({
-      query: onUpdateRoomById,
-      variables: { id: roomId },
-      authMode,
-    }) as any;
-
-    if ('subscribe' in updateRoomListener) {
-      updateRoomListener.subscribe({
-        next: ({ value: { data } }: UpdateRoomSubscriptionEvent) => {
-          if (data.onUpdateRoomById) {
-            const room = data.onUpdateRoomById;
-            setRoom(room);
-          }
+    const updateSub = client
+      .graphql({
+        query: onUpdateRoom,
+        variables: {
+          filter: {
+            id: {
+              eq: roomId,
+            },
+          },
+        },
+        authMode,
+      })
+      .subscribe({
+        next: ({ data }) => {
+          setRoom(data.onUpdateRoom);
         },
       });
-    }
 
     return () => {
-      if ('unsubscribe' in updateRoomListener) {
-        updateRoomListener.unsubscribe();
-      }
+      updateSub.unsubscribe();
     };
-  }, [authMode, isReady, roomId]);
+  }, [authMode, client, isReady, roomId]);
 
   const handleOnOpen = useCallback(async () => {
-    await API.graphql(
-      graphqlOperation(updateRoom, {
+    if (!roomId) return;
+    await client.graphql({
+      query: updateRoom,
+      variables: {
         input: {
           id: roomId,
           isOpened: true,
         },
-      })
-    );
-  }, [roomId]);
+      },
+    });
+  }, [client, roomId]);
 
   return { room, isLoading, handleOnOpen };
 };

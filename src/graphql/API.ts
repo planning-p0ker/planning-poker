@@ -72,9 +72,10 @@ export type Participant = {
   displayUserName: string,
   point?: number | null,
   ttl?: number | null,
+  roomParticipantsId: string,
+  room?: Room | null,
   createdAt: string,
   updatedAt: string,
-  roomParticipantsId?: string | null,
 };
 
 export type UpdateRoomInput = {
@@ -93,7 +94,7 @@ export type CreateParticipantInput = {
   displayUserName: string,
   point?: number | null,
   ttl?: number | null,
-  roomParticipantsId?: string | null,
+  roomParticipantsId: string,
 };
 
 export type ModelParticipantConditionInput = {
@@ -101,10 +102,10 @@ export type ModelParticipantConditionInput = {
   displayUserName?: ModelStringInput | null,
   point?: ModelIntInput | null,
   ttl?: ModelIntInput | null,
+  roomParticipantsId?: ModelIDInput | null,
   and?: Array< ModelParticipantConditionInput | null > | null,
   or?: Array< ModelParticipantConditionInput | null > | null,
   not?: ModelParticipantConditionInput | null,
-  roomParticipantsId?: ModelIDInput | null,
 };
 
 export type ModelStringInput = {
@@ -183,10 +184,10 @@ export type ModelParticipantFilterInput = {
   displayUserName?: ModelStringInput | null,
   point?: ModelIntInput | null,
   ttl?: ModelIntInput | null,
+  roomParticipantsId?: ModelIDInput | null,
   and?: Array< ModelParticipantFilterInput | null > | null,
   or?: Array< ModelParticipantFilterInput | null > | null,
   not?: ModelParticipantFilterInput | null,
-  roomParticipantsId?: ModelIDInput | null,
 };
 
 export type ModelSubscriptionRoomFilterInput = {
@@ -235,6 +236,7 @@ export type ModelSubscriptionParticipantFilterInput = {
   displayUserName?: ModelSubscriptionStringInput | null,
   point?: ModelSubscriptionIntInput | null,
   ttl?: ModelSubscriptionIntInput | null,
+  roomParticipantsId?: ModelSubscriptionIDInput | null,
   and?: Array< ModelSubscriptionParticipantFilterInput | null > | null,
   or?: Array< ModelSubscriptionParticipantFilterInput | null > | null,
 };
@@ -327,9 +329,17 @@ export type CreateParticipantMutation = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -346,9 +356,17 @@ export type UpdateParticipantMutation = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -365,9 +383,17 @@ export type DeleteParticipantMutation = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -423,9 +449,17 @@ export type GetParticipantQuery = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -445,9 +479,9 @@ export type ListParticipantsQuery = {
       displayUserName: string,
       point?: number | null,
       ttl?: number | null,
+      roomParticipantsId: string,
       createdAt: string,
       updatedAt: string,
-      roomParticipantsId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -484,9 +518,17 @@ export type OnCreateParticipantByRoomIdSubscription = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -502,9 +544,17 @@ export type OnDeleteParticipantByRoomIdSubscription = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -520,9 +570,17 @@ export type OnUpdateParticipantByRoomIdSubscription = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -595,9 +653,17 @@ export type OnCreateParticipantSubscription = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -613,9 +679,17 @@ export type OnUpdateParticipantSubscription = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };
 
@@ -631,8 +705,16 @@ export type OnDeleteParticipantSubscription = {
     displayUserName: string,
     point?: number | null,
     ttl?: number | null,
+    roomParticipantsId: string,
+    room?:  {
+      __typename: "Room",
+      id: string,
+      isOpened: boolean,
+      ttl?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    roomParticipantsId?: string | null,
   } | null,
 };

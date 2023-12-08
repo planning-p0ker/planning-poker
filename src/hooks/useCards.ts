@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
 import {
   Participant,
   UpdateParticipantInput,
@@ -8,6 +7,7 @@ import {
 import { User } from './useUser';
 import { updateRoom, updateParticipant } from '../graphql/mutations';
 import dayjs from 'dayjs';
+import { APIClient } from '../types';
 
 export type Card = {
   id: string;
@@ -17,6 +17,7 @@ export type Card = {
 };
 
 export const useCards = (
+  client: APIClient,
   user: User | null,
   participants: Participant[],
   roomId?: string
@@ -66,17 +67,18 @@ export const useCards = (
             displayUserName: myParticipant.displayUserName,
             point: point,
             roomParticipantsId: myParticipant.roomParticipantsId,
-            ttl: dayjs().add(1, "hour").unix(),
+            ttl: dayjs().add(1, 'hour').unix(),
           };
-          await API.graphql(
-            graphqlOperation(updateParticipant, {
+          await client.graphql({
+            query: updateParticipant,
+            variables: {
               input: updateParticipantInput,
-            })
-          );
+            },
+          });
         }
       }
     },
-    [participants, user]
+    [client, participants, user]
   );
 
   const handleOnClear = useCallback(async () => {
@@ -90,23 +92,25 @@ export const useCards = (
           point: null,
           roomParticipantsId: participant.roomParticipantsId,
         };
-        return API.graphql(
-          graphqlOperation(updateParticipant, {
+        return client.graphql({
+          query: updateParticipant,
+          variables: {
             input: updateParticipantInput,
-          })
-        );
+          },
+        });
       })
     );
     const updateRoomInput: UpdateRoomInput = {
       id: roomId!,
       isOpened: false,
     };
-    await API.graphql(
-      graphqlOperation(updateRoom, {
+    await client.graphql({
+      query: updateRoom,
+      variables: {
         input: updateRoomInput,
-      })
-    );
-  }, [participants, roomId]);
+      },
+    });
+  }, [client, participants, roomId]);
 
   return {
     fieldCards,
