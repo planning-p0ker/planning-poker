@@ -1,21 +1,21 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
     "poker": {
-      "GraphQLAPIIdOutput": "string",
-      "GraphQLAPIEndpointOutput": "string"
+      "GraphQLAPIEndpointOutput": "string",
+      "GraphQLAPIIdOutput": "string"
     }
   },
   "auth": {
     "poker38fe384f": {
+      "AppClientID": "string",
+      "AppClientIDWeb": "string",
+      "HostedUIDomain": "string",
       "IdentityPoolId": "string",
       "IdentityPoolName": "string",
-      "HostedUIDomain": "string",
       "OAuthMetadata": "string",
-      "UserPoolId": "string",
       "UserPoolArn": "string",
-      "UserPoolName": "string",
-      "AppClientIDWeb": "string",
-      "AppClientID": "string"
+      "UserPoolId": "string",
+      "UserPoolName": "string"
     },
     "userPoolGroups": {
       "pokerGroupRole": "string"
