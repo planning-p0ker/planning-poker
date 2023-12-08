@@ -1,4 +1,4 @@
-export const BlokyText = () => {
+export const BlockyText = () => {
   return (
     <div
       className="flex space-x-2 sm:space-x-0 sm:flex-col justify-center"

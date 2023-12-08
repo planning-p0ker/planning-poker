@@ -66,6 +66,7 @@ export const RoomPage: React.FC<RoomPageProps> = ({
         </div>
         <div className="flex justify-center space-x-5 min-h-[208px] pb-4">
           <AverageDisplay
+            roomUpdatedAt={room?.updatedAt ?? null}
             hidden={!room?.isOpened}
             cards={fieldCards}
             className="flex-shrink max-w-[200px] min-w-[140px]"

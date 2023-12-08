@@ -9,17 +9,15 @@ import { API, Auth, graphqlOperation } from 'aws-amplify';
 import { createParticipant } from '../../graphql/mutations';
 import { CreateParticipantInput } from '../../graphql/API';
 import { useRouter } from 'next/router';
-import {
-  useUser,
-  useCards,
-  useRoom,
-  useParticipant,
-  useLeaveRoom,
-} from '../../hooks';
 import { RoomPage } from '../../components/pages/room';
 import { RoomNotFound } from '../../components/pages/room/components/RoomNotFound';
 import { sortParticipants } from '../../utils/card';
 import dayjs from 'dayjs';
+import { useUser } from '../../hooks/useUser';
+import { useRoom } from '../../hooks/useRoom';
+import { useParticipant } from '../../hooks/useParticipant';
+import { useCards } from '../../hooks/useCards';
+import { useLeaveRoom } from '../../hooks/useLeaveRoom';
 
 const RoomPageContainer: NextPage = () => {
   const router = useRouter();
@@ -34,7 +32,7 @@ const RoomPageContainer: NextPage = () => {
     router.isReady,
     roomId as string | undefined
   );
-  const { participants, setParicipants } = useParticipant(authMode, room);
+  const { participants, setParticipants } = useParticipant(authMode, room);
   const { fieldCards, myCard, handleOnClear, handleOnClickPointButton } =
     useCards(user, participants, room?.id);
   const { handleOnSignOut } = useLeaveRoom(
@@ -54,9 +52,9 @@ const RoomPageContainer: NextPage = () => {
   useEffect(() => {
     if (shouldSortCards) {
       setShouldSortCards(false);
-      setParicipants(sortParticipants(participants));
+      setParticipants(sortParticipants(participants));
     }
-  }, [fieldCards, participants, setParicipants, shouldSortCards]);
+  }, [fieldCards, participants, setParticipants, shouldSortCards]);
 
   // 名前入力モーダル表示
   const [openModal, setOpenModal] = useState(true);
@@ -72,10 +70,10 @@ const RoomPageContainer: NextPage = () => {
   // 既に参加済みの場合は名前入力をスキップ
   useLayoutEffect(() => {
     if (user) {
-      const isAllreadyJoin = participants.some(
+      const isAllReadyJoin = participants.some(
         (p) => p.username === user?.username
       );
-      setOpenModal(!isAllreadyJoin);
+      setOpenModal(!isAllReadyJoin);
     }
   }, [participants, user]);
 

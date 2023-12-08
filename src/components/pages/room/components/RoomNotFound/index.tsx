@@ -1,4 +1,4 @@
-import { User } from '../../../../../hooks';
+import { User } from '../../../../../hooks/useUser';
 import Header from '../../../../Header';
 
 type RoomNotFoundProps = {

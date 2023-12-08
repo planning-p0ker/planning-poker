@@ -10,7 +10,7 @@ export type HeaderProps = {
   displayName?: string;
 };
 
-const Header: React.VFC<HeaderProps> = ({
+const Header: React.FC<HeaderProps> = ({
   onSignIn,
   onSignOut,
   displayName,

@@ -19,7 +19,7 @@ export const useRoom = (
   isReady: boolean,
   roomId?: string
 ) => {
-  const [room, setRoom] = useState<Room | null>(null);
+  const [room, setRoom] = useState<Omit<Room, "ttl" | "participants"> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
