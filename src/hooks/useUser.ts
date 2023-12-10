@@ -38,7 +38,6 @@ export const useUser = (router: NextRouter, pathname: string) => {
 
   useEffect(() => {
     Hub.listen('auth', ({ payload }) => {
-      console.log('HUB', payload);
       switch (payload.event) {
         case 'signInWithRedirect':
           getUser()

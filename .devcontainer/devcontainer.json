@@ -11,5 +11,12 @@
     "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
 		"source=${env:HOME}${env:USERPROFILE}/.aws,target=/home/node/.aws,type=bind"
 	],
-	"postCreateCommand": "sudo chown node node_modules"
+	"postCreateCommand": "sudo chown node node_modules",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode"
+			]
+		}
+	}
 }
