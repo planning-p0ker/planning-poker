@@ -95,6 +95,7 @@ const Parrot: React.FC<{
 const Parrot0: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/0.gif"
       width={38}
@@ -107,6 +108,7 @@ const Parrot0: React.FC = () => {
 const Parrot1: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/1.gif"
       width={38}
@@ -119,6 +121,7 @@ const Parrot1: React.FC = () => {
 const Parrot2: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/2.gif"
       width={38}
@@ -131,6 +134,7 @@ const Parrot2: React.FC = () => {
 const Parrot3: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/3.gif"
       width={38}
@@ -143,6 +147,7 @@ const Parrot3: React.FC = () => {
 const Parrot4: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/4.gif"
       width={38}
@@ -155,6 +160,7 @@ const Parrot4: React.FC = () => {
 const Parrot5: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/5.gif"
       width={38}
@@ -167,6 +173,7 @@ const Parrot5: React.FC = () => {
 const Parrot6: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/6.gif"
       width={38}
@@ -179,6 +186,7 @@ const Parrot6: React.FC = () => {
 const Parrot7: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/7.gif"
       width={38}
@@ -191,6 +199,7 @@ const Parrot7: React.FC = () => {
 const Parrot8: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/8.gif"
       width={38}
@@ -203,6 +212,7 @@ const Parrot8: React.FC = () => {
 const Parrot9: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/9.gif"
       width={38}
@@ -215,6 +225,7 @@ const Parrot9: React.FC = () => {
 const Parrot10: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/10.gif"
       width={38}
@@ -227,6 +238,7 @@ const Parrot10: React.FC = () => {
 const Parrot11: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/11.gif"
       width={38}
@@ -239,6 +251,7 @@ const Parrot11: React.FC = () => {
 const Parrot12: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/12.gif"
       width={38}
@@ -251,6 +264,7 @@ const Parrot12: React.FC = () => {
 const Parrot13: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/13.gif"
       width={38}
@@ -263,6 +277,7 @@ const Parrot13: React.FC = () => {
 const Parrot14: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/14.gif"
       width={38}
@@ -275,6 +290,7 @@ const Parrot14: React.FC = () => {
 const Parrot15: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/15.gif"
       width={38}
@@ -287,6 +303,7 @@ const Parrot15: React.FC = () => {
 const Parrot16: React.FC = () => {
   return (
     <Image
+      priority={true}
       className="absolute"
       src="/parrots/16.gif"
       width={38}
