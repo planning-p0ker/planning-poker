@@ -18,6 +18,7 @@ import { useCards } from '../../hooks/useCards';
 import { useLeaveRoom } from '../../hooks/useLeaveRoom';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import { generateClient } from 'aws-amplify/api';
+import { PiPProvider } from '../../hooks/usePiP';
 
 const client = generateClient();
 
@@ -125,25 +126,27 @@ const RoomPageContainer: NextPage = () => {
   }
 
   return (
-    <RoomPage
-      isLoading={isLoading}
-      user={user}
-      room={room}
-      myCard={myCard}
-      fieldCards={fieldCards}
-      participants={participants}
-      onSignIn={onSignIn}
-      onSignOut={handleOnSignOut}
-      onOpen={handleOnOpen}
-      onClear={handleOnClear}
-      onClickPointButton={handleOnClickPointButton}
-      modalProps={{
-        open: openModal,
-        onClickEnter: handleOnClickEnter,
-        value: inputName,
-        onChange: handleOnChangeInputName,
-      }}
-    />
+    <PiPProvider>
+      <RoomPage
+        isLoading={isLoading}
+        user={user}
+        room={room}
+        myCard={myCard}
+        fieldCards={fieldCards}
+        participants={participants}
+        onSignIn={onSignIn}
+        onSignOut={handleOnSignOut}
+        onOpen={handleOnOpen}
+        onClear={handleOnClear}
+        onClickPointButton={handleOnClickPointButton}
+        modalProps={{
+          open: openModal,
+          onClickEnter: handleOnClickEnter,
+          value: inputName,
+          onChange: handleOnChangeInputName,
+        }}
+      />
+    </PiPProvider>
   );
 };
 

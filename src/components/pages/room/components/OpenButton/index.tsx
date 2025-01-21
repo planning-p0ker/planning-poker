@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 import { Card } from '../../../../../hooks/useCards';
 
-type OpenButtonProps = {
+export type OpenButtonProps = {
   room: Room | null;
   user: User | null;
   participants: Participant[];
@@ -13,7 +13,7 @@ type OpenButtonProps = {
   onOpen: () => void;
 };
 
-export const OpenButton: React.VFC<OpenButtonProps> = ({
+export const OpenButton: React.FC<OpenButtonProps> = ({
   room,
   user,
   fieldCards,
@@ -52,5 +52,25 @@ export const OpenButton: React.VFC<OpenButtonProps> = ({
     >
       OPEN
     </Button>
+  );
+};
+
+export const PiPOpenButton: React.FC<OpenButtonProps> = ({
+  room,
+  user,
+  fieldCards,
+  participants,
+  onOpen,
+}) => {
+  return (
+    <button
+      disabled={!user || fieldCards.length === 0 || room?.isOpened}
+      onClick={onOpen}
+      className={`text-white py-2 px-4 rounded shadow-md bg-primary w-20
+        hover:bg-primaryHover
+        disabled:bg-back disabled:border disabled:border-black disabled:opacity-10 disabled:text-black disabled:shadow-none disabled:cursor-default`}
+    >
+      OPEN
+    </button>
   );
 };
