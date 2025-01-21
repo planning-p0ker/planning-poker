@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 type PiPContextType = {
   isSupported: boolean;
   pipWindow: Window | null;
-  requestPipWindow: (width: number, height: number) => Promise<void>;
+  requestPipWindow: (width?: number, height?: number) => Promise<void>;
   closePipWindow: () => void;
 };
 
@@ -31,15 +31,15 @@ export function PiPProvider({ children }: PiPProviderProps) {
 
   // Open new pipWindow
   const requestPipWindow = useCallback(
-    async (width: number, height: number) => {
+    async (width?: number, height?: number) => {
       // We don't want to allow multiple requests.
       if (pipWindow != null) {
         return;
       }
 
       const pip = await window.documentPictureInPicture.requestWindow({
-        width,
-        height,
+        width: width || 300,
+        height: height || 200,
       });
 
       // Detect when window is closed by user

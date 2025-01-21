@@ -2,13 +2,10 @@ import PiPIcon from '@mui/icons-material/PictureInPictureRounded';
 import Button from '@mui/material/Button';
 import PiPWindow, { usePiPWindow } from '../../../../../hooks/usePiP';
 import { useCallback } from 'react';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
 import { AverageDisplayProps, PiPAverageDisplay } from '../AverageDisplay';
 import { PointButtonsProps } from '../PointButtons';
-import { OpenButton, OpenButtonProps, PiPOpenButton } from '../OpenButton';
-import { ClearButton, ClearButtonProps, PiPClearButton } from '../ClearButton';
+import { OpenButtonProps, PiPOpenButton } from '../OpenButton';
+import { ClearButtonProps, PiPClearButton } from '../ClearButton';
 import { PiPParticipantList } from '../ParticipantList';
 
 type PiPProps = AverageDisplayProps & PointButtonsProps & OpenButtonProps & ClearButtonProps;
@@ -31,7 +28,7 @@ export const PiP = ({
     usePiPWindow();
 
   const startPiP = useCallback(() => {
-    requestPipWindow(300, 200);
+    requestPipWindow();
   }, [requestPipWindow]);
 
 
