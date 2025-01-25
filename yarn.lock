@@ -1481,6 +1481,11 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
+"@types/react-dom@^19.0.3":
+  version "19.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.0.3.tgz#0804dfd279a165d5a0ad8b53a5b9e65f338050a4"
+  integrity sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA==
+
 "@types/react-is@^16.7.1 || ^17.0.0":
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/@types/react-is/-/react-is-17.0.3.tgz#2d855ba575f2fc8d17ef9861f084acc4b90a137a"
@@ -1835,15 +1840,10 @@ camelcase-css@^2.0.1:
   resolved "https://registry.yarnpkg.com/camelcase-css/-/camelcase-css-2.0.1.tgz#ee978f6947914cc30c6b44741b6ed1df7f043fd5"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
-caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001280:
-  version "1.0.30001286"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001286.tgz#3e9debad420419618cfdf52dc9b6572b28a8fff6"
-  integrity sha512-zaEMRH6xg8ESMi2eQ3R4eZ5qw/hJiVsO/HlLwniIwErij0JDr9P+8V4dtx1l+kLq6j3yy8l8W4fst1lBnat5wQ==
-
-caniuse-lite@^1.0.30001332:
-  version "1.0.30001431"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001431.tgz#e7c59bd1bc518fae03a4656be442ce6c4887a795"
-  integrity sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==
+caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001332:
+  version "1.0.30001695"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001695.tgz"
+  integrity sha512-vHyLade6wTgI2u1ec3WQBxv+2BrTERV28UXQu9LO6lZ9pYeMk34vjXFLOxo1A4UBA8XTL4njRQZdno/yYaSmWw==
 
 chalk@^2.0.0:
   version "2.4.2"
