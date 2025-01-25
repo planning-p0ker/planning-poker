@@ -16,7 +16,7 @@ type PiPProviderProps = {
 
 export function PiPProvider({ children }: PiPProviderProps) {
   // Detect if the feature is available.
-  const isSupported = 'documentPictureInPicture' in window;
+  const isSupported = typeof window !== 'undefined' && 'documentPictureInPicture' in window;
 
   // Expose pipWindow that is currently active
   const [pipWindow, setPipWindow] = useState<Window | null>(null);
