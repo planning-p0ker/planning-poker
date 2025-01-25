@@ -2,11 +2,13 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import { pointList } from '../../../../../constants';
 
-const PointButtons: React.FC<{
+export type PointButtonsProps = {
   selectNum?: number | null;
   onClickPointButton: (num: number | null) => () => void;
   disabledAll?: boolean;
-}> = ({ selectNum, onClickPointButton, disabledAll = false }) => {
+};
+
+const PointButtons: React.FC<PointButtonsProps> = ({ selectNum, onClickPointButton, disabledAll = false }) => {
   return (
     <ToggleButtonGroup color="primary" value={selectNum} className="mx-auto">
       {pointList.map((p) => (

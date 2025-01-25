@@ -75,8 +75,8 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({
               isNeedDiscussion && card?.point === maxPoint
                 ? 'max'
                 : isNeedDiscussion && card?.point === minPoint
-                ? 'min'
-                : undefined;
+                  ? 'min'
+                  : undefined;
             return (
               <Flipped key={p.id} flipId={p.id}>
                 <ParticipantRow
@@ -91,5 +91,23 @@ export const ParticipantList: React.FC<ParticipantListProps> = ({
         </ul>
       </Flipper>
     </CardUI>
+  );
+};
+export const PiPParticipantList: React.FC<ParticipantListProps> = ({
+  participants,
+  fieldsCard,
+  isOpened,
+  className = '',
+}) => {
+  const { isNeedDiscussion, maxPoint, minPoint } =
+    checkNeedsDiscussion(fieldsCard);
+
+  return (
+    <div className='font-bold'>
+      <span className='mx-1'>
+        😎
+      </span>
+      {fieldsCard.length} / {participants.length}
+    </div>
   );
 };

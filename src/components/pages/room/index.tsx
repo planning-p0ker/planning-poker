@@ -12,8 +12,9 @@ import {
 import { ClearButton } from './components/ClearButton';
 import { OpenButton } from './components/OpenButton';
 import { Card } from '../../../hooks/useCards';
+import { PiP } from './components/PiP';
 
-type RoomPageProps = {
+export type RoomPageProps = {
   isLoading: boolean;
   user: User | null;
   room: Room | null;
@@ -82,6 +83,20 @@ export const RoomPage: React.FC<RoomPageProps> = ({
           selectNum={myCard?.point}
           onClickPointButton={onClickPointButton}
           disabledAll={isLoading || !user || !!room?.isOpened}
+        />
+        <PiP
+          roomUpdatedAt={room?.updatedAt ?? null}
+          hidden={!room?.isOpened}
+          cards={fieldCards}
+          selectNum={myCard?.point}
+          onClickPointButton={onClickPointButton}
+          disabledAll={isLoading || !user || !!room?.isOpened}
+          room={room}
+          user={user}
+          fieldCards={fieldCards}
+          participants={participants}
+          onOpen={onOpen}
+          onClear={onClear}
         />
       </div>
     </Layout>

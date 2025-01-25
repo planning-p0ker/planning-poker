@@ -7,12 +7,14 @@ import { Card } from '../../../../../hooks/useCards';
 import Image from 'next/image';
 import { Room } from '../../../../../graphql/API';
 
-export const AverageDisplay: React.FC<{
+export type AverageDisplayProps = {
   cards: Card[];
   hidden: boolean;
   className?: React.HTMLAttributes<HTMLDivElement>['className'];
   roomUpdatedAt: Room['updatedAt'] | null;
-}> = ({ cards, hidden, className = '', roomUpdatedAt }) => {
+};
+
+export const AverageDisplay: React.FC<AverageDisplayProps> = ({ cards, hidden, className = '', roomUpdatedAt }) => {
   const sum = useMemo(() => {
     return cards.reduce((prev, current) => prev + current.point, 0);
   }, [cards]);
@@ -53,9 +55,47 @@ export const AverageDisplay: React.FC<{
   );
 };
 
-const Parrot: React.FC<{
+export const PiPAverageDisplay: React.FC<AverageDisplayProps> = ({ cards, hidden, className = '', roomUpdatedAt }) => {
+  const sum = useMemo(() => {
+    return cards.reduce((prev, current) => prev + current.point, 0);
+  }, [cards]);
+
+  const [integer, decimal] = useMemo(() => {
+    if (!cards.length) return [0, 0];
+    const [i, d] = new BigNumber(sum)
+      .div(cards.length)
+      .dp(1)
+      .toString()
+      .split('.');
+
+    return [Number(i), Number(d)];
+  }, [cards, sum]);
+
+  return (
+    <div className='p-4 border border-black rounded w-20 h-24 text-center font-extrabold flex items-center justify-center'>
+      {hidden ? (
+        <div className="flex items-center justify-center w-full h-full">
+          <span className="text-2xl">?</span>
+        </div>
+      ) : (
+        <div className="m-auto text-center relative">
+          <div className="absolute transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/3">
+            <CountUp className="text-2xl" duration={0.2} end={integer} />
+            <span className="text-lg">.</span>
+            <CountUp className="text-2xl" duration={0.2} end={decimal} />
+            <Parrot roomUpdatedAt={roomUpdatedAt} cards={cards} isPiP={true} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+export const Parrot: React.FC<{
   cards: Card[];
   roomUpdatedAt: string | null;
+  isPiP?: boolean;
 }> = ({ cards, roomUpdatedAt }) => {
   if (!cards.length || !cards[0].point) {
     return <div style={{ width: 38, height: 38 }} />;
