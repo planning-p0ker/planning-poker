@@ -140,7 +140,7 @@ const PiPDiscussion = ({ participants, cards, room, fieldCards }: Pick<PiPProps,
         </div>
       </details>
       <details className='w-40'>
-        <summary className='border border-black rounded p-2 cursor-pointer'><span className='mr-1'>🐳</span><span>{`< ${minPoint} pt`}</span></summary>
+        <summary className='border border-black rounded p-2 cursor-pointer'><span className='mr-1'>🐳</span><span>{`< ${maxPoint} pt`}</span></summary>
         <div className='border border-black rounded p-2 mt-2'>
           {maxParticipantNameList.join(' / ')}
         </div>
