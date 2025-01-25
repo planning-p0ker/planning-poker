@@ -4,7 +4,6 @@ import { Participant } from '../../../../../graphql/API';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { checkNeedsDiscussion } from '../../../../../utils/card';
 import { Card } from '../../../../../hooks/useCards';
-import GroupsIcon from '@mui/icons-material/Groups';
 
 type ParticipantListProps = {
   participants: Participant[];
