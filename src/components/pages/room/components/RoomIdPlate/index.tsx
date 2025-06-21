@@ -1,5 +1,6 @@
 import { Card } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import type React from 'react';
+import { useCallback, useState } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 type RoomIdPlateProps = {
@@ -34,6 +35,13 @@ export const RoomIdPlate: React.FC<RoomIdPlateProps> = ({
             <div
               className="cursor-pointer flex items-center"
               onClick={onClickRoomId}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  onClickRoomId();
+                }
+              }}
+              role="button"
+              tabIndex={0}
             >
               <div className="font-bold ml-2">{roomId}</div>
               <ContentCopyIcon className="ml-2 w-4" />

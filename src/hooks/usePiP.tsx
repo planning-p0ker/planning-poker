@@ -49,7 +49,8 @@ export function PiPProvider({ children }: PiPProviderProps) {
 
       // It is important to copy all parent widnow styles. Otherwise, there would be no CSS available at all
       // https://developer.chrome.com/docs/web-platform/document-picture-in-picture/#copy-style-sheets-to-the-picture-in-picture-window
-      Array.from(document.styleSheets).forEach((styleSheet) => {
+      // biome-ignore lint/complexity/noForEach: <explanation>
+                  Array.from(document.styleSheets).forEach((styleSheet) => {
         try {
           const cssRules = Array.from(styleSheet.cssRules)
             .map((rule) => rule.cssText)
@@ -78,14 +79,12 @@ export function PiPProvider({ children }: PiPProviderProps) {
   );
 
   const value = useMemo(() => {
-    {
       return {
         isSupported,
         pipWindow,
         requestPipWindow,
         closePipWindow,
       };
-    }
   }, [closePipWindow, isSupported, pipWindow, requestPipWindow]);
 
   return <PiPContext.Provider value={value}>{children}</PiPContext.Provider>;

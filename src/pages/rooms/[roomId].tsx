@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, {
+import {
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -58,6 +58,7 @@ const RoomPageContainer: NextPage = () => {
       setShouldSortCards(true);
     }
   }, [room?.isOpened]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (shouldSortCards) {
       setShouldSortCards(false);

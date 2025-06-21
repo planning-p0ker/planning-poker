@@ -2,10 +2,10 @@ import PiPIcon from '@mui/icons-material/PictureInPictureRounded';
 import Button from '@mui/material/Button';
 import PiPWindow, { usePiPWindow } from '../../../../../hooks/usePiP';
 import { useCallback, useMemo } from 'react';
-import { AverageDisplayProps, Parrot, PiPAverageDisplay } from '../AverageDisplay';
-import { PointButtonsProps } from '../PointButtons';
-import { OpenButtonProps, PiPOpenButton } from '../OpenButton';
-import { ClearButtonProps, PiPClearButton } from '../ClearButton';
+import { type AverageDisplayProps, PiPAverageDisplay } from '../AverageDisplay';
+import type { PointButtonsProps } from '../PointButtons';
+import { type OpenButtonProps, PiPOpenButton } from '../OpenButton';
+import { type ClearButtonProps, PiPClearButton } from '../ClearButton';
 import { PiPParticipantList } from '../ParticipantList';
 import { checkNeedsDiscussion } from '../../../../../utils/card';
 
@@ -75,7 +75,7 @@ export const PiP = ({
                     onChange={(ev) => {
                       const point = ev.target.value;
                       console.log('point', point);
-                      if (isNaN(Number(point))) {
+                      if (Number.isNaN(Number(point))) {
                         onClickPointButton(null)();
                       } else {
                         onClickPointButton(Number(point))();

@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import Link from 'next/link';
-import React from 'react';
 import UserButton from './components/UserButton';
 import GoogleIcon from '@mui/icons-material/Google';
 
@@ -38,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({
             </Button>
           ) : (
             <UserButton displayName={displayName}>
-              <button onClick={onSignOut}>Sign out 🖐️</button>
+              <button type='button' onClick={onSignOut}>Sign out 🖐️</button>
             </UserButton>
           )}
         </div>
