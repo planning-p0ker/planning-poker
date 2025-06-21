@@ -1,6 +1,10 @@
 version: 1
 backend:
   phases:
+    preBuild:
+      commands:
+        - npm install -g pnpm
+        - pnpm install
     build:
       commands:
         - amplifyPush --simple
