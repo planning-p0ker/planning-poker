@@ -1,5 +1,4 @@
-import { Box, Button, Modal, SxProps, TextField } from '@mui/material';
-import React from 'react';
+import { Box, Button, Modal, type SxProps, TextField } from '@mui/material';
 
 export type InputNameModalProps = {
   open: boolean;
@@ -9,7 +8,7 @@ export type InputNameModalProps = {
 };
 
 const style: SxProps = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '30%',
   left: '50%',
   transform: 'translate(-50%, -50%)',

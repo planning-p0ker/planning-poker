@@ -1,9 +1,10 @@
 import { Card as CardUI } from '@mui/material';
-import React, { useMemo } from 'react';
-import { Participant } from '../../../../../graphql/API';
+import type React from 'react';
+import { useMemo } from 'react';
+import type { Participant } from '../../../../../graphql/API';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { checkNeedsDiscussion } from '../../../../../utils/card';
-import { Card } from '../../../../../hooks/useCards';
+import type { Card } from '../../../../../hooks/useCards';
 
 type ParticipantListProps = {
   participants: Participant[];
@@ -18,7 +19,7 @@ const ParticipantRow: React.FC<{
   card: Card | undefined;
   nameSuffix?: 'max' | 'min';
 }> = ({ card, isOpened, participant, nameSuffix }) => {
-  const emoji = !!card ? '😎' : '🤔';
+  const emoji = card ? '😎' : '🤔';
   const point = card?.point || '🤔';
   const suffix =
     isOpened && nameSuffix === 'max' ? (

@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
+import type React from 'react';
+import { useMemo } from 'react';
 import styles from './AverageDisplay.module.css';
 import CountUp from 'react-countup';
 import BigNumber from 'bignumber.js';
 import { Card as CardUI } from '@mui/material';
-import { Card } from '../../../../../hooks/useCards';
+import type { Card } from '../../../../../hooks/useCards';
 import Image from 'next/image';
-import { Room } from '../../../../../graphql/API';
+import type { Room } from '../../../../../graphql/API';
 
 export type AverageDisplayProps = {
   cards: Card[];

@@ -1,5 +1,5 @@
-import { Participant, Room } from '../../../graphql/API';
-import { User } from '../../../hooks/useUser';
+import type { Participant, Room } from '../../../graphql/API';
+import type { User } from '../../../hooks/useUser';
 import { AverageDisplay } from './components/AverageDisplay';
 import PointButtons from './components/PointButtons';
 import { ParticipantList } from './components/ParticipantList';
@@ -7,11 +7,11 @@ import { RoomIdPlate } from './components/RoomIdPlate';
 import { Layout } from '../../Layout';
 import {
   InputNameModal,
-  InputNameModalProps,
+  type InputNameModalProps,
 } from './components/InputNameModal';
 import { ClearButton } from './components/ClearButton';
 import { OpenButton } from './components/OpenButton';
-import { Card } from '../../../hooks/useCards';
+import type { Card } from '../../../hooks/useCards';
 import { PiP } from './components/PiP';
 
 export type RoomPageProps = {

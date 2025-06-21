@@ -1,8 +1,8 @@
 import { Button } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Room } from '../../../../../graphql/API';
+import type { Room } from '../../../../../graphql/API';
 import type { User } from '../../../../../hooks/useUser';
-import { Card } from '../../../../../hooks/useCards';
+import type { Card } from '../../../../../hooks/useCards';
 
 export type ClearButtonProps = {
   room: Room | null;
@@ -42,6 +42,7 @@ export const PiPClearButton: React.FC<ClearButtonProps> = ({
 
   return (
     <button
+      type="button"
       disabled={disabled}
       onClick={onClear}
       className={`text-white py-2 px-4 rounded shadow-md bg-secondary w-20

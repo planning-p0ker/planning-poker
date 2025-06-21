@@ -9,7 +9,7 @@ import {
   InputAdornment,
   OutlinedInput,
 } from '@mui/material';
-import { User } from '../../../hooks/useUser';
+import type { User } from '../../../hooks/useUser';
 import { Layout } from '../../Layout';
 import LinearProgress from '@mui/material/LinearProgress';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -45,7 +45,7 @@ export const TopPage: React.VFC<TopPageProps> = ({
       <div className="mx-4 pt-3">
         <BlockyText />
         {/* TODO: ここにREADMEのリンク */}
-        <div className="mt-2 text-center"></div>
+        <div className="mt-2 text-center" />
         <div className="mt-10 flex mx-auto justify-between md:flex-col md:space-y-4">
           <Card variant="outlined" className="w-80 md:w-full" elevation={0}>
             {isCreatingRoom && <LinearProgress />}

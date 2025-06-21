@@ -1,5 +1,4 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import React from 'react';
 import { pointList } from '../../../../../constants';
 
 export type PointButtonsProps = {

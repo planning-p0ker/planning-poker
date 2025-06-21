@@ -1,9 +1,9 @@
 import { Button, CircularProgress } from '@mui/material';
-import { Participant, Room } from '../../../../../graphql/API';
+import type { Participant, Room } from '../../../../../graphql/API';
 import type { User } from '../../../../../hooks/useUser';
 import { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
-import { Card } from '../../../../../hooks/useCards';
+import type { Card } from '../../../../../hooks/useCards';
 
 export type OpenButtonProps = {
   room: Room | null;
@@ -64,6 +64,7 @@ export const PiPOpenButton: React.FC<OpenButtonProps> = ({
 }) => {
   return (
     <button
+      type="button"
       disabled={!user || fieldCards.length === 0 || room?.isOpened}
       onClick={onOpen}
       className={`text-white py-2 px-4 rounded shadow-md bg-primary w-20
