@@ -26,15 +26,14 @@ export const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       />
       <Divider />
       <main className="max-w-3xl mx-auto pt-10">{children}</main>
-      {/* <Link
+      <Link
         sx={{ marginTop: 20 }}
         className="flex space-x-1 justify-center"
-        href="https://github.com/planning-p0ker/planning-poker"
+        href="https://poker.ikoamu.app/"
         target="_blank"
       >
-        <GitHubIcon style={{ color: 'black' }} />
-        <div>https://github.com/planning-p0ker/planning-poker</div>
-      </Link> */}
+        🦆 New planning poker app is out! 🦆
+      </Link>
     </>
   );
 };
